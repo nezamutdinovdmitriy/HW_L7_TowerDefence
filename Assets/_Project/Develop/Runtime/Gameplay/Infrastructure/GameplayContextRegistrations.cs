@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
@@ -10,7 +11,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         {
             _inputArgs = inputArgs;
 
-
+            container.RegisterAsSingle(CreateCollidersRegistryService);
         }
+
+        private static CollidersRegistryService CreateCollidersRegistryService(DIContainer container) => new();
     }
 }
