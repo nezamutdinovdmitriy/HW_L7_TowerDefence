@@ -12,9 +12,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private DIContainer _container;
         private GameplayInputArgs _inputArgs;
 
+        [SerializeField] private TestGameplay _testGameplay;
+
         public override IEnumerator Initialize()
         {
             Debug.Log("Инициализация геймплейной сцены");
+
+            _testGameplay.Initialize(_container);
 
             yield break;
         }
@@ -34,6 +38,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         public override void Run()
         {
             Debug.Log("Старт геймплейной сцены");
+
+            _testGameplay.Run();
         }
     }
 }

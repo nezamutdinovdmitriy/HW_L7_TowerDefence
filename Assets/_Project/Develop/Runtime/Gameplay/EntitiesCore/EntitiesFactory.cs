@@ -1,5 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
@@ -18,6 +20,27 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
             _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
+        }
+
+        public Entity CreateTower(Vector3 position)
+        {
+            Entity entity = CreateEmpty();
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Tower");
+
+            entity
+                .AddMaxHealth(new ReactiveVariable<float>(10))
+                .AddCurrentHealth(new ReactiveVariable<float>(10))
+                .AddIsDead()
+                .AddInDeathProcess();
+
+            ICompositeCondition mustDie = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
+
+            entity.AddMustDie(mustDie);
+
+            _entitiesLifeContext.Add(entity);
+            
+            return entity;
         }
 
         private Entity CreateEmpty() => new();
