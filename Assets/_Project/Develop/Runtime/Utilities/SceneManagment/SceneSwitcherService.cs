@@ -3,7 +3,6 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.LoadingScreen;
 using System;
 using System.Collections;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Assets._Project.Develop.Runtime.Utilities.SceneManagment

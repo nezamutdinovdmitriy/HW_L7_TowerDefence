@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
@@ -43,7 +44,7 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
             {
                 SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
                 ICoroutinesPerformer coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
-                coroutinesPerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay));
+                coroutinesPerformer.StartPerform(sceneSwitcherService.ProcessSwitchTo(Scenes.Gameplay, new GameplayInputArgs(1)));
             }
 
             if (Input.GetKeyDown(KeyCode.S))
