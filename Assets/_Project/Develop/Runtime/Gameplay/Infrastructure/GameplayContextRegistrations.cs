@@ -1,7 +1,9 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
+using Assets._Project.Develop.Runtime.Utilities.Converters;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -27,6 +29,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private static void RegisterServices(DIContainer container)
         {
             container.RegisterAsSingle(CreateCollidersRegistryService);
+            container.RegisterAsSingle<IGameplayInputService>(CreateDesktopInput);
+            container.RegisterAsSingle(CreateScreenToWorldPositionConverter);
         }
 
         private static void RegisterFactories(DIContainer container)
@@ -35,10 +39,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
 
+        private static ScreenToWorldPositionConverter CreateScreenToWorldPositionConverter(DIContainer container)
+        {
+            return new ScreenToWorldPositionConverter(UnityEngine.Camera.main, UnityLayersAPI.LayerMaskGround);
+        }
+
         private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer container) => new(
                 container.Resolve<ResourcesAssetsLoader>(),
                 container.Resolve<MonoEntitiesLifeContext>(),
                 container.Resolve<CollidersRegistryService>());
+
+        private static DesktopGameplayInput CreateDesktopInput(DIContainer container) => new();
 
         private static EntitiesFactory CreateEntitiesFactory(DIContainer container) => new(container);
 
