@@ -20,6 +20,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature
         public ICompositeCondition Value;
     }
 
+    public class MustSelfRelease : IEntityComponent
+    {
+        public ICompositeCondition Value;
+    }
+
     public class DisableCollidersOnDeath : IEntityComponent
     {
         public List<Collider> Value;
