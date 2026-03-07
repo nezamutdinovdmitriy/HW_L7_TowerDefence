@@ -1,7 +1,10 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
@@ -31,6 +34,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
             entity
                 .AddMaxHealth(new ReactiveVariable<float>(10))
                 .AddCurrentHealth(new ReactiveVariable<float>(10))
+                .AddRotationDirection()
+                .AddRotationSpeed()
                 .AddIsDead()
                 .AddInDeathProcess();
 
@@ -41,6 +46,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 
 
             entity
+                .AddSystem(new RotationDirectionUpdateSystem(
+                    new MouseRotationDirectionProvider(
+                        _container.Resolve<ScreenToWorldPositionConverter>(),
+                        entity.Transfrom,
+                        _container.Resolve<IGameplayInputService>())))
+                .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);

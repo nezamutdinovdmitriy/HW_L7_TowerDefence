@@ -5,29 +5,32 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature
 {
-    public class TransformRotationSystem : IInitializableSystem, IUpdatableSystem
+    public class TransformRotationAppliedSystem : IInitializableSystem, IUpdatableSystem
     {
-        private readonly float _deathZone;
+        private const float DeathZone = 0.05f;
 
         private Transform _transform;
+
         private ReactiveVariable<float> _rotationSpeed;
         private ReactiveVariable<Vector3> _currentDirection;
-
-        public TransformRotationSystem(Vector3 inputDirection, float deathZone)
-        {
-
-        }
 
         public void OnInitialize(Entity entity)
         {
             _transform = entity.Transfrom;
             _rotationSpeed = entity.RotationSpeed;
-            _currentDirection = entity.MoveDirection;
+            _currentDirection = entity.RotationDirection;
         }
 
         public void OnUpdate(float deltaTime)
         {
-            
+            if (_currentDirection.Value.sqrMagnitude <= DeathZone * DeathZone)
+                return;
+
+            Quaternion lookRotation = Quaternion.LookRotation(_currentDirection.Value.normalized);
+
+            float step = _rotationSpeed.Value * deltaTime;
+
+            _transform.rotation = Quaternion.RotateTowards(_transform.rotation, lookRotation, step);
         }
     }
 }
