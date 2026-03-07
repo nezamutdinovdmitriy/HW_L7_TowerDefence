@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature
 {
-    public class DisableCollidersOnDeathSystem : IInitializableSystem, IDisposableSystem
+    public sealed class DisableCollidersOnDeathSystem : IInitializableSystem, IDisposableSystem
     {
         private List<Collider> _colliders;
         private ReactiveVariable<bool> _isDead;

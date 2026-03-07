@@ -5,7 +5,7 @@ using Assets._Project.Develop.Runtime.Utilities.Reactive;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature
 {
-    public class DeathSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class DeathSystem : IInitializableSystem, IUpdatableSystem
     {
         private ReactiveVariable<bool> _isDead;
         private ICompositeCondition _mustDie;

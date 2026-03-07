@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 {
-    public class CollidersRegistryService
+    public sealed class CollidersRegistryService
     {
         private readonly Dictionary<Collider, Entity> _colliderToEntity = new();
 

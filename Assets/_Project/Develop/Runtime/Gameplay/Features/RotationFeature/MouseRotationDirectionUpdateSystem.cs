@@ -5,11 +5,10 @@ using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
-using static UnityEngine.GridBrushBase;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
 {
-    public class MouseRotationDirectionUpdateSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class MouseRotationDirectionUpdateSystem : IInitializableSystem, IUpdatableSystem
     {
         private readonly ScreenToWorldPositionConverter _positionConverter;
         private readonly IGameplayInputService _input;

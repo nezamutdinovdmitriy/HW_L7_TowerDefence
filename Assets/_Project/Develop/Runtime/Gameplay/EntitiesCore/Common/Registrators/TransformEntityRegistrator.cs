@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Common.Registrators
 {
-    public class TransformEntityRegistrator : MonoEntityRegistrator
+    public sealed class TransformEntityRegistrator : MonoEntityRegistrator
     {
         [SerializeField] private Transform _transform;
 

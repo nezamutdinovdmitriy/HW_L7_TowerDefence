@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature
 {
-    public class DisableCollidersOnDeathRegistrator : MonoEntityRegistrator
+    public sealed class DisableCollidersOnDeathRegistrator : MonoEntityRegistrator
     {
         [SerializeField] private List<Collider> _colliders;
 

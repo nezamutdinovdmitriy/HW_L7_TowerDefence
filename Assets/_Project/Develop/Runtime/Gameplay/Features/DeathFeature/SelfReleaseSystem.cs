@@ -3,7 +3,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature
 {
-    public class SelfReleaseSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class SelfReleaseSystem : IInitializableSystem, IUpdatableSystem
     {
         private readonly EntitiesLifeContext _entitiesLifeContext;
         private Entity _entity;

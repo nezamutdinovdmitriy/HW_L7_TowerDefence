@@ -3,11 +3,12 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
 {
-    public class TransformRotationAppliedSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class TransformRotationAppliedSystem : IInitializableSystem, IUpdatableSystem
     {
         private const float DeathZone = 0.05f;
+        private const float MaxVerticalAngle = 30f;
 
         private Transform _transform;
 
@@ -26,7 +27,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature
             if (_rotationDirection.Value.sqrMagnitude <= DeathZone * DeathZone)
                 return;
 
-            Quaternion lookRotation = Quaternion.LookRotation(_rotationDirection.Value);
+            Quaternion lookRotation = Quaternion.LookRotation(_rotationDirection.Value.normalized);
+
+            Vector3 euler = lookRotation.eulerAngles;
+            if (euler.x > 180)
+                euler.x -= 360;
+
+            euler.x = Mathf.Clamp(euler.x, -MaxVerticalAngle, MaxVerticalAngle);
+
+            lookRotation = Quaternion.Euler(euler);
 
             float step = _rotationSpeed.Value * deltaTime;
 

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay
 {
-    public class TestGameplay : MonoBehaviour
+    public sealed class TestGameplay : MonoBehaviour
     {
         private DIContainer _container;
 
@@ -34,9 +34,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         public void Run()
         {
-            _entity = _entitiesFactory.CreateTower(Vector3.zero);
+            //_entity = _entitiesFactory.CreateTower(Vector3.zero);
 
-            _sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            _entity = _entitiesFactory.CreateBaseСreep(Vector3.zero);
+
+            //_sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
             _isRunning = true;
         }
@@ -48,7 +50,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
             _entitiesLifeContext.Update(Time.deltaTime);
 
-            _sphere.transform.position = _screenToWorldPositionConverter.GetPosition(_input.Aiming.Value, _entity.Transfrom.position.y);
+            //_sphere.transform.position = _screenToWorldPositionConverter.GetPosition(_input.Aiming.Value, _entity.Transfrom.position.y);
         }
     }
 }

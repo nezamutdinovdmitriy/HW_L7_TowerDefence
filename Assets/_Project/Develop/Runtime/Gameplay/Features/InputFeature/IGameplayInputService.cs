@@ -8,5 +8,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature
         
         public Vector3? Aiming { get; }
         public bool IsShooting { get; }
+
+        public Vector3 MovementDirection { get; }
     }
 }

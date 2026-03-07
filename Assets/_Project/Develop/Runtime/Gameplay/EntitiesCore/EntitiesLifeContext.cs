@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 {
-    public class EntitiesLifeContext : IDisposable
+    public sealed class EntitiesLifeContext : IDisposable
     {
         public event Action<Entity> Added;
         public event Action<Entity> Removed;

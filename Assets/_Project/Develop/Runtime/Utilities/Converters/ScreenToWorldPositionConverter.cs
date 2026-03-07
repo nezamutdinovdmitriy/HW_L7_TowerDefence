@@ -2,10 +2,11 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Utilities.Converters
 {
-    public class ScreenToWorldPositionConverter
+    public sealed class ScreenToWorldPositionConverter
     {
-        private Camera _camera;
-        private LayerMask _layerMask;
+        private readonly Camera _camera;
+        private readonly LayerMask _layerMask;
+        private readonly float _maxDistance = 100f;
 
         public ScreenToWorldPositionConverter(Camera camera, LayerMask layerMask)
         {
@@ -17,9 +18,10 @@ namespace Assets._Project.Develop.Runtime.Utilities.Converters
         {
             Ray ray = _camera.ScreenPointToRay(screenPosition);
 
-            float distance = (targetY - ray.origin.y) / ray.direction.y;
+            if (Physics.Raycast(ray, out RaycastHit hit, _maxDistance, _layerMask))
+                return hit.point;
 
-            return ray.origin + ray.direction * distance;
+            return Vector3.zero;
         }
     }
 }
