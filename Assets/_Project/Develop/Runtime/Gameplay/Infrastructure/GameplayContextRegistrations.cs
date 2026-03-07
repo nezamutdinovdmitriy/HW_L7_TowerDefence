@@ -2,6 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
@@ -40,10 +41,23 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
 
+        //private static MouseRotationDirectionProvider CreateMouseRotationDirectionProvider(DIContainer container)
+        //{
+        //    return new(
+        //        container.Resolve<ScreenToWorldPositionConverter>(),
+        //        ,
+        //        container.Resolve<IGameplayInputService>());
+        //}
+
         private static ScreenToWorldPositionConverter CreateScreenToWorldPositionConverter(DIContainer container)
         {
             return new ScreenToWorldPositionConverter(UnityEngine.Camera.main, UnityLayersAPI.LayerMaskGround);
         }
+
+        //private static RotationDirectionProviderService CreateRotationDirectionProviderService(DIContainer container)
+        //{
+        //    return new();
+        //}
 
         private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer container) => new(
                 container.Resolve<ResourcesAssetsLoader>(),

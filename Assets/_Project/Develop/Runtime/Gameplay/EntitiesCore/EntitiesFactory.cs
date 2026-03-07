@@ -35,22 +35,28 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddMaxHealth(new ReactiveVariable<float>(10))
                 .AddCurrentHealth(new ReactiveVariable<float>(10))
                 .AddRotationDirection()
-                .AddRotationSpeed()
+                .AddRotationSpeed(new ReactiveVariable<float>(999))
                 .AddIsDead()
                 .AddInDeathProcess();
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
+            
+            ICompositeCondition mustSelfRelease = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
 
-            entity.AddMustDie(mustDie);
+            entity
+                .AddMustDie(mustDie)
+                .AddMustSelfRelease(mustSelfRelease);
 
 
             entity
                 .AddSystem(new RotationDirectionUpdateSystem(
-                    new MouseRotationDirectionProvider(
-                        _container.Resolve<ScreenToWorldPositionConverter>(),
-                        entity.Transfrom,
-                        _container.Resolve<IGameplayInputService>())))
+                    new RotationDirectionProvidersHolder(
+                        new MouseRotationDirectionProvider(
+                            _container.Resolve<ScreenToWorldPositionConverter>(),
+                            entity.Transfrom,
+                            _container.Resolve<IGameplayInputService>()))))
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 

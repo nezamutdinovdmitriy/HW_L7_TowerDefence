@@ -10,6 +10,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay
     {
         private DIContainer _container;
 
+        private EntitiesLifeContext _entitiesLifeContext;
+
         private EntitiesFactory _entitiesFactory;
         private Entity _entity;
 
@@ -27,6 +29,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             _screenToWorldPositionConverter = container.Resolve<ScreenToWorldPositionConverter>();
             _entitiesFactory = container.Resolve<EntitiesFactory>();
             _input = container.Resolve<IGameplayInputService>();
+            _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
         }
 
         public void Run()
@@ -42,6 +45,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay
         {
             if (_isRunning == false)
                 return;
+
+            _entitiesLifeContext.Update(Time.deltaTime);
 
             _sphere.transform.position = _screenToWorldPositionConverter.GetPosition(_input.Aiming.Value, _entity.Transfrom.position.y);
         }
