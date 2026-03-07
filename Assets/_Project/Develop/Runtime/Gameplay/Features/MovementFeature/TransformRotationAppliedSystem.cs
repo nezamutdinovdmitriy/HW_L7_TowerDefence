@@ -12,21 +12,21 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature
         private Transform _transform;
 
         private ReactiveVariable<float> _rotationSpeed;
-        private ReactiveVariable<Vector3> _currentDirection;
+        private ReactiveVariable<Vector3> _rotationDirection;
 
         public void OnInitialize(Entity entity)
         {
             _transform = entity.Transfrom;
             _rotationSpeed = entity.RotationSpeed;
-            _currentDirection = entity.RotationDirection;
+            _rotationDirection = entity.RotationDirection;
         }
 
         public void OnUpdate(float deltaTime)
         {
-            if (_currentDirection.Value.sqrMagnitude <= DeathZone * DeathZone)
+            if (_rotationDirection.Value.sqrMagnitude <= DeathZone * DeathZone)
                 return;
 
-            Quaternion lookRotation = Quaternion.LookRotation(_currentDirection.Value.normalized);
+            Quaternion lookRotation = Quaternion.LookRotation(_rotationDirection.Value);
 
             float step = _rotationSpeed.Value * deltaTime;
 

@@ -41,23 +41,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
 
-        //private static MouseRotationDirectionProvider CreateMouseRotationDirectionProvider(DIContainer container)
-        //{
-        //    return new(
-        //        container.Resolve<ScreenToWorldPositionConverter>(),
-        //        ,
-        //        container.Resolve<IGameplayInputService>());
-        //}
-
         private static ScreenToWorldPositionConverter CreateScreenToWorldPositionConverter(DIContainer container)
         {
             return new ScreenToWorldPositionConverter(UnityEngine.Camera.main, UnityLayersAPI.LayerMaskGround);
         }
-
-        //private static RotationDirectionProviderService CreateRotationDirectionProviderService(DIContainer container)
-        //{
-        //    return new();
-        //}
 
         private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer container) => new(
                 container.Resolve<ResourcesAssetsLoader>(),

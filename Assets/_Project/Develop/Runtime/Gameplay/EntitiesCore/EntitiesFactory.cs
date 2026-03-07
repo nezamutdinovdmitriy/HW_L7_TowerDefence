@@ -34,34 +34,35 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
             entity
                 .AddMaxHealth(new ReactiveVariable<float>(10))
                 .AddCurrentHealth(new ReactiveVariable<float>(10))
+                .AddRotationMode(new ReactiveVariable<RotationType>(RotationType.MouseDirection))
                 .AddRotationDirection()
-                .AddRotationSpeed(new ReactiveVariable<float>(999))
+                .AddRotationSpeed(new ReactiveVariable<float>(500))
                 .AddIsDead()
                 .AddInDeathProcess();
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
-            
+
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
 
+            ICompositeCondition canRotateToMousePosition = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.RotationMode.Value == RotationType.MouseDirection));
+
             entity
                 .AddMustDie(mustDie)
-                .AddMustSelfRelease(mustSelfRelease);
-
+                .AddMustSelfRelease(mustSelfRelease)
+                .AddCanRotate(canRotateToMousePosition);
 
             entity
-                .AddSystem(new RotationDirectionUpdateSystem(
-                    new RotationDirectionProvidersHolder(
-                        new MouseRotationDirectionProvider(
-                            _container.Resolve<ScreenToWorldPositionConverter>(),
-                            entity.Transfrom,
-                            _container.Resolve<IGameplayInputService>()))))
+                .AddSystem(new MouseRotationDirectionUpdateSystem(
+                    _container.Resolve<ScreenToWorldPositionConverter>(),
+                    _container.Resolve<IGameplayInputService>()))
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);
-            
+
             return entity;
         }
 

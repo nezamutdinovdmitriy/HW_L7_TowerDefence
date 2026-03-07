@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
@@ -26,5 +27,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature
     public class RotationSpeed : IEntityComponent
     {
         public ReactiveVariable<float> Value;
+    }
+
+    public class CanRotate : IEntityComponent
+    {
+        public ICompositeCondition Value;
+    }
+
+    public class RotationMode : IEntityComponent
+    {
+        public ReactiveVariable<RotationType> Value;
     }
 }
