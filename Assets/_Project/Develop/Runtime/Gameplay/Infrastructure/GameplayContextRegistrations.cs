@@ -1,8 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
-using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
-using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
@@ -38,24 +37,31 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private static void RegisterFactories(DIContainer container)
         {
             container.RegisterAsSingle(CreateEntitiesFactory);
+            container.RegisterAsSingle(CreateCombatEntityFactory);
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
 
-        private static ScreenToWorldPositionConverter CreateScreenToWorldPositionConverter(DIContainer container)
-        {
-            return new ScreenToWorldPositionConverter(UnityEngine.Camera.main, UnityLayersAPI.LayerMaskGround);
-        }
+        private static CombatEntityFactory CreateCombatEntityFactory(DIContainer container) => new(container);
 
-        private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer container) => new(
+        private static ScreenToWorldPositionConverter CreateScreenToWorldPositionConverter(DIContainer container)
+            => new(
+                UnityEngine.Camera.main,
+                UnityLayersAPI.LayerMaskGround
+                );
+
+        private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer container)
+            => new(
                 container.Resolve<ResourcesAssetsLoader>(),
                 container.Resolve<MonoEntitiesLifeContext>(),
-                container.Resolve<CollidersRegistryService>());
+                container.Resolve<CollidersRegistryService>()
+                );
 
         private static DesktopGameplayInput CreateDesktopInput(DIContainer container) => new();
 
         private static EntitiesFactory CreateEntitiesFactory(DIContainer container) => new(container);
 
-        private static MonoEntitiesLifeContext CreateMonoEntitiesLifeContext(DIContainer container) => new(container.Resolve<EntitiesLifeContext>());
+        private static MonoEntitiesLifeContext CreateMonoEntitiesLifeContext(DIContainer container)
+            => new(container.Resolve<EntitiesLifeContext>());
 
         private static EntitiesLifeContext CreateEntitiesLifeContext(DIContainer container) => new();
 

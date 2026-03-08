@@ -36,7 +36,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
         {
             if (_canRotate.Evaluate())
             {
-                Vector3 worldPosition = _positionConverter.GetPosition(_input.Aiming.Value, _transform.position.y);
+                Vector3 worldPosition = _positionConverter.GetPosition(_input.Aiming.Value);
 
                 _rotationDirection.Value = worldPosition - _transform.position;
             }

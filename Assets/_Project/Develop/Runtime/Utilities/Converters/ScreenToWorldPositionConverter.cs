@@ -14,7 +14,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.Converters
             _layerMask = layerMask;
         }
 
-        public Vector3 GetPosition(Vector3 screenPosition, float targetY)
+        public Vector3 GetPosition(Vector3 screenPosition)
         {
             Ray ray = _camera.ScreenPointToRay(screenPosition);
 

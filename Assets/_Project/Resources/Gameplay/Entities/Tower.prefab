@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 4473506861271303712}
   - component: {fileID: 1745091360063335351}
   - component: {fileID: 4260904208617723306}
+  - component: {fileID: 1472632794235819133}
   - component: {fileID: 4045464521503410840}
   m_Layer: 0
   m_Name: Tower
@@ -177,6 +178,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _transform: {fileID: 2869149491750354504}
+--- !u!114 &1472632794235819133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4015299053037241477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d03565c16bea4d9498b7ce139af0b105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shootPoint: {fileID: 6741473661309138840}
 --- !u!65 &4045464521503410840
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -291,7 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6741473661309138840}
   m_Layer: 0
-  m_Name: FirePoint
+  m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

@@ -34,9 +34,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         public void Run()
         {
-            //_entity = _entitiesFactory.CreateTower(Vector3.zero);
+            _entity = _entitiesFactory.CreateTower(Vector3.zero);
 
-            _entity = _entitiesFactory.CreateBaseСreep(Vector3.zero);
+            //_entity = _entitiesFactory.CreateBaseСreep(Vector3.zero);
 
             //for (int i = 0; i < 10; i++)
             //{   
@@ -49,7 +49,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             //    _entitiesFactory.CreateBaseСreep(spawnPoint);
             //}
 
-            //_sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            _sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
             _isRunning = true;
         }
@@ -61,7 +61,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
             _entitiesLifeContext.Update(Time.deltaTime);
 
-            //_sphere.transform.position = _screenToWorldPositionConverter.GetPosition(_input.Aiming.Value, _entity.Transfrom.position.y);
+            _sphere.transform.position = _screenToWorldPositionConverter.GetPosition(_input.Aiming.Value);
         }
     }
 }

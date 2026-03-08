@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
@@ -59,6 +60,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
                     _container.Resolve<ScreenToWorldPositionConverter>(),
                     _container.Resolve<IGameplayInputService>()))
                 .AddSystem(new TransformRotationAppliedSystem())
+                .AddSystem(new AttackSystem(
+                    _container.Resolve<CombatEntityFactory>(),
+                    _container.Resolve<IGameplayInputService>(),
+                    _container.Resolve<ScreenToWorldPositionConverter>()))
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);
