@@ -72,6 +72,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Enemy");
 
             entity
+                .AddInputMovementDirection()
                 .AddMovementDirection()
                 .AddMovementSpeed(new ReactiveVariable<float>(10))
                 .AddIsMoving()
@@ -89,7 +90,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
                 .AddCanRotate(canRotateToMousePosition);
 
             entity
-                .AddSystem(new TransformMovementSystem(_container.Resolve<IGameplayInputService>()))
+                .AddSystem(new PlayerInputMovementSystem(_container.Resolve<IGameplayInputService>()))
+                .AddSystem(new MovementDirectionResolveSystem())
+                .AddSystem(new TransformMovementAppliedSystem())
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
                 .AddSystem(new TransformRotationAppliedSystem());
 

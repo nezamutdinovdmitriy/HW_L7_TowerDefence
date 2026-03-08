@@ -38,6 +38,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
             _entity = _entitiesFactory.CreateBaseСreep(Vector3.zero);
 
+            //for (int i = 0; i < 10; i++)
+            //{   
+            //    float _spawnRadius = 10f;
+                
+            //    Vector2 randomPosition = Random.insideUnitCircle.normalized * _spawnRadius;
+
+            //    Vector3 spawnPoint = new (randomPosition.x, 0, randomPosition.y);
+
+            //    _entitiesFactory.CreateBaseСreep(spawnPoint);
+            //}
+
             //_sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
             _isRunning = true;
