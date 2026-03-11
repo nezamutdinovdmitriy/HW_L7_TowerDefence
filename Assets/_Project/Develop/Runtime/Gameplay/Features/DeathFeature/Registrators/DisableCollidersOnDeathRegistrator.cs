@@ -3,7 +3,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature.Registrators
 {
     public sealed class DisableCollidersOnDeathRegistrator : MonoEntityRegistrator
     {
