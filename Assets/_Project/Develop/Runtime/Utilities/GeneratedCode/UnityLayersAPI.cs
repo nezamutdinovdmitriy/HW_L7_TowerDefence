@@ -9,6 +9,7 @@ public static class UnityLayersAPI
 	public static readonly int LayerWater = LayerMask.NameToLayer("Water");
 	public static readonly int LayerUI = LayerMask.NameToLayer("UI");
 	public static readonly int LayerCharacters = LayerMask.NameToLayer("Characters");
+	public static readonly int LayerProjectile = LayerMask.NameToLayer("Projectile");
 	public static readonly int LayerEnvironment = LayerMask.NameToLayer("Environment");
 
 	public static readonly int LayerMaskDefault = 1 << LayerDefault;
@@ -18,5 +19,6 @@ public static class UnityLayersAPI
 	public static readonly int LayerMaskWater = 1 << LayerWater;
 	public static readonly int LayerMaskUI = 1 << LayerUI;
 	public static readonly int LayerMaskCharacters = 1 << LayerCharacters;
+	public static readonly int LayerMaskProjectile = 1 << LayerProjectile;
 	public static readonly int LayerMaskEnvironment = 1 << LayerEnvironment;
 }

@@ -46,7 +46,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private static ScreenToWorldPositionConverter CreateScreenToWorldPositionConverter(DIContainer container)
             => new(
                 UnityEngine.Camera.main,
-                UnityLayersAPI.LayerMaskGround
+                UnityLayersAPI.LayerMaskEnvironment
                 );
 
         private static MonoEntitiesFactory CreateMonoEntitiesFactory(DIContainer container)

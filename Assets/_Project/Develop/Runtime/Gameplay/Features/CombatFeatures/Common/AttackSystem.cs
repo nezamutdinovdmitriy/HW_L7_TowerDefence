@@ -15,8 +15,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         private ScreenToWorldPositionConverter _positionConverter;
 
         public AttackSystem(
-            CombatEntityFactory combatEntityFactory, 
-            IGameplayInputService gameplayInputService, 
+            CombatEntityFactory combatEntityFactory,
+            IGameplayInputService gameplayInputService,
             ScreenToWorldPositionConverter positionConverter)
         {
             _combatEntityFactory = combatEntityFactory;
@@ -30,10 +30,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         {
             if (_gameplayInputService.IsShooting)
             {
-                Vector3 aimPoint = _positionConverter.GetPosition(_gameplayInputService.Aiming.Value);
-                Vector3 direction = (aimPoint - _entity.ShootPoint.position).normalized;
-
-                _combatEntityFactory.CreateFireBall(_entity.ShootPoint.position, direction, _entity);
+                if (_positionConverter.TryGetPosition(_gameplayInputService.Aiming.Value, out Vector3 worldPosition))
+                {
+                    Vector3 aimPoint = worldPosition;
+                    Vector3 direction = (aimPoint -_entity.ShootPoint.position).normalized;
+                    _combatEntityFactory.CreateFireBall(_entity.ShootPoint.position, direction, _entity);
+                }
             }
         }
     }

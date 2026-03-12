@@ -15,8 +15,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay
         private EntitiesFactory _entitiesFactory;
         private Entity _entity;
 
-        private GameObject _sphere;
-
         private ScreenToWorldPositionConverter _screenToWorldPositionConverter;
         private IGameplayInputService _input;
 
@@ -49,8 +47,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             //    _entitiesFactory.CreateBaseСreep(spawnPoint);
             //}
 
-            _sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-
             _isRunning = true;
         }
 
@@ -59,9 +55,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             if (_isRunning == false)
                 return;
 
-            _entitiesLifeContext.Update(Time.deltaTime);
+            _entitiesLifeContext?.Update(Time.deltaTime);
+        }
 
-            _sphere.transform.position = _screenToWorldPositionConverter.GetPosition(_input.Aiming.Value);
+        private void FixedUpdate()
+        {
+            _entitiesLifeContext?.FixedUpdate(Time.fixedDeltaTime);
         }
     }
 }

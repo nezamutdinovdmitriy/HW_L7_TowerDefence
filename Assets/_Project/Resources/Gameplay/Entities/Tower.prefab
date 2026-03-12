@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 4260904208617723306}
   - component: {fileID: 1472632794235819133}
   - component: {fileID: 4045464521503410840}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}

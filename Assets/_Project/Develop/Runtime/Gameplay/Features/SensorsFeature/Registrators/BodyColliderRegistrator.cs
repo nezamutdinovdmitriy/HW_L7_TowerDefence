@@ -6,11 +6,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.Regis
 {
     public class BodyColliderRegistrator : MonoEntityRegistrator
     {
-        [SerializeField] private Collider _collider;
+        [SerializeField] private CapsuleCollider _collider;
 
         public override void Register(Entity entity)
         {
-
+            entity.AddBodyCollider(_collider);
         }
     }
 }
