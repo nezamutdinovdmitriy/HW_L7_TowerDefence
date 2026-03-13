@@ -106,10 +106,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddExplosionRadius(new ReactiveVariable<float>(radius))
                 .AddExplosionInProcess()
-                .AddExplosionDestroyDelay(new ReactiveVariable<float>(2f));
-
-            ICompositeCondition canExplode = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.ExplosionInProcess.Value == false));
+                .AddExplosionDestroyDelay(new ReactiveVariable<float>(0.5f));
             
             ICompositeCondition canStartDetecting = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.ExplosionInProcess.Value == true));
@@ -118,7 +115,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .Add(new FuncCondition(() => entity.ExplosionDestroyDelay.Value <= 0));
 
             entity
-                .AddCanExplode(canExplode)
                 .AddCanStartDetecting(canStartDetecting)
                 .AddMustSelfRelease(mustSelfRelease);
 

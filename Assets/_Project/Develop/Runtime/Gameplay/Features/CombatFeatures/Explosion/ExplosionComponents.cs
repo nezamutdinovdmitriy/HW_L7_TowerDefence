@@ -13,11 +13,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explo
         public ReactiveVariable<float> Value;
     }
 
-    public class CanExplode : IEntityComponent
-    {
-        public ICompositeCondition Value;
-    }
-
     public class CanSpawnExplosion : IEntityComponent
     {
         public ICompositeCondition Value;
