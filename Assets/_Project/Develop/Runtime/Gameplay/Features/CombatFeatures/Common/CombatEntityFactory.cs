@@ -1,13 +1,16 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using Assets._Project.Develop.Runtime.Utilities.Timer;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common
@@ -67,7 +70,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddCanMove(canMove)
                 .AddCanRotate(canRotate)
                 .AddMustSelfRelease(mustSelfRelease)
-                .AddMustDie(mustDie);
+                .AddMustDie(mustDie)
+                .AddCanSpawnExplosion(mustSelfRelease);
 
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
@@ -78,7 +82,51 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
+                .AddSystem(new ExplosionSpawnSystem(_container.Resolve<CombatEntityFactory>(), 15))
                 .AddSystem(new DisableCollidersOnDeathSystem())
+                .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
+
+            _entitiesLifeContext.Add(entity);
+
+            return entity;
+        }
+
+        public Entity CreateExplosion(Vector3 position, float radius, Entity owner)
+        {
+            Entity entity = CreateEmpty();
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/ExplosionEffect");
+            TimerService destroyTimer = new(2, _container.Resolve<ICoroutinesPerformer>());
+
+            entity
+                .AddIsDead()
+                .AddContactsCollidersBuffer(new Buffer<Collider>(64))
+                .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
+                .AddIsTouchDeathMask()
+                .AddContactsDetectingMask(UnityLayersAPI.LayerMaskEnvironment)
+                .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment)
+                .AddExplosionRadius(new ReactiveVariable<float>(radius))
+                .AddExplosionInProcess()
+                .AddExplosionDestroyDelay(new ReactiveVariable<float>(2f));
+
+            ICompositeCondition canExplode = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.ExplosionInProcess.Value == false));
+            
+            ICompositeCondition canStartDetecting = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.ExplosionInProcess.Value == true));
+
+            ICompositeCondition mustSelfRelease = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.ExplosionDestroyDelay.Value <= 0));
+
+            entity
+                .AddCanExplode(canExplode)
+                .AddCanStartDetecting(canStartDetecting)
+                .AddMustSelfRelease(mustSelfRelease);
+
+            entity
+                .AddSystem(new ExplosionStartSystem())
+                .AddSystem(new AreaContactDetectingSystem())
+                .AddSystem(new ExplosionEndSystem())
+                .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);

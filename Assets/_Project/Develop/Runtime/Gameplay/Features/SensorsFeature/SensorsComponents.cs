@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
@@ -33,5 +34,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
     public class DeathMask : IEntityComponent
     {
         public LayerMask Value;
+    }
+
+    public class CanStartDetecting : IEntityComponent
+    {
+        public ICompositeCondition Value;
     }
 }

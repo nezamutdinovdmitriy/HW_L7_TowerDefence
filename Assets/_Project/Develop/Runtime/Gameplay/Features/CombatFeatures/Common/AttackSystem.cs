@@ -24,18 +24,19 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             _positionConverter = positionConverter;
         }
 
-        public void OnInitialize(Entity entity) => _entity = entity;
+        public void OnInitialize(Entity entity)
+            => _entity = entity;
 
         public void OnUpdate(float deltaTime)
         {
-            if (_gameplayInputService.IsShooting)
+            if (_gameplayInputService.IsShooting
+                && _positionConverter
+                .TryGetPosition(_gameplayInputService.Aiming.Value, out Vector3 worldPosition))
             {
-                if (_positionConverter.TryGetPosition(_gameplayInputService.Aiming.Value, out Vector3 worldPosition))
-                {
-                    Vector3 aimPoint = worldPosition;
-                    Vector3 direction = (aimPoint -_entity.ShootPoint.position).normalized;
-                    _combatEntityFactory.CreateFireBall(_entity.ShootPoint.position, direction, _entity);
-                }
+                Vector3 aimPoint = worldPosition;
+                Vector3 direction = (aimPoint - _entity.ShootPoint.position).normalized;
+                
+                _combatEntityFactory.CreateFireBall(_entity.ShootPoint.position, direction, _entity);
             }
         }
     }

@@ -25,7 +25,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono
         {
             MonoEntity prefab = _resources.Load<MonoEntity>(path);
 
-            MonoEntity viewInstance = Object.Instantiate(prefab, position, Quaternion.identity, null);
+            MonoEntity viewInstance = Object.Instantiate(prefab, position, prefab.transform.rotation, null);
 
             viewInstance.Initialize(_colllidersRegistryService);
 

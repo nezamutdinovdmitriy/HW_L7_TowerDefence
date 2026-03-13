@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 {
-    public class BodyContactDetectingSystem : IInitializableSystem, IFixedUpdatableSystem
+    public class BodyContactDetectingSystem : IInitializableSystem, IUpdatableSystem
     {
         private Buffer<Collider> _contacts;
         private LayerMask _contactsMask;
@@ -20,10 +20,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
             _contactsMask = entity.ContactsDetectingMask;
         }
 
-        public void OnFixedUpdate(float deltaTime)
+        public void OnUpdate(float deltaTime)
         {
-            Debug.Log("ACTIVESELF " + _body.gameObject.activeSelf);
-
             if (_body.gameObject.activeSelf == false)
                 return;
 
@@ -37,8 +35,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
                 );
 
             RemoveSelfFromContacts();
-
-            Debug.Log("CONTACTS COUNT " + _contacts.Count);
         }
 
         private void RemoveSelfFromContacts()
