@@ -82,7 +82,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(_container.Resolve<CombatEntityFactory>(), 15))
+                .AddSystem(new ExplosionSpawnSystem(_container.Resolve<CombatEntityFactory>(), 5f))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -95,7 +95,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         {
             Entity entity = CreateEmpty();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/ExplosionEffect");
-            TimerService destroyTimer = new(2, _container.Resolve<ICoroutinesPerformer>());
+
+            ParticleSystem.ShapeModule particleShape = monoEntity.gameObject.GetComponent<ParticleSystem>().shape;
+            particleShape.radius = radius;
 
             entity
                 .AddIsDead()

@@ -15,7 +15,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explo
 
         public void OnUpdate(float deltaTime)
         {
-            _explosionInProcess.Value = true;
+            if (_explosionInProcess.Value != true)
+                _explosionInProcess.Value = true;
         }
     }
 }
