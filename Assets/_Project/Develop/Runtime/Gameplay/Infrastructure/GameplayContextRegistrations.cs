@@ -1,7 +1,9 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
+using Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
@@ -36,7 +38,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 
         private static void RegisterFactories(DIContainer container)
         {
-            container.RegisterAsSingle(CreateEntitiesFactory);
+            container.RegisterAsSingle(CreateMainHeroEntityFactory);
+            container.RegisterAsSingle(CreateEnemiesEntityFactory);
+
             container.RegisterAsSingle(CreateCombatEntityFactory);
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
@@ -58,7 +62,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 
         private static DesktopGameplayInput CreateDesktopInput(DIContainer container) => new();
 
-        private static EntitiesFactory CreateEntitiesFactory(DIContainer container) => new(container);
+        private static MainHeroEntityFactory CreateMainHeroEntityFactory(DIContainer container) => new(container);
+        private static EnemiesEntityFactory CreateEnemiesEntityFactory(DIContainer container) => new(container);
 
         private static MonoEntitiesLifeContext CreateMonoEntitiesLifeContext(DIContainer container)
             => new(container.Resolve<EntitiesLifeContext>());
