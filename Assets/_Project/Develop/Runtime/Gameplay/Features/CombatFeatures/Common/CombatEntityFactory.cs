@@ -1,6 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explosion;
+using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
@@ -104,11 +105,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
                 .AddIsTouchDeathMask()
-                .AddContactsDetectingMask(UnityLayersAPI.LayerMaskEnvironment)
-                .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment)
+                .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
+                .AddDeathMask(UnityLayersAPI.LayerMaskCharacters)
                 .AddExplosionRadius(new ReactiveVariable<float>(radius))
                 .AddExplosionInProcess()
-                .AddExplosionDestroyDelay(new ReactiveVariable<float>(0.5f));
+                .AddExplosionDestroyDelay(new ReactiveVariable<float>(0.5f))
+                .AddContactDamage(new ReactiveVariable<float>(50));
             
             ICompositeCondition canStartDetecting = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.ExplosionInProcess.Value == true));
@@ -125,6 +127,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new AreaContactDetectingSystem())
                 .AddSystem(new ExplosionEndSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
+                .AddSystem(new TakeDamageSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);

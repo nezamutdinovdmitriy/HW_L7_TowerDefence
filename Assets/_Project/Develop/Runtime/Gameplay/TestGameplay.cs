@@ -40,18 +40,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay
         {
             _entity = _mainHeroFactory.CreateTower(Vector3.zero);
 
-            //_entity = _enemiesFactory.CreateBaseСreep(Vector3.zero);
+            for (int i = 0; i < 1; i++)
+            {
+                float _spawnRadius = 10f;
 
-            //for (int i = 0; i < 10; i++)
-            //{   
-            //    float _spawnRadius = 10f;
+                Vector2 randomPosition = Random.insideUnitCircle.normalized * _spawnRadius;
 
-            //    Vector2 randomPosition = Random.insideUnitCircle.normalized * _spawnRadius;
+                Vector3 spawnPoint = new(randomPosition.x, 0, randomPosition.y);
 
-            //    Vector3 spawnPoint = new (randomPosition.x, 0, randomPosition.y);
-
-            //    _entitiesFactory.CreateBaseСreep(spawnPoint);
-            //}
+                _enemiesFactory.CreateBaseСreep(spawnPoint);
+            }
 
             _isRunning = true;
         }

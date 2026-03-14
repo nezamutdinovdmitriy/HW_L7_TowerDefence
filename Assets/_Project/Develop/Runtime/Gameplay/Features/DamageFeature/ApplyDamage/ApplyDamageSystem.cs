@@ -40,7 +40,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyD
             {
                 float healthAfterDamage = _health.Value - damage;
 
-                _health.Value = Mathf.Min(healthAfterDamage, 0);
+                _health.Value = Mathf.Max(healthAfterDamage, 0);
 
                 _damageEvent?.Invoke(damage);
                 Debug.Log($"Damage Applayed: {damage}");

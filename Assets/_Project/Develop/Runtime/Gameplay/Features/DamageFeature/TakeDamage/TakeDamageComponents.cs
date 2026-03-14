@@ -1,9 +1,9 @@
-using UnityEngine;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage
 {
-    public class TakeDamageComponents : MonoBehaviour
+    public class ContactDamage : IEntityComponent
     {
-
+        public ReactiveVariable<float> Value;
     }
 }

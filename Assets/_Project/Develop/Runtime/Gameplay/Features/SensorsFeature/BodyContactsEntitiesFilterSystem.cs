@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 {
-    public class BodyContactsEntitiesFilterSystem : IInitializableSystem, IFixedUpdatableSystem
+    public class BodyContactsEntitiesFilterSystem : IInitializableSystem, IUpdatableSystem
     {
         private readonly CollidersRegistryService _collidersRegistryService;
 
@@ -21,7 +21,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
             _contactsEntities = entity.ContactsEntitiesBuffer;
         }
 
-        public void OnFixedUpdate(float deltaTime)
+        public void OnUpdate(float deltaTime)
         {
             _contactsEntities.Count = 0;
 
@@ -35,7 +35,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
                     _contactsEntities.Items[_contactsEntities.Count] = contactEntity;
                     _contactsEntities.Count++;
 
-                    Debug.Log($"CONTACTS ENTITIES: {_contactsEntities.Count}");
+                    Debug.Log($"[BodyContactsEntitiesFilterSystem] CONTACTS ENTITIES: {_contactsEntities.Count}");
                 }
             }
         }
