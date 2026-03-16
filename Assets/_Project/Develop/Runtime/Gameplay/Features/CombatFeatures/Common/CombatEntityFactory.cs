@@ -52,6 +52,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
                 .AddIsTouchDeathMask()
+                .AddTeam(new ReactiveVariable<TeamsFeature.TeamType>(owner.Team.Value))
+                .AddIsTouchAnotherTeam()
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment);
 
@@ -64,8 +66,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
 
-            ICompositeCondition mustDie = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value));
+            ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
+                .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value))
+                .Add(new FuncCondition(() => entity.IsTouchAnotherTeam.Value));
 
             entity
                 .AddCanMove(canMove)
@@ -80,10 +83,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new BodyContactDetectingSystem())
+                .AddSystem(new SelfContactFilterSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new DeathMaskTouchDetectorSystem())
+                .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(_container.Resolve<CombatEntityFactory>(), 5f, owner))
+                .AddSystem(new ExplosionSpawnSystem(_container.Resolve<CombatEntityFactory>(), 5f))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -105,6 +110,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
                 .AddIsTouchDeathMask()
+                .AddTeam(new ReactiveVariable<TeamsFeature.TeamType>(owner.Team.Value))
+                .AddIsTouchAnotherTeam()
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
                 .AddDeathMask(UnityLayersAPI.LayerMaskCharacters)
                 .AddExplosionRadius(new ReactiveVariable<float>(radius))
@@ -124,7 +131,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
 
             entity
                 .AddSystem(new ExplosionStartSystem())
-                .AddSystem(new AreaContactDetectingSystem(owner.BodyCollider))
+                .AddSystem(new AreaContactDetectingSystem())
                 .AddSystem(new ExplosionEndSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new TakeDamageSystem())

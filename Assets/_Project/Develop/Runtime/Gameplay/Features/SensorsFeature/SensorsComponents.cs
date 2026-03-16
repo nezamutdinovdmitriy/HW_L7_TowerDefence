@@ -31,6 +31,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
         public ReactiveVariable<bool> Value;
     }
 
+    public class IsTouchAnotherTeam : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
+
     public class DeathMask : IEntityComponent
     {
         public LayerMask Value;

@@ -9,15 +9,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explo
     {
         private CombatEntityFactory _combatEntityFactory;
         private Entity _source;
-        private Entity _owner;
         private float _radius;
         private Transform _transform;
 
-        public ExplosionSpawnSystem(CombatEntityFactory combatEntityFactory, float radius, Entity owner)
+        public ExplosionSpawnSystem(CombatEntityFactory combatEntityFactory, float radius)
         {
             _combatEntityFactory = combatEntityFactory;
             _radius = radius;
-            _owner = owner;
         }
 
         public void OnInitialize(Entity entity)
@@ -30,7 +28,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explo
         {
             if (_source.MustSelfRelease.Evaluate())
             {
-                _combatEntityFactory.CreateExplosion(_transform.position, _radius, _owner);
+                _combatEntityFactory.CreateExplosion(_transform.position, _radius, _source);
 
                 //DrawExplosionRadius(_entity.Transfrom.position, _radius);
             }
