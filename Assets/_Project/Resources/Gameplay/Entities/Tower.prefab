@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colliders:
-  - {fileID: 0}
+  - {fileID: 2230515218782601052}
 --- !u!114 &1472632794235819133
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -35,7 +35,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             {
                 Vector3 aimPoint = worldPosition;
                 Vector3 direction = (aimPoint - _entity.ShootPoint.position).normalized;
-                
+
+                _combatEntityFactory.CreateArcaneMine(aimPoint, 3, 5, _entity);
+                //_combatEntityFactory.CreateFireBall(_entity.ShootPoint.position, direction, _entity);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse2) && _positionConverter
+                .TryGetPosition(_gameplayInputService.Aiming.Value, out Vector3 worldPosition2))
+            {
+                Vector3 aimPoint = worldPosition2;
+                Vector3 direction = (aimPoint - _entity.ShootPoint.position).normalized;
+
                 _combatEntityFactory.CreateFireBall(_entity.ShootPoint.position, direction, _entity);
             }
         }

@@ -8,10 +8,8 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
-using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using Assets._Project.Develop.Runtime.Utilities.Timer;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common
@@ -23,7 +21,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         private MonoEntitiesFactory _monoEntitiesFactory;
 
         private EntitiesLifeContext _entitiesLifeContext;
-        private MonoEntitiesLifeContext _monoEntitiesLifeContext;
 
         private CollidersRegistryService _collidersRegistryService;
 
@@ -32,13 +29,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             _container = container;
             _monoEntitiesFactory = container.Resolve<MonoEntitiesFactory>();
             _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
-            _monoEntitiesLifeContext = container.Resolve<MonoEntitiesLifeContext>();
             _collidersRegistryService = container.Resolve<CollidersRegistryService>();
         }
 
         public Entity CreateFireBall(Vector3 position, Vector3 direction, Entity owner)
         {
-            Entity entity = CreateEmpty();
+            Entity entity = new();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Fireball");
 
             entity
@@ -88,7 +84,54 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(_container.Resolve<CombatEntityFactory>(), 5f))
+                .AddSystem(new ExplosionSpawnSystem(this, 5f))
+                .AddSystem(new DisableCollidersOnDeathSystem())
+                .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
+
+            _entitiesLifeContext.Add(entity);
+
+            return entity;
+        }
+
+        public Entity CreateArcaneMine(Vector3 position, float activationRadius, float explosionRadius, Entity owner)
+        {
+            Entity entity = new();
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Mine");
+
+            entity
+                .AddIsDead()
+                .AddContactsCollidersBuffer(new Buffer<Collider>(64))
+                .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
+                .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
+                .AddAreaContactDetectingRadius(new ReactiveVariable<float>(activationRadius))
+                .AddTeam(new ReactiveVariable<TeamsFeature.TeamType>(owner.Team.Value))
+                .AddIsTouchAnotherTeam();
+
+            ICompositeCondition canStartDetecting = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
+            ICompositeCondition mustDie = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsTouchAnotherTeam.Value));
+
+            ICompositeCondition mustSelfRelease = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
+            ICompositeCondition canSpawnExplosion = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
+            entity
+                .AddCanStartDetecting(canStartDetecting)
+                .AddMustDie(mustDie)
+                .AddMustSelfRelease(mustSelfRelease)
+                .AddCanSpawnExplosion(canSpawnExplosion);
+
+            entity
+                .AddSystem(new AreaContactDetectingSystem())
+                .AddSystem(new SelfContactFilterSystem())
+                .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
+                .AddSystem(new AnotherTeamTouchDetectorSystem())
+                .AddSystem(new DeathSystem())
+                .AddSystem(new ExplosionSpawnSystem(this, explosionRadius))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -99,7 +142,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
 
         public Entity CreateExplosion(Vector3 position, float radius, Entity owner)
         {
-            Entity entity = CreateEmpty();
+            Entity entity = new();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/ExplosionEffect");
 
             ParticleSystem.ShapeModule particleShape = monoEntity.gameObject.GetComponent<ParticleSystem>().shape;
@@ -114,11 +157,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddIsTouchAnotherTeam()
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
                 .AddDeathMask(UnityLayersAPI.LayerMaskCharacters)
-                .AddExplosionRadius(new ReactiveVariable<float>(radius))
+                .AddAreaContactDetectingRadius(new ReactiveVariable<float>(radius))
                 .AddExplosionInProcess()
                 .AddExplosionDestroyDelay(new ReactiveVariable<float>(0.5f))
                 .AddContactDamage(new ReactiveVariable<float>(50));
-            
+
             ICompositeCondition canStartDetecting = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.ExplosionInProcess.Value == true));
 
@@ -141,7 +184,5 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
 
             return entity;
         }
-
-        private Entity CreateEmpty() => new();
     }
 }

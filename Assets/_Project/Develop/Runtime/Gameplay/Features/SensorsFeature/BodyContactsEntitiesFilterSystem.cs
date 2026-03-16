@@ -34,8 +34,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
                 {
                     _contactsEntities.Items[_contactsEntities.Count] = contactEntity;
                     _contactsEntities.Count++;
-
-                    Debug.Log($"[BodyContactsEntitiesFilterSystem] CONTACTS ENTITIES: {_contactsEntities.Count}");
                 }
             }
         }

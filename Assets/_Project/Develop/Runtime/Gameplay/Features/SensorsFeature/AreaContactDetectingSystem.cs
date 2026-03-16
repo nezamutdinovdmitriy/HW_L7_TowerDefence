@@ -18,7 +18,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 
         public void OnInitialize(Entity entity)
         {
-            _radius = entity.ExplosionRadius;
+            _radius = entity.AreaContactDetectingRadius;
             _contactsColliders = entity.ContactsCollidersBuffer;
             _transform = entity.Transfrom;
             _contactsMask = entity.ContactsDetectingMask;
@@ -29,7 +29,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
         public void OnUpdate(float deltaTime)
         {
             if (_canStartDetecting.Evaluate())
+            {
                 _contactsColliders.Count = GetContactsCount();
+            }
         }
 
         private int GetContactsCount()

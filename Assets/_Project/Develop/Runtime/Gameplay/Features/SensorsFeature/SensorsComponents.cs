@@ -45,4 +45,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
     {
         public ICompositeCondition Value;
     }
+    
+    public class AreaContactDetectingRadius : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
 }

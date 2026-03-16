@@ -40,7 +40,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay
         {
             _entity = _mainHeroFactory.CreateTower(Vector3.zero);
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 10; i++)
             {
                 float _spawnRadius = 10f;
 

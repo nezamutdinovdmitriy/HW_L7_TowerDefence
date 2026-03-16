@@ -3,6 +3,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 {
@@ -27,7 +28,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 
                 if(contactEntity.TryGetTeam(out ReactiveVariable<TeamType> anotherTeam))
                 {
-                    if(anotherTeam != _sourceTeam)
+                    if(anotherTeam.Value != _sourceTeam.Value)
                     {
                         _isTouchAnotherTeam.Value = true;
                         return;

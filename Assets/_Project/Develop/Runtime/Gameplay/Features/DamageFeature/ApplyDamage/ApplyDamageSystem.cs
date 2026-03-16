@@ -43,7 +43,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyD
                 _health.Value = Mathf.Max(healthAfterDamage, 0);
 
                 _damageEvent?.Invoke(damage);
-                Debug.Log($"Damage Applayed: {damage}");
             }
         }
     }
