@@ -83,7 +83,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(_container.Resolve<CombatEntityFactory>(), 5f))
+                .AddSystem(new ExplosionSpawnSystem(_container.Resolve<CombatEntityFactory>(), 5f, owner))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -124,7 +124,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
 
             entity
                 .AddSystem(new ExplosionStartSystem())
-                .AddSystem(new AreaContactDetectingSystem())
+                .AddSystem(new AreaContactDetectingSystem(owner.BodyCollider))
                 .AddSystem(new ExplosionEndSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new TakeDamageSystem())

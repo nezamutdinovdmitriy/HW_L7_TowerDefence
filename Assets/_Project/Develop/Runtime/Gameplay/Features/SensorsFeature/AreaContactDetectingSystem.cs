@@ -14,7 +14,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
         private Transform _transform;
         private LayerMask _contactsMask;
 
+        private CapsuleCollider _ownerCollider;
+
         ICompositeCondition _canStartDetecting;
+
+        public AreaContactDetectingSystem(CapsuleCollider ownerCollider)
+        {
+            _ownerCollider = ownerCollider;
+        }
 
         public void OnInitialize(Entity entity)
         {
@@ -36,6 +43,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
                     _contactsColliders.Items,
                     _contactsMask,
                     QueryTriggerInteraction.Ignore);
+            }
+
+            RemoveSelfFromContacts();
+        }
+
+        private void RemoveSelfFromContacts()
+        {
+            int indexToRemove = -1;
+
+            for (int i = 0; i < _contactsColliders.Count; i++)
+            {
+                if (_contactsColliders.Items[i] == _ownerCollider)
+                {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+
+            if (indexToRemove >= 0)
+            {
+                for (int i = indexToRemove; i < _contactsColliders.Count - 1; i++)
+                    _contactsColliders.Items[i] = _contactsColliders.Items[i + 1];
+
+                _contactsColliders.Count--;
             }
         }
     }

@@ -34,6 +34,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateCollidersRegistryService);
             container.RegisterAsSingle<IGameplayInputService>(CreateDesktopInput);
             container.RegisterAsSingle(CreateScreenToWorldPositionConverter);
+
+            container.RegisterAsSingle(CreateMainHeroHolderService).NonLazy();
         }
 
         private static void RegisterFactories(DIContainer container)
@@ -44,6 +46,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateCombatEntityFactory);
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
+
+        private static MainHeroHolderService CreateMainHeroHolderService(DIContainer container) 
+            => new(container.Resolve<EntitiesLifeContext>());
 
         private static CombatEntityFactory CreateCombatEntityFactory(DIContainer container) => new(container);
 

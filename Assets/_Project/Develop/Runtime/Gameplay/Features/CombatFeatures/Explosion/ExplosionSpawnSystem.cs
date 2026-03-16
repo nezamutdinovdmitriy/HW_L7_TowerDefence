@@ -8,26 +8,29 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explo
     public class ExplosionSpawnSystem : IInitializableSystem, IUpdatableSystem
     {
         private CombatEntityFactory _combatEntityFactory;
-        private Entity _entity;
+        private Entity _source;
+        private Entity _owner;
         private float _radius;
+        private Transform _transform;
 
-        public ExplosionSpawnSystem(CombatEntityFactory combatEntityFactory, float radius)
+        public ExplosionSpawnSystem(CombatEntityFactory combatEntityFactory, float radius, Entity owner)
         {
             _combatEntityFactory = combatEntityFactory;
             _radius = radius;
+            _owner = owner;
         }
 
         public void OnInitialize(Entity entity)
         {
-            _entity = entity;
+            _source = entity;
+            _transform = entity.Transfrom;
         }
 
         public void OnUpdate(float deltaTime)
         {
-            if (_entity.MustSelfRelease.Evaluate())
+            if (_source.MustSelfRelease.Evaluate())
             {
-                _combatEntityFactory.CreateExplosion(_entity.Transfrom.position, _radius, _entity);
-                Debug.Log($"Заспавнен взрыв радиусом {_radius}");
+                _combatEntityFactory.CreateExplosion(_transform.position, _radius, _owner);
 
                 //DrawExplosionRadius(_entity.Transfrom.position, _radius);
             }

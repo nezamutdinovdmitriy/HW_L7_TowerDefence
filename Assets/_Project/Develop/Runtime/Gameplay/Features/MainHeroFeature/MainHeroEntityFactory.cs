@@ -5,6 +5,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamag
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
@@ -35,6 +36,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Tower");
 
             entity
+                .AddIsMainHero()
                 .AddMaxHealth(new ReactiveVariable<float>(100))
                 .AddCurrentHealth(new ReactiveVariable<float>(100))
                 .AddRotationDirection()
@@ -42,7 +44,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddIsDead()
                 .AddInDeathProcess()
                 .AddTakeDamageRequest()
-                .AddTakeDamageEvent();
+                .AddTakeDamageEvent()
+                .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero));
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));

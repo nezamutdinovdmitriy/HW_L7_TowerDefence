@@ -35,11 +35,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDa
             {
                 Entity target = _contactsEntities.Items[i];
                 if (_processedEntities.Add(target))
-                {
                     EntitiesHelper.TryTakeDamageFrom(_entity, target, _damage.Value);
-                    Debug.Log($"[TAKE DAMAGE SYSTEM] INVOKE TRY TAKE DAMAGE");
-                }
-                Debug.Log($"[TAKE DAMAGE SYSTEM] CONTACTS ENTITIES: {_contactsEntities.Count}");
             }
         }
 
