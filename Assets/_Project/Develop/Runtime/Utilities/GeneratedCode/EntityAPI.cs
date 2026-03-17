@@ -401,6 +401,25 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature.IsMainHero() ); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature.BodyTransform BodyTransformC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature.BodyTransform>();
+
+		public UnityEngine.Transform BodyTransform => BodyTransformC.Value;
+
+		public bool TryGetBodyTransform(out UnityEngine.Transform value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature.BodyTransform component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(UnityEngine.Transform);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddBodyTransform(UnityEngine.Transform value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature.BodyTransform() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature.InputMovementDirection InputMovementDirectionC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature.InputMovementDirection>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3> InputMovementDirection => InputMovementDirectionC.Value;

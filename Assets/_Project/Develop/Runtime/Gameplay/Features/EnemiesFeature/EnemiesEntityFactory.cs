@@ -60,7 +60,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
 
             ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0))
-                .Add(new FuncCondition(() => (entity.Transfrom.position - entity.CurrentTarget.Value.Transfrom.position).magnitude <= 5f));
+                .Add(new FuncCondition(() => (entity.Transfrom.position - entity.CurrentTarget.Value.BodyTransform.position).magnitude <= 5f));
 
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));

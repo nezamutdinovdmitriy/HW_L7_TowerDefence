@@ -5,7 +5,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Common.Registrat
 {
     public sealed class TransformEntityRegistrator : MonoEntityRegistrator
     {
-        [SerializeField] private Transform _transform;
+        [SerializeField] private Transform _transform;  
 
         public override void Register(Entity entity) => entity.AddTransfrom(_transform);
     }
