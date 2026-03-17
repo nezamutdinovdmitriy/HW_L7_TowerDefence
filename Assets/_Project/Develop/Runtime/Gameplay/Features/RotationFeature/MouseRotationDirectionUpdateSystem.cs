@@ -15,7 +15,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
 
         private Transform _transform;
         private ICompositeCondition _canRotate;
+
         private ReactiveVariable<Vector3> _rotationDirection;
+        private ReactiveVariable<Vector3> _aimPoint;
 
         public MouseRotationDirectionUpdateSystem(
             ScreenToWorldPositionConverter positionConverter,
@@ -28,6 +30,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
         public void OnInitialize(Entity entity)
         {
             _rotationDirection = entity.RotationDirection;
+            _aimPoint = entity.AimPoint;
             _transform = entity.Transfrom;
             _canRotate = entity.CanRotate;
         }
@@ -36,9 +39,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
         {
             if (_canRotate.Evaluate())
             {
-                Vector3 worldPosition = _positionConverter.GetPosition(_input.Aiming.Value);
-
-                _rotationDirection.Value = worldPosition - _transform.position;
+                if (_positionConverter.TryGetPosition(_input.Aiming.Value, out Vector3 worldPosition))
+                {
+                    _rotationDirection.Value = worldPosition - _transform.position;
+                    _aimPoint.Value = worldPosition;
+                }
             }
         }
     }

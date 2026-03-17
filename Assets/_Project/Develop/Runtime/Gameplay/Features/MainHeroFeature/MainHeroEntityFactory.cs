@@ -1,5 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
@@ -10,6 +12,8 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
@@ -20,6 +24,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
         private readonly EntitiesLifeContext _entitiesLifeContext;
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
         private readonly CollidersRegistryService _collidersRegistryService;
+        private readonly CombatEntityFactory _combatEntityFactory;
+
+        private readonly IGameplayInputService _inputService;
 
         public MainHeroEntityFactory(DIContainer container)
         {
@@ -28,6 +35,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
             _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
+            _combatEntityFactory = _container.Resolve<CombatEntityFactory>();
+            _inputService = _container.Resolve<IGameplayInputService>();
         }
 
         public Entity CreateTower(Vector3 position)
@@ -41,11 +50,19 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddCurrentHealth(new ReactiveVariable<float>(100))
                 .AddRotationDirection()
                 .AddRotationSpeed(new ReactiveVariable<float>(500))
+                .AddAimPoint()
                 .AddIsDead()
                 .AddInDeathProcess()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero));
+                .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero))
+                .AddAbilityCurrent(new ReactiveVariable<AbilityType>(AbilityType.Main))
+                .AddArcaneMineUseRequest()
+                .AddFireballUseRequest()
+                .AddAbilityStorage(new Dictionary<AbilityType, ReactiveEvent> {
+                    { AbilityType.Main, entity.FireballUseRequest },
+                    { AbilityType.Utility, entity.ArcaneMineUseRequest } 
+                });
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
@@ -59,21 +76,28 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             ICompositeCondition canApplyDamage = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
+            ICompositeCondition canUseArcaneMine = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
+            ICompositeCondition canUseFireball = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
             entity
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanRotate(canRotateToMousePosition)
-                .AddCanApplyDamage(canApplyDamage);
+                .AddCanApplyDamage(canApplyDamage)
+                .AddCanUseArcaneMine(canUseArcaneMine)
+                .AddCanUseFireball(canUseFireball);
 
             entity
                 .AddSystem(new MouseRotationDirectionUpdateSystem(
                     _container.Resolve<ScreenToWorldPositionConverter>(),
-                    _container.Resolve<IGameplayInputService>()))
+                    _inputService))
                 .AddSystem(new TransformRotationAppliedSystem())
-                .AddSystem(new AttackSystem(
-                    _container.Resolve<CombatEntityFactory>(),
-                    _container.Resolve<IGameplayInputService>(),
-                    _container.Resolve<ScreenToWorldPositionConverter>()))
+                .AddSystem(new AbilityUseSystem(_inputService))
+                .AddSystem(new ArcaneMineSystem(_combatEntityFactory))
+                .AddSystem(new FireballSystem(_combatEntityFactory))
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
