@@ -1,9 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
-using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
-using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 using UnityEngine;
@@ -12,13 +10,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 {
     public class FireballSystem : IInitializableSystem, IDisposableSystem
     {
+        private readonly CombatEntityFactory _combatEntityFactory;
+
         private ReactiveEvent _useRequest;
+
         private Entity _entity;
         private ReactiveVariable<Vector3> _aimPoint;
 
-        private CombatEntityFactory _combatEntityFactory;
-
         private ICompositeCondition _canUse;
+
         private IDisposable _disposable;
 
         public FireballSystem(CombatEntityFactory combatEntityFactory)
@@ -33,12 +33,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
             _canUse = entity.CanUseFireball;
 
-            _disposable = _useRequest.Subscribe(Use);
+            _disposable = _useRequest.Subscribe(OnAbilityUseRequested);
         }
 
         public void OnDispose() => _disposable.Dispose();
 
-        private void Use()
+        private void OnAbilityUseRequested()
         {
             if (_canUse.Evaluate())
             {

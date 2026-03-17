@@ -10,33 +10,35 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 {
     public class ArcaneMineSystem : IInitializableSystem, IDisposableSystem
     {
-        private Entity _entity;
-        private ICompositeCondition _canUse;
+        private readonly CombatEntityFactory _combatEntityFactory;
+
         private ReactiveEvent _useRequest;
-
-        private IDisposable _disposable;
-
-        private CombatEntityFactory _combatEntityFactory;
-
+       
+        private Entity _entity;
         private ReactiveVariable<Vector3> _aimPoint;
+
+        private ICompositeCondition _canUse;
+        
+        private IDisposable _disposable;
 
         public ArcaneMineSystem(CombatEntityFactory combatEntityFactory)
             => _combatEntityFactory = combatEntityFactory;
 
         public void OnInitialize(Entity entity)
         {
-            _entity = entity;
-            _canUse = entity.CanUseArcaneMine;
             _useRequest = entity.ArcaneMineUseRequest;
 
+            _entity = entity;
             _aimPoint = entity.AimPoint;
 
-            _disposable = _useRequest.Subscribe(Use);
+            _canUse = entity.CanUseArcaneMine;
+
+            _disposable = _useRequest.Subscribe(OnAbilityUseRequested);
         }
 
         public void OnDispose() => _disposable.Dispose();
 
-        private void Use()
+        private void OnAbilityUseRequested()
         {
             if (_canUse.Evaluate())
                 _combatEntityFactory.CreateArcaneMine(_aimPoint.Value, 3, 5, _entity);
