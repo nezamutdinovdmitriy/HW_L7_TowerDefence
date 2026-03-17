@@ -1,9 +1,8 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using Assets._Project.Develop.Runtime.Utilities.Timer;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explosion
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion
 {
     public class ExplosionEndSystem : IInitializableSystem, IUpdatableSystem
     {

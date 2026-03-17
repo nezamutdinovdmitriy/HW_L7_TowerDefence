@@ -3,7 +3,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Explosion
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion
 {
     public class ExplosionSpawnSystem : IInitializableSystem, IUpdatableSystem
     {
