@@ -4,6 +4,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay
@@ -16,7 +17,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         private MainHeroEntityFactory _mainHeroFactory;
         private EnemiesEntityFactory _enemiesFactory;
-        private Entity _entity;
+        private readonly Entity _entity;
 
         private ScreenToWorldPositionConverter _screenToWorldPositionConverter;
         private IGameplayInputService _input;
@@ -28,7 +29,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             _container = container;
 
             _screenToWorldPositionConverter = container.Resolve<ScreenToWorldPositionConverter>();
-            
+
             _mainHeroFactory = container.Resolve<MainHeroEntityFactory>();
             _enemiesFactory = container.Resolve<EnemiesEntityFactory>();
 
@@ -38,9 +39,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         public void Run()
         {
-            _entity = _mainHeroFactory.CreateTower(Vector3.zero);
-
-            for (int i = 0; i < 10; i++)
+            ReactiveVariable<Entity> mainHero = new(_mainHeroFactory.CreateTower(Vector3.zero));
+            
+            for (int i = 0; i < 2; i++)
             {
                 float _spawnRadius = 10f;
 
@@ -48,7 +49,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
                 Vector3 spawnPoint = new(randomPosition.x, 0, randomPosition.y);
 
-                _enemiesFactory.CreateBaseСreep(spawnPoint);
+                Entity enemy = _enemiesFactory.CreateBaseСreep(spawnPoint);
+                enemy.AddCurrentTarget(mainHero);
             }
 
             _isRunning = true;

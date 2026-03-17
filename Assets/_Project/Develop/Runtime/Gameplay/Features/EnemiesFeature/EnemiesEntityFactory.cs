@@ -1,5 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
@@ -19,6 +21,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
         private readonly EntitiesLifeContext _entitiesLifeContext;
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
         private readonly CollidersRegistryService _collidersRegistryService;
+        private readonly CombatEntityFactory _combatEntityFactory;
 
         public EnemiesEntityFactory(DIContainer container)
         {
@@ -27,6 +30,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
             _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
+            _combatEntityFactory = _container.Resolve<CombatEntityFactory>();
         }
 
         public Entity CreateBaseСreep(Vector3 position)
@@ -54,8 +58,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             ICompositeCondition canRotateToMousePosition = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
-            ICompositeCondition mustDie = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
+            ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
+                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0))
+                .Add(new FuncCondition(() => (entity.Transfrom.position - entity.CurrentTarget.Value.Transfrom.position).magnitude <= 5f));
 
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
@@ -63,12 +68,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             ICompositeCondition canApplyDamage = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
+            ICompositeCondition canSpawnExplosion = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
             entity
                 .AddCanMove(canMove)
                 .AddCanRotate(canRotateToMousePosition)
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
-                .AddCanApplyDamage(canApplyDamage);
+                .AddCanApplyDamage(canApplyDamage)
+                .AddCanSpawnExplosion(canSpawnExplosion);
 
             entity
                 .AddSystem(new PlayerInputMovementSystem(_container.Resolve<IGameplayInputService>()))
@@ -78,6 +87,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
+                .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, 5f))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 

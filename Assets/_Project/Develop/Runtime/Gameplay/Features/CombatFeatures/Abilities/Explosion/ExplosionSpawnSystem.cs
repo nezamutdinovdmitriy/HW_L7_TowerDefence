@@ -1,16 +1,20 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion
 {
     public class ExplosionSpawnSystem : IInitializableSystem, IUpdatableSystem
     {
-        private CombatEntityFactory _combatEntityFactory;
+        private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly float _radius;
+        
         private Entity _source;
-        private float _radius;
         private Transform _transform;
+
+        private ICompositeCondition _canSpawnExplosion;
 
         public ExplosionSpawnSystem(CombatEntityFactory combatEntityFactory, float radius)
         {
@@ -22,11 +26,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         {
             _source = entity;
             _transform = entity.Transfrom;
+            _canSpawnExplosion = entity.CanSpawnExplosion;
         }
 
         public void OnUpdate(float deltaTime)
         {
-            if (_source.MustSelfRelease.Evaluate())
+            Debug.Log(_canSpawnExplosion.Evaluate());
+
+            if (_canSpawnExplosion.Evaluate())
             {
                 _combatEntityFactory.CreateExplosion(_transform.position, _radius, _source);
 
