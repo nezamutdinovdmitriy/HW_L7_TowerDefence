@@ -8,6 +8,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public ReactiveEvent Value;
     }
 
+    public class ArcaneMineUseEvent : IEntityComponent
+    {
+        public ReactiveEvent Value;
+    }
+
+    public class ArcaneMineCost : IEntityComponent
+    {
+        public ReactiveVariable<int> Value;
+    }
+
     public class CanUseArcaneMine : IEntityComponent
     {
         public ICompositeCondition Value;

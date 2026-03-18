@@ -1,11 +1,13 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
-using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
+using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
+using Assets._Project.Develop.Runtime.Utilities.DataManagment;
+using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
@@ -26,6 +28,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         private WalletService _walletService;
 
+        private PlayerDataProvider _playerDataProvider;
+        private ICoroutinesPerformer _coroutinesPerformer;
+
         private bool _isRunning;
 
         public void Initialize(DIContainer container)
@@ -41,6 +46,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
 
             _walletService = container.Resolve<WalletService>();
+
+            _playerDataProvider = container.Resolve<PlayerDataProvider>();
+            _coroutinesPerformer = container.Resolve<ICoroutinesPerformer>();
         }
 
         public void Run()
@@ -70,11 +78,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             if (Input.GetKeyDown(KeyCode.A))
                 _walletService.Add(CurrencyType.Gold, 100);
 
-            if (Input.GetKeyDown(KeyCode.S))
-                _walletService.Spend(CurrencyType.Gold, 10);
-
             if (Input.GetKeyDown(KeyCode.I))
                 _walletService.GetCurrency(CurrencyType.Gold);
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
+            }
 
             _entitiesLifeContext?.Update(Time.deltaTime);
         }

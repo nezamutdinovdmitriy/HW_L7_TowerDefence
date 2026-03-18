@@ -1,37 +1,40 @@
-﻿using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
+﻿using Assets._Project.Develop.Runtime.Meta.Configs.Wallet;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
+using System;
+using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders
 {
     public sealed class PlayerDataProvider : DataProvider<PlayerData>
     {
-        private readonly ConfigsProvider _configsProviderService;
+        private readonly ConfigsProvider _configsProvider;
 
         public PlayerDataProvider(
             ISaveLoadSerivce saveLoadSerivce,
             ConfigsProvider configsProviderService) : base(saveLoadSerivce)
         {
-            _configsProviderService = configsProviderService;
+            _configsProvider = configsProviderService;
         }
 
         protected override PlayerData GetOriginData()
         {
             return new PlayerData()
             {
-                //WalletData = InitWalletData(),
-                //CompletedLevels = new()
+                WalletData = InitWalletData(),
             };
         }
 
-        //private Dictionary<CurrencyTypes, int> InitWalletData()
-        //{
-        //    Dictionary<CurrencyTypes, int> walletData = new();
+        private Dictionary<CurrencyType, int> InitWalletData()
+        {
+            Dictionary<CurrencyType, int> walletData = new();
 
-        //    StartWalletConfig walletConfig = _configsProviderService.GetConfig<StartWalletConfig>();
+            StartWalletConfig walletConfig = _configsProvider.GetConfig<StartWalletConfig>();
 
-        //    foreach (CurrencyTypes currencyType in Enum.GetValues(typeof(CurrencyTypes)))
-        //        walletData[currencyType] = walletConfig.GetValueFor(currencyType);
+            foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
+                walletData[currencyType] = walletConfig.GetValueFor(currencyType);
 
-        //    return walletData;
-        //}
+            return walletData;
+        }
     }
 }

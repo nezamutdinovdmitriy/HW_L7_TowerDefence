@@ -13,6 +13,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private readonly CombatEntityFactory _combatEntityFactory;
 
         private ReactiveEvent _useRequest;
+        private ReactiveEvent _useEvent;
        
         private Entity _entity;
         private ReactiveVariable<Vector3> _aimPoint;
@@ -27,6 +28,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public void OnInitialize(Entity entity)
         {
             _useRequest = entity.ArcaneMineUseRequest;
+            _useEvent = entity.ArcaneMineUseEvent;
 
             _entity = entity;
             _aimPoint = entity.AimPoint;
@@ -41,7 +43,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private void OnAbilityUseRequested()
         {
             if (_canUse.Evaluate())
+            {
                 _combatEntityFactory.CreateArcaneMine(_aimPoint.Value, 3, 5, _entity);
+                _useEvent?.Invoke();
+            }
         }
     }
 }

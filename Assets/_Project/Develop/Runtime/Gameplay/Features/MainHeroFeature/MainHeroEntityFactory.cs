@@ -61,6 +61,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero))
                 .AddAbilityCurrent(new ReactiveVariable<AbilityType>(AbilityType.Main))
                 .AddArcaneMineUseRequest()
+                .AddArcaneMineUseEvent()
+                .AddArcaneMineCost(new ReactiveVariable<int>(50))
                 .AddFireballUseRequest()
                 .AddAbilityStorage(new Dictionary<AbilityType, ReactiveEvent> {
                     { AbilityType.Main, entity.FireballUseRequest },
@@ -81,7 +83,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
 
             ICompositeCondition canUseArcaneMine = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false))
-                .Add(new FuncCondition(() => _walletService.Enough(CurrencyType.Gold, 50) == false));
+                .Add(new FuncCondition(() => _walletService.Enough(CurrencyType.Gold, entity.ArcaneMineCost.Value)));
 
             ICompositeCondition canUseFireball = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -101,6 +103,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new AbilityUseSystem(_inputService))
                 .AddSystem(new ArcaneMineSystem(_combatEntityFactory))
+                .AddSystem(new ArcaneMineGoldCostSystem(_walletService))
                 .AddSystem(new FireballSystem(_combatEntityFactory))
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())

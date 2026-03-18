@@ -1,4 +1,3 @@
-using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
@@ -51,10 +50,12 @@ namespace Assets._Project.Develop.Runtime.ProjectInfrastructure.EntryPoint
         {
             Dictionary<CurrencyType, ReactiveVariable<int>> currencies = new();
 
+            PlayerDataProvider playerDataProvider = container.Resolve<PlayerDataProvider>();
+
             foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
                 currencies[currencyType] = new ReactiveVariable<int>();
 
-            return new WalletService(currencies);
+            return new WalletService(currencies, playerDataProvider);
         }
 
         private static SaveLoadService CreateSaveLoadService(DIContainer container)

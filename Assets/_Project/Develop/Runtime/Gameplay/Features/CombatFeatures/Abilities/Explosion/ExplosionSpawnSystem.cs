@@ -31,8 +31,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         public void OnUpdate(float deltaTime)
         {
-            Debug.Log(_canSpawnExplosion.Evaluate());
-
             if (_canSpawnExplosion.Evaluate())
             {
                 _combatEntityFactory.CreateExplosion(_transform.position, _radius, _source);
