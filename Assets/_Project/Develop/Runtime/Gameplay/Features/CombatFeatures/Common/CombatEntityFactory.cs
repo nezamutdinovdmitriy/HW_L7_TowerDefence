@@ -96,7 +96,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public Entity CreateArcaneMine(Vector3 position, float activationRadius, float explosionRadius, Entity owner)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Mine");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/Mine");
 
             entity
                 .AddIsDead()
@@ -143,7 +143,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public Entity CreateExplosion(Vector3 position, float radius, Entity owner)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/ExplosionEffect");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/ExplosionEffect");
 
             ParticleSystem.ShapeModule particleShape = monoEntity.gameObject.GetComponent<ParticleSystem>().shape;
             particleShape.radius = radius;

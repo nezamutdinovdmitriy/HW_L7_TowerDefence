@@ -1,12 +1,9 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature;
-using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
-using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
-using Assets._Project.Develop.Runtime.Utilities.DataManagment;
 using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
@@ -15,16 +12,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 {
     public sealed class TestGameplay : MonoBehaviour
     {
-        private DIContainer _container;
 
         private EntitiesLifeContext _entitiesLifeContext;
 
         private MainHeroEntityFactory _mainHeroFactory;
         private EnemiesEntityFactory _enemiesFactory;
-        private readonly Entity _entity;
-
-        private ScreenToWorldPositionConverter _screenToWorldPositionConverter;
-        private IGameplayInputService _input;
 
         private WalletService _walletService;
 
@@ -35,14 +27,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         public void Initialize(DIContainer container)
         {
-            _container = container;
-
-            _screenToWorldPositionConverter = container.Resolve<ScreenToWorldPositionConverter>();
-
             _mainHeroFactory = container.Resolve<MainHeroEntityFactory>();
             _enemiesFactory = container.Resolve<EnemiesEntityFactory>();
 
-            _input = container.Resolve<IGameplayInputService>();
             _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
 
             _walletService = container.Resolve<WalletService>();
