@@ -9,6 +9,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
@@ -25,6 +26,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
         private readonly CollidersRegistryService _collidersRegistryService;
         private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly WalletService _walletService;
 
         private readonly IGameplayInputService _inputService;
 
@@ -37,6 +39,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
             _combatEntityFactory = _container.Resolve<CombatEntityFactory>();
             _inputService = _container.Resolve<IGameplayInputService>();
+            _walletService = _container.Resolve<WalletService>();
         }
 
         public Entity CreateTower(Vector3 position)
@@ -61,7 +64,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddFireballUseRequest()
                 .AddAbilityStorage(new Dictionary<AbilityType, ReactiveEvent> {
                     { AbilityType.Main, entity.FireballUseRequest },
-                    { AbilityType.Utility, entity.ArcaneMineUseRequest } 
+                    { AbilityType.Utility, entity.ArcaneMineUseRequest }
                 });
 
             ICompositeCondition mustDie = new CompositeCondition()
@@ -77,7 +80,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
             ICompositeCondition canUseArcaneMine = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+                .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                .Add(new FuncCondition(() => _walletService.Enough(CurrencyType.Gold, 50) == false));
 
             ICompositeCondition canUseFireball = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));

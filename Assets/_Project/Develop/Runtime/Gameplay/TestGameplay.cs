@@ -1,7 +1,9 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
@@ -22,6 +24,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay
         private ScreenToWorldPositionConverter _screenToWorldPositionConverter;
         private IGameplayInputService _input;
 
+        private WalletService _walletService;
+
         private bool _isRunning;
 
         public void Initialize(DIContainer container)
@@ -35,6 +39,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
             _input = container.Resolve<IGameplayInputService>();
             _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
+
+            _walletService = container.Resolve<WalletService>();
         }
 
         public void Run()
@@ -61,11 +67,23 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             if (_isRunning == false)
                 return;
 
+            if (Input.GetKeyDown(KeyCode.A))
+                _walletService.Add(CurrencyType.Gold, 100);
+
+            if (Input.GetKeyDown(KeyCode.S))
+                _walletService.Spend(CurrencyType.Gold, 10);
+
+            if (Input.GetKeyDown(KeyCode.I))
+                _walletService.GetCurrency(CurrencyType.Gold);
+
             _entitiesLifeContext?.Update(Time.deltaTime);
         }
 
         private void FixedUpdate()
         {
+            if (_isRunning == false)
+                return;
+
             _entitiesLifeContext?.FixedUpdate(Time.fixedDeltaTime);
         }
     }
