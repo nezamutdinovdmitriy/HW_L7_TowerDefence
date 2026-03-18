@@ -45,7 +45,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
         public Entity CreateTower(Vector3 position)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/ExplosionEffect");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Characters/Tower");
 
             entity
                 .AddIsMainHero()

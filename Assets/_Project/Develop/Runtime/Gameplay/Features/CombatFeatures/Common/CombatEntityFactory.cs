@@ -35,7 +35,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public Entity CreateFireBall(Vector3 position, Vector3 direction, Entity owner)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Fireball");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/Fireball");
 
             entity
                 .AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
