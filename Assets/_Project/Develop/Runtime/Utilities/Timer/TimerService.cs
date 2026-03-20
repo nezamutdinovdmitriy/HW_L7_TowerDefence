@@ -37,7 +37,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.Timer
         public void Stop()
         {
             if (_cooldownProcess != null)
-                _coroutinesPerformer.StopPerform(_cooldownProcess);
+                _coroutinesPerformer.StopPerform(_cooldownProcess); 
         }
         
         public void Restart()

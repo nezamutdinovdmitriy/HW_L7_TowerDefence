@@ -60,7 +60,18 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
 
             ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0))
-                .Add(new FuncCondition(() => (entity.Transfrom.position - entity.CurrentTarget.Value.BodyTransform.position).magnitude <= 5f));
+                .Add(new FuncCondition(() =>
+                {
+                    Vector3 currentTargetPosition = entity.CurrentTarget.Value.Transfrom.position;
+
+                    currentTargetPosition.y = 0;
+
+                    if ((entity.Transfrom.position - currentTargetPosition).magnitude <= 5f)
+                        return true;
+
+                    return false;
+
+                }));
 
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
@@ -80,7 +91,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddCanSpawnExplosion(canSpawnExplosion);
 
             entity
-                .AddSystem(new PlayerInputMovementSystem(_container.Resolve<IGameplayInputService>()))
                 .AddSystem(new MovementDirectionResolveSystem())
                 .AddSystem(new TransformMovementAppliedSystem())
                 .AddSystem(new MovementRotationDirectionUpdateSystem())

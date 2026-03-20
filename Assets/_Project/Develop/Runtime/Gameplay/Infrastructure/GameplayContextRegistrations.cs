@@ -1,5 +1,6 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
@@ -27,6 +28,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         {
             container.RegisterAsSingle(CreateEntitiesLifeContext);
             container.RegisterAsSingle(CreateMonoEntitiesLifeContext);
+            container.RegisterAsSingle(CreateAIBrainsContext);
         }
 
         private static void RegisterServices(DIContainer container)
@@ -43,9 +45,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateMainHeroEntityFactory);
             container.RegisterAsSingle(CreateEnemiesEntityFactory);
 
+            container.RegisterAsSingle(CreateBrainsFactory);
+
             container.RegisterAsSingle(CreateCombatEntityFactory);
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
+
+        private static BrainsFactory CreateBrainsFactory(DIContainer container)
+            => new(container);
+
+        private static AIBrainsContext CreateAIBrainsContext(DIContainer container) 
+            => new();
 
         private static MainHeroHolderService CreateMainHeroHolderService(DIContainer container) 
             => new(container.Resolve<EntitiesLifeContext>());
