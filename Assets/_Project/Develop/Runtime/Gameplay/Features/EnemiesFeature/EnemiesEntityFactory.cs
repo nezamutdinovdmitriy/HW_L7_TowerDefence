@@ -5,6 +5,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
@@ -22,6 +23,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
         private readonly CollidersRegistryService _collidersRegistryService;
         private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly MainHeroHolderService _mainHeroHolderService;
 
         public EnemiesEntityFactory(DIContainer container)
         {
@@ -31,6 +33,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
             _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
             _combatEntityFactory = _container.Resolve<CombatEntityFactory>();
+            _mainHeroHolderService = _container.Resolve<MainHeroHolderService>();
         }
 
         public Entity CreateBaseСreep(Vector3 position)
@@ -62,8 +65,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0))
                 .Add(new FuncCondition(() =>
                 {
-                    Vector3 currentTargetPosition = entity.CurrentTarget.Value.Transfrom.position;
-
+                    Vector3 currentTargetPosition = _mainHeroHolderService.MainHero.BodyTransform.position;
                     currentTargetPosition.y = 0;
 
                     if ((entity.Transfrom.position - currentTargetPosition).magnitude <= 5f)

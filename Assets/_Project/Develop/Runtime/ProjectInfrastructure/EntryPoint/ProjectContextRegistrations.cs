@@ -54,7 +54,7 @@ namespace Assets._Project.Develop.Runtime.ProjectInfrastructure.EntryPoint
 
             foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
                 currencies[currencyType] = new ReactiveVariable<int>();
-
+            
             return new WalletService(currencies, playerDataProvider);
         }
 
