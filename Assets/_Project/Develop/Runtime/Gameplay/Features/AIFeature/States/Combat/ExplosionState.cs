@@ -20,6 +20,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
             base.Enter();
 
             _combatEntityFactory.CreateExplosion(_entity.Transfrom.position, _entity.ExplosionRadius.Value, _entity);
+            _entity.IsDead.Value = true;
         }
 
         public void Update(float deltaTime)
