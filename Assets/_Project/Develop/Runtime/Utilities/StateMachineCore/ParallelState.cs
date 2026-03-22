@@ -6,7 +6,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.StateMachineCore
     {
         private readonly List<TState> _states;
 
-        public ParallelState(List<TState> states) => _states = new List<TState>(states);
+        public ParallelState(params TState[] states) => _states = new List<TState>(states);
 
         protected IReadOnlyList<TState> States => _states;
 

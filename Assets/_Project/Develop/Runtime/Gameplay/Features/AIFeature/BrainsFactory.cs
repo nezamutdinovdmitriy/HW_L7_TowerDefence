@@ -1,8 +1,11 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Combat;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Movement;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
 {
@@ -22,24 +25,58 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
 
         public StateMachineBrain CreateBaseEnemyBrain(Entity entity, ITargetSelector targetSelector)
         {
-            //FindTargetState findTargetState = new(targetSelector, _entitiesLifeContext, entity);
+            FindTargetState findTargetState = new(targetSelector, _entitiesLifeContext, entity);
             MoveToTargetState moveToTargetState = new(entity);
+            ExplosionState explosionState = new(entity, _container.Resolve<CombatEntityFactory>());
+
+            AIStateMachine movementState = new();
 
             ICompositeCondition findTargetToMoveToTarget = new CompositeCondition()
-                .Add(new FuncCondition(() => true));
+                .Add(new FuncCondition(() => entity.CurrentTarget.Value != null));
 
-            ICompositeCondition moveToTargetToFindTarget = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.CurrentTarget.Value == null));
+            ICompositeCondition moveToTargetToFindTarget = new CompositeCondition(LogicOperation.Or)
+               .Add(new FuncCondition(() => entity.CurrentTarget.Value == null))
+               .Add(new FuncCondition(() => entity.CurrentTarget.Value.IsDead.Value));
+
+            movementState.AddState(findTargetState);
+            movementState.AddState(moveToTargetState);
+
+            movementState.AddTransition(findTargetState, moveToTargetState, findTargetToMoveToTarget);
+            movementState.AddTransition(moveToTargetState, findTargetState, moveToTargetToFindTarget);
+
+            AIStateMachine combatState = new();
+
+            combatState.AddState(explosionState);
 
             AIStateMachine behaviour = new();
 
-            //behaviour.AddState(findTargetState);
-            behaviour.AddState(moveToTargetState);
+            ICompositeCondition movementToCombat = new CompositeCondition()
+               .Add(new FuncCondition(() =>
+               {
+                   if (entity.CurrentTarget.Value != null)
+                   {
+                       Vector3 targetPosition = entity.CurrentTarget.Value.Transfrom.position;
+                       targetPosition.y = 0;
 
-            //behaviour.AddTransition(findTargetState, moveToTargetState, findTargetToMoveToTarget);
-            //behaviour.AddTransition(moveToTargetState, findTargetState, moveToTargetToFindTarget);
+                       float threshold = entity.ExplosionRadius.Value;
+
+                       float sqrDistance = (entity.Transfrom.position - targetPosition).sqrMagnitude;
+                       float sqrThreshold = threshold * threshold;
+
+                       if (sqrDistance <= sqrThreshold)
+                           return true;
+                   }
+
+                   return false;
+               }));
+
+            behaviour.AddState(movementState);
+            behaviour.AddState(combatState);
+
+            behaviour.AddTransition(movementState, combatState, movementToCombat);
 
             StateMachineBrain brain = new(behaviour);
+
             _brainsContext.SetFor(entity, brain);
 
             return brain;

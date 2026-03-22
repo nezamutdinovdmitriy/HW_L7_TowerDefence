@@ -53,6 +53,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddIsDead()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
+                .AddExplosionRadius(new ReactiveVariable<float>(5))
                 .AddTeam(new ReactiveVariable<TeamType>(TeamType.Enemies));
 
             ICompositeCondition canMove = new CompositeCondition()
@@ -62,18 +63,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
             ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
-                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0))
-                .Add(new FuncCondition(() =>
-                {
-                    Vector3 currentTargetPosition = _mainHeroHolderService.MainHero.BodyTransform.position;
-                    currentTargetPosition.y = 0;
-
-                    if ((entity.Transfrom.position - currentTargetPosition).magnitude <= 5f)
-                        return true;
-
-                    return false;
-
-                }));
+                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
 
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
@@ -99,7 +89,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, 5f))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 

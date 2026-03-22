@@ -8,7 +8,6 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using Assets._Project.Develop.Runtime.Utilities.Timer;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay
@@ -30,12 +29,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay
         private BrainsFactory _brainsFactory;
         private MainHeroHolderService _mainHeroHolderService;
 
-        private TimerServiceFactory _timerFactory;
-
         private bool _isRunning;
 
-        private TimerService _spawnTimer;
-        private int _enemyCount = 0;
         private ReactiveVariable<Entity> _mainHero = new();
 
         public void Initialize(DIContainer container)
@@ -54,15 +49,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             _brainsFactory = container.Resolve<BrainsFactory>();
 
             _brainsContext = container.Resolve<AIBrainsContext>();
-
-            _timerFactory = container.Resolve<TimerServiceFactory>();
         }
 
         public void Run()
         {
             _mainHero = new(_mainHeroFactory.CreateTower(Vector3.zero));
-
-            _spawnTimer = _timerFactory.Create(3f);
 
             _isRunning = true;
         }
@@ -72,18 +63,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay
             if (_isRunning == false)
                 return;
 
-            if (_spawnTimer.IsOver && _enemyCount < 5)
+            if (Input.GetKeyDown(KeyCode.V))
             {
                 Vector2 randomPosition = Random.insideUnitCircle.normalized * 35f;
 
                 Vector3 spawnPoint = new(randomPosition.x, 0, randomPosition.y);
 
                 Entity enemy = _enemiesFactory.CreateBaseСreep(spawnPoint);
-                enemy.AddCurrentTarget(new ReactiveVariable<Entity>(_mainHero.Value));
+                enemy.AddCurrentTarget();
                 _brainsFactory.CreateBaseEnemyBrain(enemy, new MainHeroTargetSelector(_mainHeroHolderService));
-
-                _enemyCount++;
-                _spawnTimer.Restart();
             }
 
             if (Input.GetKeyDown(KeyCode.A))

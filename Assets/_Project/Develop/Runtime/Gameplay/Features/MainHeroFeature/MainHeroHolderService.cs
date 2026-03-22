@@ -10,6 +10,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
         private readonly EntitiesLifeContext _entitiesLifeContext;
 
         private ReactiveEvent<Entity> _heroRegistered = new();
+        private ReactiveEvent<Entity> _heroRemoved = new();
         private Entity _mainHero;
 
         public MainHeroHolderService(EntitiesLifeContext entitiesLifeContext)
@@ -18,8 +19,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
         public IReadOnlyEvent<Entity> HeroRegistered => _heroRegistered;
         public Entity MainHero => _mainHero;
 
-        public void Initialize() => _entitiesLifeContext.Added += OnEntityAdded;
-        public void Dispose() => _entitiesLifeContext.Added -= OnEntityAdded;
+        public void Initialize()
+        {
+            _entitiesLifeContext.Added += OnEntityAdded;
+            _entitiesLifeContext.Removed += OnEntityRemoved;
+        }
+
+        public void Dispose()
+        {
+            _entitiesLifeContext.Added -= OnEntityAdded;
+            _entitiesLifeContext.Removed -= OnEntityRemoved;
+        }
 
         private void OnEntityAdded(Entity entity)
         {
@@ -30,6 +40,18 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 _mainHero = entity;
 
                 _heroRegistered?.Invoke(entity);
+            }
+        }
+
+        private void OnEntityRemoved(Entity entity)
+        {
+            if (entity.HasComponent<IsMainHero>())
+            {
+                _entitiesLifeContext.Removed -= OnEntityRemoved;
+
+                _mainHero = null;
+
+                _heroRemoved?.Invoke(entity);
             }
         }
     }
