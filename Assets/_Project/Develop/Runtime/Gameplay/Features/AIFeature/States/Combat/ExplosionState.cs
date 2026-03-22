@@ -6,8 +6,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
 {
     public class ExplosionState : State, IUpdatableState
     {
-        private CombatEntityFactory _combatEntityFactory;
-        private Entity _entity;
+        private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly Entity _entity;
 
         public ExplosionState(Entity entity, CombatEntityFactory combatEntityFactory)
         {
