@@ -602,6 +602,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature.DisableCollidersOnDeath() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature.ShouldForceDeath ShouldForceDeathC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature.ShouldForceDeath>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> ShouldForceDeath => ShouldForceDeathC.Value;
+
+		public bool TryGetShouldForceDeath(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature.ShouldForceDeath component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddShouldForceDeath()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature.ShouldForceDeath() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddShouldForceDeath(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature.ShouldForceDeath() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.ContactDamage ContactDamageC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.ContactDamage>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> ContactDamage => ContactDamageC.Value;

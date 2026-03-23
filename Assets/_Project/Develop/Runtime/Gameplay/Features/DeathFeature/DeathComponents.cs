@@ -29,4 +29,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature
     {
         public List<Collider> Value;
     }
+
+    public class ShouldForceDeath : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
 }

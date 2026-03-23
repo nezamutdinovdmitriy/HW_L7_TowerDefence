@@ -54,7 +54,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
                 .AddExplosionRadius(new ReactiveVariable<float>(5))
-                .AddTeam(new ReactiveVariable<TeamType>(TeamType.Enemies));
+                .AddTeam(new ReactiveVariable<TeamType>(TeamType.Enemies))
+                .AddShouldForceDeath();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -63,7 +64,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
             ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
-                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
+                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0))
+                .Add(new FuncCondition(() => entity.ShouldForceDeath.Value));
 
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
