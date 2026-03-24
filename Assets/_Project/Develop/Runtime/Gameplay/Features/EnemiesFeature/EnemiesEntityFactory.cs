@@ -55,7 +55,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddTakeDamageEvent()
                 .AddExplosionRadius(new ReactiveVariable<float>(5))
                 .AddTeam(new ReactiveVariable<TeamType>(TeamType.Enemies))
-                .AddShouldForceDeath();
+                .AddShouldForceDeath()
+                .AddExplosionRequested();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -73,8 +74,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             ICompositeCondition canApplyDamage = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
-            ICompositeCondition canSpawnExplosion = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsDead.Value));
+            ICompositeCondition canSpawnExplosion = new CompositeCondition(LogicOperation.Or)
+                .Add(new FuncCondition(() => entity.IsDead.Value))
+                .Add(new FuncCondition(() => entity.ExplosionRequested.Value));
 
             entity
                 .AddCanMove(canMove)
@@ -89,6 +91,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new TransformMovementAppliedSystem())
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
                 .AddSystem(new TransformRotationAppliedSystem())
+                .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, entity.ExplosionRadius.Value))
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())

@@ -34,6 +34,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             if (_canSpawnExplosion.Evaluate())
             {
                 _combatEntityFactory.CreateExplosion(_transform.position, _radius, _source);
+                
+                _source.ExplosionRequested.Value = false;
             }
         }
     }

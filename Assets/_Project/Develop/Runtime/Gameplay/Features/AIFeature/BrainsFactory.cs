@@ -27,7 +27,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
         {
             FindTargetState findTargetState = new(targetSelector, _entitiesLifeContext, entity);
             MoveToTargetState moveToTargetState = new(entity);
-            ExplosionState explosionState = new(entity, _container.Resolve<CombatEntityFactory>());
+            ExplosionState explosionState = new(entity);
 
             AIStateMachine movementState = new();
 

@@ -7,7 +7,6 @@ using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
-using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay
@@ -17,8 +16,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         private EntitiesLifeContext _entitiesLifeContext;
         private AIBrainsContext _brainsContext;
-
-        private MainHeroEntityFactory _mainHeroFactory;
         private EnemiesEntityFactory _enemiesFactory;
 
         private WalletService _walletService;
@@ -28,14 +25,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         private BrainsFactory _brainsFactory;
         private MainHeroHolderService _mainHeroHolderService;
+        private MainHeroEntityFactory _mainHeroFactroy;
+
 
         private bool _isRunning;
 
-        private ReactiveVariable<Entity> _mainHero = new();
-
         public void Initialize(DIContainer container)
         {
-            _mainHeroFactory = container.Resolve<MainHeroEntityFactory>();
+            _mainHeroFactroy = container.Resolve<MainHeroEntityFactory>();
+
             _enemiesFactory = container.Resolve<EnemiesEntityFactory>();
 
             _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
@@ -53,7 +51,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay
 
         public void Run()
         {
-            _mainHero = new(_mainHeroFactory.CreateTower(Vector3.zero));
+            _mainHeroFactroy.CreateTower(Vector3.zero);
 
             _isRunning = true;
         }

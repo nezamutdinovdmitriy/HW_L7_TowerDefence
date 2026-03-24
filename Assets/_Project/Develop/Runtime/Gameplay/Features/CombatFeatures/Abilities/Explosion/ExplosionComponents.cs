@@ -18,13 +18,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public ICompositeCondition Value;
     }
 
-    public class ExplosionInProcess : IEntityComponent
-    {
-        public ReactiveVariable<bool> Value;
-    }
-
-    public class ExplosionDestroyDelay : IEntityComponent
+    public class ExplosionLifetime : IEntityComponent
     {
         public ReactiveVariable<float> Value;
+    }
+
+    public class ExplosionRequested : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
     }
 }

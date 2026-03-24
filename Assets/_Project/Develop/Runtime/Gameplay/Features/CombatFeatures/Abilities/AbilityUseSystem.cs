@@ -1,6 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
@@ -10,10 +9,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 {
     public class AbilityUseSystem : IInitializableSystem, IUpdatableSystem
     {
+        private readonly IGameplayInputService _gameplayInputService;
+
         private Dictionary<AbilityType, ReactiveEvent> _abilityStorage;
         private ReactiveVariable<AbilityType> _abilityCurrent;
-
-        private IGameplayInputService _gameplayInputService;
 
         public AbilityUseSystem(IGameplayInputService gameplayInputService)
             => _gameplayInputService = gameplayInputService;

@@ -942,37 +942,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.CanSpawnExplosion() {Value = value}); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionInProcess ExplosionInProcessC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionInProcess>();
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionLifetime ExplosionLifetimeC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionLifetime>();
 
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> ExplosionInProcess => ExplosionInProcessC.Value;
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> ExplosionLifetime => ExplosionLifetimeC.Value;
 
-		public bool TryGetExplosionInProcess(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		public bool TryGetExplosionLifetime(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionInProcess component);
-			if(result)
-				value = component.Value;
-			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
-			return result;
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionInProcess()
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionInProcess() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() }); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionInProcess(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionInProcess() {Value = value}); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionDestroyDelay ExplosionDestroyDelayC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionDestroyDelay>();
-
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> ExplosionDestroyDelay => ExplosionDestroyDelayC.Value;
-
-		public bool TryGetExplosionDestroyDelay(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
-		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionDestroyDelay component);
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionLifetime component);
 			if(result)
 				value = component.Value;
 			else
@@ -980,14 +956,38 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return result;
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionDestroyDelay()
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionLifetime()
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionDestroyDelay() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionLifetime() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionDestroyDelay(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionLifetime(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionDestroyDelay() {Value = value}); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionLifetime() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRequested ExplosionRequestedC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRequested>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> ExplosionRequested => ExplosionRequestedC.Value;
+
+		public bool TryGetExplosionRequested(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRequested component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionRequested()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRequested() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionRequested(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRequested() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseRequest ArcaneMineUseRequestC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseRequest>();
