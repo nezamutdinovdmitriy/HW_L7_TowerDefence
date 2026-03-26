@@ -8,7 +8,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Levels
     public class LevelConfig : ScriptableObject
     {
         [SerializeField] private List<StageConfig> _stageConfigs;
+        [SerializeField] private float _towerMaxHealth;
+        [SerializeField] private Vector3 _towerSpawnPosition;
         
         public IReadOnlyList<StageConfig> StageConfigs => _stageConfigs;
+        public float TowerMaxHealth => _towerMaxHealth;
+        public Vector3 TowerSpawnPosition => _towerSpawnPosition;
     }
 }

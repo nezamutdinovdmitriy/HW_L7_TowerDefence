@@ -1,3 +1,5 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
@@ -5,6 +7,7 @@ using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using System;
 using System.Collections;
@@ -17,8 +20,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private DIContainer _container;
         private GameplayInputArgs _inputArgs;
 
-        private WalletService _walletService;
-
         private AIBrainsContext _brainsContext;
         private EntitiesLifeContext _entitiesLifeContext;
         private GameplayStatesContext _gameplayStatesContext;
@@ -27,13 +28,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         {
             Debug.Log("Инициализация геймплейной сцены");
 
-            _walletService = _container.Resolve<WalletService>();
-
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _brainsContext = _container.Resolve<AIBrainsContext>();
             _gameplayStatesContext = _container.Resolve<GameplayStatesContext>();
 
-            _container.Resolve<MainHeroEntityFactory>().CreateTower(Vector3.zero);
+            _container.Resolve<MainHeroEntityFactory>().CreateTower(
+                _container.Resolve<ConfigsProvider>().GetConfig<BaseTowerConfig>(),
+                _container.Resolve<ConfigsProvider>().GetConfig<LevelsListConfig>().GetConfigBy(_inputArgs.LevelNumber));
 
             yield break;
         }
@@ -63,5 +64,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             _brainsContext?.Update(Time.deltaTime);
             _gameplayStatesContext?.Update(Time.deltaTime);
         }
+
+        private void FixedUpdate() => _entitiesLifeContext?.FixedUpdate(Time.fixedDeltaTime);
     }
 }

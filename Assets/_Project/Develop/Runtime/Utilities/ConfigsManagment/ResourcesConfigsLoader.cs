@@ -16,7 +16,7 @@ public class ResourcesConfigsLoader : IConfigsLoader
     {
         {typeof(StartWalletConfig), "Meta/Configs/StartWalletConfig" },
         {typeof(LevelsListConfig), "Gameplay/Configs/Levels/LevelsListConfig" },
-        {typeof(EntityConfig), "Gameplay/Configs/Entities/BaseCreepConfig" },
+        {typeof(BaseTowerConfig), "Gameplay/Configs/Entities/BaseTowerConfig" },
     };
 
     public ResourcesConfigsLoader(ResourcesAssetsLoader resources) => _resources = resources;

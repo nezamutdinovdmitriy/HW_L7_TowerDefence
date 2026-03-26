@@ -1,3 +1,5 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
@@ -15,7 +17,6 @@ using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
 {
@@ -24,7 +25,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
         private readonly DIContainer _container;
         private readonly EntitiesLifeContext _entitiesLifeContext;
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
-        private readonly CollidersRegistryService _collidersRegistryService;
         private readonly CombatEntityFactory _combatEntityFactory;
         private readonly WalletService _walletService;
 
@@ -36,23 +36,22 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
 
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
-            _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
             _combatEntityFactory = _container.Resolve<CombatEntityFactory>();
             _inputService = _container.Resolve<IGameplayInputService>();
             _walletService = _container.Resolve<WalletService>();
         }
 
-        public Entity CreateTower(Vector3 position)
+        public Entity CreateTower(BaseTowerConfig towerConfig, LevelConfig levelConfig)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Characters/Tower");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, levelConfig.TowerSpawnPosition, towerConfig.PathToPrefab);
 
             entity
                 .AddIsMainHero()
-                .AddMaxHealth(new ReactiveVariable<float>(100))
-                .AddCurrentHealth(new ReactiveVariable<float>(100))
+                .AddMaxHealth(new ReactiveVariable<float>(levelConfig.TowerMaxHealth))
+                .AddCurrentHealth(new ReactiveVariable<float>(levelConfig.TowerMaxHealth))
                 .AddRotationDirection()
-                .AddRotationSpeed(new ReactiveVariable<float>(500))
+                .AddRotationSpeed(new ReactiveVariable<float>(towerConfig.RotationSpeed))
                 .AddAimPoint()
                 .AddIsDead()
                 .AddInDeathProcess()
@@ -62,7 +61,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddAbilityCurrent(new ReactiveVariable<AbilityType>(AbilityType.Main))
                 .AddArcaneMineUseRequest()
                 .AddArcaneMineUseEvent()
-                .AddArcaneMineCost(new ReactiveVariable<int>(50))
+                .AddArcaneMineCost(new ReactiveVariable<int>(towerConfig.UtilityAbilityCost))
                 .AddFireballUseRequest()
                 .AddAbilityStorage(new Dictionary<AbilityType, ReactiveEvent> {
                     { AbilityType.Main, entity.FireballUseRequest },

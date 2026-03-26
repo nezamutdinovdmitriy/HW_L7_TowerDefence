@@ -7,7 +7,6 @@ using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using Assets._Project.Develop.Runtime.Utilities.Timer;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
@@ -78,10 +77,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
         }
 
         public PreparationState CreatePreparationState(TimerService timer)
-            => new(timer);
+            => new(
+                timer,
+                _container.Resolve<MainHeroHolderService>()
+                );
 
         public StageProcessState CreateStageProcessState()
-            => new(_container.Resolve<StageProvider>());
+            => new(
+                _container.Resolve<StageProvider>(),
+                _container.Resolve<MainHeroHolderService>()
+                );
 
         public WinState CreateWinState()
             => new(

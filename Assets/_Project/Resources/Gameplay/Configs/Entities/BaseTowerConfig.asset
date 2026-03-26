@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dd176c2e9c7f6547bc9f99562a01bf7, type: 3}
-  m_Name: StartWalletConfig
+  m_Script: {fileID: 11500000, guid: 31725d28859a03e458aa268ac90a316a, type: 3}
+  m_Name: BaseTowerConfig
   m_EditorClassIdentifier: 
-  _values:
-  - <Type>k__BackingField: 0
-    <Value>k__BackingField: 100
+  <PathToPrefab>k__BackingField: Gameplay/Entities/Characters/Tower
+  <RotationSpeed>k__BackingField: 800
+  <UtilityAbilityCost>k__BackingField: 25
