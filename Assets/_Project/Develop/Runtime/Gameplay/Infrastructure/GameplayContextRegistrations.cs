@@ -13,6 +13,7 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
+using Unity.VisualScripting.FullSerializer;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -63,7 +64,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         }
 
         private static GameplayStatesContext CreateGameplayStatesContext(DIContainer container)
-            => new(container.Resolve<GameplayStatesFactory>().CreateGameplayStateMachine(5f));
+            => new(
+                container.Resolve<GameplayStatesFactory>()
+                .CreateGameplayStateMachine(
+                    container.Resolve<ConfigsProvider>()
+                    .GetConfig<LevelsListConfig>()
+                    .GetConfigBy(_inputArgs.LevelNumber))
+                );
 
         private static GameplayStatesFactory CreateGameplayStatesFactory(DIContainer container)
             => new(container);

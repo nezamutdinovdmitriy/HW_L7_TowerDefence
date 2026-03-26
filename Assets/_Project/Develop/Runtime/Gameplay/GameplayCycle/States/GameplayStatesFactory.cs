@@ -7,6 +7,9 @@ using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using Assets._Project.Develop.Runtime.Utilities.Timer;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
@@ -16,14 +19,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 
         public GameplayStatesFactory(DIContainer container) => _container = container;
 
-        public GameplayStateMachine CreateGameplayStateMachine(float preparationDuration)
+        public GameplayStateMachine CreateGameplayStateMachine(LevelConfig config)
         {
             StageProvider stageProvider = _container.Resolve<StageProvider>();
             MainHeroHolderService mainHeroHolderService = _container.Resolve<MainHeroHolderService>();
 
-            GameplayStateMachine coreLoopState = CreateCoreLoopState(preparationDuration);
+            GameplayStateMachine coreLoopState = CreateCoreLoopState(config.PreparationDuration);
             DefeatState defeatState = CreateDefeatState();
-            WinState winState = CreateWinState();
+            WinState winState = CreateWinState(config.VictoryReward);
 
             ICompositeCondition coreLoopToWin = new CompositeCondition()
                 .Add(new FuncCondition(() => stageProvider.CurrentStageResult.Value == StageResult.Completed))
@@ -88,12 +91,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
                 _container.Resolve<MainHeroHolderService>()
                 );
 
-        public WinState CreateWinState()
+        public WinState CreateWinState(int victoryReward)
             => new(
                 _container.Resolve<PlayerDataProvider>(),
                 _container.Resolve<SceneSwitcherService>(),
                 _container.Resolve<ICoroutinesPerformer>(),
-                _container.Resolve<IGameplayInputService>()
+                _container.Resolve<IGameplayInputService>(),
+                _container.Resolve<WalletService>(),
+                victoryReward
                 );
 
         public DefeatState CreateDefeatState()
