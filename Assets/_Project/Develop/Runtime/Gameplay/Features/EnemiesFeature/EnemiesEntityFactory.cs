@@ -1,11 +1,10 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
-using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
-using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
@@ -13,6 +12,10 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
+using System;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
 {
@@ -23,6 +26,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
         private readonly CollidersRegistryService _collidersRegistryService;
         private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly BrainsFactory _brainsFactory;
         private readonly MainHeroHolderService _mainHeroHolderService;
 
         public EnemiesEntityFactory(DIContainer container)
@@ -33,28 +37,48 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
             _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
             _combatEntityFactory = _container.Resolve<CombatEntityFactory>();
+            _brainsFactory = _container.Resolve<BrainsFactory>();
             _mainHeroHolderService = _container.Resolve<MainHeroHolderService>();
         }
 
-        public Entity CreateBaseСreep(Vector3 position)
+        public Entity Create(EntityConfig config, Vector3 position)
+        {
+            Entity entity;
+
+            switch (config)
+            {
+                case BaseCreepConfig baseCreepConfig:
+                    entity = CreateBaseСreep(baseCreepConfig, position);
+                    _brainsFactory.CreateBaseEnemyBrain(entity, new MainHeroTargetSelector(_mainHeroHolderService));
+                    _entitiesLifeContext.Add(entity);
+                    break;
+
+                default:
+                    throw new ArgumentException($"Not support {config.GetType()} type config!");
+            }
+            return entity;
+        }
+
+        private Entity CreateBaseСreep(BaseCreepConfig config, Vector3 position)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Characters/Enemy");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PathToPrefab);
 
             entity
                 .AddInputMovementDirection()
                 .AddMovementDirection()
-                .AddMovementSpeed(new ReactiveVariable<float>(10))
+                .AddMovementSpeed(new ReactiveVariable<float>(config.MovementSpeed))
                 .AddIsMoving()
                 .AddRotationDirection()
-                .AddRotationSpeed(new ReactiveVariable<float>(800))
-                .AddMaxHealth(new ReactiveVariable<float>(100))
-                .AddCurrentHealth(new ReactiveVariable<float>(100))
+                .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
+                .AddMaxHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddCurrentHealth(new ReactiveVariable<float>(config.MaxHealth))
                 .AddIsDead()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddExplosionRadius(new ReactiveVariable<float>(5))
-                .AddTeam(new ReactiveVariable<TeamType>(TeamType.Enemies))
+                .AddExplosionRadius(new ReactiveVariable<float>(config.ExplosionRadius))
+                .AddTeam(new ReactiveVariable<TeamType>(config.Team))
+                .AddCurrentTarget()
                 .AddShouldForceDeath()
                 .AddExplosionRequested();
 
@@ -96,8 +120,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
-
-            _entitiesLifeContext.Add(entity);
 
             return entity;
         }

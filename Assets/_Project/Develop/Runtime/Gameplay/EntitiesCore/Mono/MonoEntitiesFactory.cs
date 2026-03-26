@@ -8,7 +8,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono
         private readonly ResourcesAssetsLoader _resources;
         private readonly MonoEntitiesLifeContext _monoEntitiesLifeContext;
 
-        private CollidersRegistryService _colllidersRegistryService;
+        private readonly CollidersRegistryService _colllidersRegistryService;
 
         public MonoEntitiesFactory(
             ResourcesAssetsLoader resources,

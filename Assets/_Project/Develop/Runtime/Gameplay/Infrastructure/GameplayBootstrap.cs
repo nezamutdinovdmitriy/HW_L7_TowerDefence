@@ -1,3 +1,8 @@
+using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
+using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
@@ -12,13 +17,23 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private DIContainer _container;
         private GameplayInputArgs _inputArgs;
 
-        [SerializeField] private TestGameplay _testGameplay;
+        private WalletService _walletService;
+
+        private AIBrainsContext _brainsContext;
+        private EntitiesLifeContext _entitiesLifeContext;
+        private GameplayStatesContext _gameplayStatesContext;
 
         public override IEnumerator Initialize()
         {
             Debug.Log("Инициализация геймплейной сцены");
 
-            _testGameplay.Initialize(_container);
+            _walletService = _container.Resolve<WalletService>();
+
+            _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
+            _brainsContext = _container.Resolve<AIBrainsContext>();
+            _gameplayStatesContext = _container.Resolve<GameplayStatesContext>();
+
+            _container.Resolve<MainHeroEntityFactory>().CreateTower(Vector3.zero);
 
             yield break;
         }
@@ -39,7 +54,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         {
             Debug.Log("Старт геймплейной сцены");
 
-            _testGameplay.Run();
+            _gameplayStatesContext.Run();
+        }
+
+        private void Update()
+        {
+            _entitiesLifeContext?.Update(Time.deltaTime);
+            _brainsContext?.Update(Time.deltaTime);
+            _gameplayStatesContext?.Update(Time.deltaTime);
         }
     }
 }

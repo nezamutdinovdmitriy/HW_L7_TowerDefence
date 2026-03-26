@@ -14,7 +14,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.Timer
         
         private readonly float _cooldown;
 
-        private ReactiveVariable<float> _currentTime;
+        private readonly ReactiveVariable<float> _currentTime;
         private Coroutine _cooldownProcess;
 
         public TimerService(

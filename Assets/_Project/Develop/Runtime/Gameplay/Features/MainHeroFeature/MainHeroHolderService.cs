@@ -9,8 +9,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
     {
         private readonly EntitiesLifeContext _entitiesLifeContext;
 
-        private ReactiveEvent<Entity> _heroRegistered = new();
-        private ReactiveEvent<Entity> _heroRemoved = new();
+        private readonly ReactiveEvent<Entity> _heroRegistered = new();
+        private readonly ReactiveEvent<Entity> _heroRemoved = new();
         private Entity _mainHero;
 
         public MainHeroHolderService(EntitiesLifeContext entitiesLifeContext)

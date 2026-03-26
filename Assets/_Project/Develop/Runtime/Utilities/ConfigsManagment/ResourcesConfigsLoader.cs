@@ -1,3 +1,5 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Meta.Configs.Wallet;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
@@ -12,7 +14,9 @@ public class ResourcesConfigsLoader : IConfigsLoader
 
     private readonly Dictionary<Type, string> _configsResoucesPaths = new()
     {
-        {typeof(StartWalletConfig), "Meta/Configs/StartWalletConfig" }
+        {typeof(StartWalletConfig), "Meta/Configs/StartWalletConfig" },
+        {typeof(LevelsListConfig), "Gameplay/Configs/Levels/LevelsListConfig" },
+        {typeof(EntityConfig), "Gameplay/Configs/Entities/BaseCreepConfig" },
     };
 
     public ResourcesConfigsLoader(ResourcesAssetsLoader resources) => _resources = resources;
