@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
 {
-    public class AbilityUseSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class AbilityUseSystem : IInitializableSystem, IUpdatableSystem
     {
         private readonly IGameplayInputService _gameplayInputService;
 

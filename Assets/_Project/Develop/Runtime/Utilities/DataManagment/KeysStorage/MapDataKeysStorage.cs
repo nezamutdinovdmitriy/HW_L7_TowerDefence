@@ -5,7 +5,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.DataManagment.KeysStorage
 {
     public sealed class MapDataKeysStorage : IDataKeysStorage
     {
-        private readonly Dictionary<Type, string> Keys = new Dictionary<Type, string>()
+        private readonly Dictionary<Type, string> Keys = new()
         {
             {typeof(PlayerData), "PlayerData" },
         };

@@ -33,13 +33,6 @@ namespace Assets._Project.Develop.Runtime.UI.Core
             }
         }
 
-        public static Sequence CreateHideAnimation(
-            CanvasGroup body,
-            Image anticlicker,
-            PopupAnimationType animationType,
-            float anticlickerMaxAlpha)
-        {
-            return DOTween.Sequence();
-        }
+        public static Sequence CreateHideAnimation() => DOTween.Sequence();
     }
 }

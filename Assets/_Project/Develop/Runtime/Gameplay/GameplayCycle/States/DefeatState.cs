@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
-    public class DefeatState : EndGameState, IUpdatableState
+    public sealed class DefeatState : EndGameState, IUpdatableState
     {
         private readonly PlayerDataProvider _playerDataProvider;
         private readonly SceneSwitcherService _sceneSwitcherService;

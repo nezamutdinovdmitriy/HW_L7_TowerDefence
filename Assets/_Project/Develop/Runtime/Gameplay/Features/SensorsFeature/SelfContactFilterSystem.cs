@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 {
-    public class SelfContactFilterSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class SelfContactFilterSystem : IInitializableSystem, IUpdatableSystem
     {
         private Buffer<Collider> _contactsColliders;
         private Collider _selfColldier;

@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace Assets._Project.Develop.Runtime.Utilities.SceneManagment
 {
-    public class SceneSwitcherService
+    public sealed class SceneSwitcherService
     {
         private readonly SceneLoaderService _sceneLoaderService;
         private readonly ILoadingScreen _loadingScreen;

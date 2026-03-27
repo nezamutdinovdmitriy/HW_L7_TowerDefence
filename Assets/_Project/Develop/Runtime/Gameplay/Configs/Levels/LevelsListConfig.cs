@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Levels
 {
     [CreateAssetMenu(menuName = "Configs/Gameplay/Levels/NewLevelsListConfig", fileName = "LevelsListConfig")]
-    public class LevelsListConfig : ScriptableObject
+    public sealed class LevelsListConfig : ScriptableObject
     {
         [SerializeField] private List<LevelConfig> _levels;
 

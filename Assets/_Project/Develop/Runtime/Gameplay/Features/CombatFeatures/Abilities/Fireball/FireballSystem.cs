@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball
 {
-    public class FireballSystem : IInitializableSystem, IDisposableSystem
+    public sealed class FireballSystem : IInitializableSystem, IDisposableSystem
     {
         private readonly CombatEntityFactory _combatEntityFactory;
 

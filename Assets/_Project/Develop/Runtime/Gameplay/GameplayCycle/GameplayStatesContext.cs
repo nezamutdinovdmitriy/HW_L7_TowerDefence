@@ -2,7 +2,7 @@ using System;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle
 {
-    public class GameplayStatesContext : IDisposable
+    public sealed class GameplayStatesContext : IDisposable
     {
         private readonly GameplayStateMachine _gameplayStateMachine;
         private bool _isRunning;

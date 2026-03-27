@@ -11,7 +11,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.Reactive
 
         private T _value;
 
-        private IEqualityComparer<T> _comparer;
+        private readonly IEqualityComparer<T> _comparer;
 
         public ReactiveVariable(
             T variable,

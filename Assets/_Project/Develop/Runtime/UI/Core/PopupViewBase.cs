@@ -52,7 +52,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core
             OnPreHide();
 
             Sequence animation = PopupAnimationsCreator
-                .CreateHideAnimation(_body, _anticlicker, _animationType, _anticlickerDefaultAlpha);
+                .CreateHideAnimation();
 
             ModifyHideAnimation(animation);
 

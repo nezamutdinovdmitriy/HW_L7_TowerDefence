@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Levels
 {
     [CreateAssetMenu(menuName = "Configs/Gameplay/Levels/NewLevelConfig", fileName = "LevelConfig")]
-    public class LevelConfig : ScriptableObject
+    public sealed class LevelConfig : ScriptableObject
     {
         [SerializeField] private List<StageConfig> _stageConfigs;
         [SerializeField] private float _towerMaxHealth;

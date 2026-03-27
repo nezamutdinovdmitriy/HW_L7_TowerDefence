@@ -4,7 +4,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
-public class PlayerInputMovementSystem : IInitializableSystem, IUpdatableSystem
+public sealed class PlayerInputMovementSystem : IInitializableSystem, IUpdatableSystem
 {
     private ReactiveVariable<Vector3> _inputMovementDirection;
     private IGameplayInputService _input;

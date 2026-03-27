@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class ClearEnemyWaveStage : IStage
+public sealed class ClearEnemyWaveStage : IStage
 {
     private readonly ReactiveEvent _completed = new();
     private readonly ClearEnemyWaveStageConfig _stageConfig;

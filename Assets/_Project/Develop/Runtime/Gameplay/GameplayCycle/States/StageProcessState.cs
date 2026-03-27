@@ -1,13 +1,11 @@
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.Utilities.StateMachineCore;
-using UnityEngine;
-using System;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
-    public class StageProcessState : State, IUpdatableState
+    public sealed class StageProcessState : State, IUpdatableState
     {
         private readonly StageProvider _stageProvider;
         private readonly MainHeroHolderService _mainHeroHolderService;
@@ -28,7 +26,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
             _mainHeroHolderService.MainHero.AbilityCurrent.Value = AbilityType.Main;
         }
 
-        public void Update(float deltaTime) 
+        public void Update(float deltaTime)
             => _stageProvider.UpdateCurrent(deltaTime);
 
         public override void Exit()

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion
 {
-    public class ExplosionSpawnSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class ExplosionSpawnSystem : IInitializableSystem, IUpdatableSystem
     {
         private readonly CombatEntityFactory _combatEntityFactory;
         private readonly float _radius;

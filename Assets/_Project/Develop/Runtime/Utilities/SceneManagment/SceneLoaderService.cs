@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace Assets._Project.Develop.Runtime.Utilities.SceneManagment
 {
-    public class SceneLoaderService
+    public sealed class SceneLoaderService
     {
         public IEnumerator LoadAsync(string sceneName, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {

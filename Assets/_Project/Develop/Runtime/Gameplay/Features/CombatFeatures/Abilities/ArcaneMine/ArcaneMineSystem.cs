@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine
 {
-    public class ArcaneMineSystem : IInitializableSystem, IDisposableSystem
+    public sealed class ArcaneMineSystem : IInitializableSystem, IDisposableSystem
     {
         private readonly CombatEntityFactory _combatEntityFactory;
 

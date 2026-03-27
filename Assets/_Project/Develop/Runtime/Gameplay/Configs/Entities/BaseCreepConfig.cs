@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Entities
 {
     [CreateAssetMenu(menuName = "Configs/Gameplay/Entities/NewBaseCreepConfig", fileName = "BaseCreepConfig")]
-    public class BaseCreepConfig : EntityConfig
+    public sealed class BaseCreepConfig : EntityConfig
     {
         [field: SerializeField] public string PathToPrefab { get; private set; }
         [field: SerializeField] public float MovementSpeed { get; private set; }

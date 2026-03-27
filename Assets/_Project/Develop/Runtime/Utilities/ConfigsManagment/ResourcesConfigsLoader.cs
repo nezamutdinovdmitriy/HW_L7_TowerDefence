@@ -8,13 +8,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourcesConfigsLoader : IConfigsLoader
+public sealed class ResourcesConfigsLoader : IConfigsLoader
 {
     private readonly ResourcesAssetsLoader _resources;
 
     private readonly Dictionary<Type, string> _configsResoucesPaths = new()
     {
         {typeof(StartWalletConfig), "Meta/Configs/StartWalletConfig" },
+        {typeof(CurrencyIconsConfig), "Meta/Configs/CurrencyIconsConfig" },
         {typeof(LevelsListConfig), "Gameplay/Configs/Levels/LevelsListConfig" },
         {typeof(BaseTowerConfig), "Gameplay/Configs/Entities/BaseTowerConfig" },
     };
@@ -25,7 +26,7 @@ public class ResourcesConfigsLoader : IConfigsLoader
     {
         Dictionary<Type, object> loadedConfigs = new();
 
-        foreach(KeyValuePair<Type, string> configResourcesPath in _configsResoucesPaths)
+        foreach (KeyValuePair<Type, string> configResourcesPath in _configsResoucesPaths)
         {
             ScriptableObject config = _resources.Load<ScriptableObject>(configResourcesPath.Value);
             loadedConfigs.Add(configResourcesPath.Key, config);

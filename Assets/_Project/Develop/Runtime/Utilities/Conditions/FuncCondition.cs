@@ -4,7 +4,7 @@ namespace Assets._Project.Develop.Runtime.Utilities.Conditions
 {
     public class FuncCondition : ICondition
     {
-        private Func<bool> _condition;
+        private readonly Func<bool> _condition;
 
         public FuncCondition(Func<bool> condition) => _condition = condition;
 

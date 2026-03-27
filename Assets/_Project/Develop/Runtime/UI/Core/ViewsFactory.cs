@@ -10,7 +10,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core
     {
         private readonly ResourcesAssetsLoader _resourcesAssetsLoader;
 
-        private readonly Dictionary<string, string> _viewIDToResourcesPath = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> _viewIDToResourcesPath = new()
         {
             {ViewIDs.CurrencyView, "UI/Wallet/CurrencyView" },
             {ViewIDs.MainMenuScreen, "UI/MainMenu/MainMenuScreenView" },

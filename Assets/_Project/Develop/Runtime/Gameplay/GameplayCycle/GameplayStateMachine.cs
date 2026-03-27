@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle
 {
-    public class GameplayStateMachine : StateMachine<IUpdatableState>
+    public sealed class GameplayStateMachine : StateMachine<IUpdatableState>
     {
         public GameplayStateMachine(List<IDisposable> disposables) : base(disposables) { }
         public GameplayStateMachine() : base(new List<IDisposable>()) { }

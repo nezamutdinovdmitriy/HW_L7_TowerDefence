@@ -13,7 +13,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
-    public class GameplayStatesFactory
+    public sealed class GameplayStatesFactory
     {
         private readonly DIContainer _container;
 

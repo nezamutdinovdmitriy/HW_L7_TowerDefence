@@ -3,11 +3,10 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 {
-    public class AnotherTeamTouchDetectorSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class AnotherTeamTouchDetectorSystem : IInitializableSystem, IUpdatableSystem
     {
         private Buffer<Entity> _contactsEntities;
         private ReactiveVariable<bool> _isTouchAnotherTeam;
@@ -26,9 +25,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
             {
                 Entity contactEntity = _contactsEntities.Items[i];
 
-                if(contactEntity.TryGetTeam(out ReactiveVariable<TeamType> anotherTeam))
+                if (contactEntity.TryGetTeam(out ReactiveVariable<TeamType> anotherTeam))
                 {
-                    if(anotherTeam.Value != _sourceTeam.Value)
+                    if (anotherTeam.Value != _sourceTeam.Value)
                     {
                         _isTouchAnotherTeam.Value = true;
                         return;

@@ -2,12 +2,11 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using System;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 {
-    public class DeathMaskTouchDetectorSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class DeathMaskTouchDetectorSystem : IInitializableSystem, IUpdatableSystem
     {
         private Buffer<Collider> _contactsColliders;
         private ReactiveVariable<bool> _isTouchDeathMask;

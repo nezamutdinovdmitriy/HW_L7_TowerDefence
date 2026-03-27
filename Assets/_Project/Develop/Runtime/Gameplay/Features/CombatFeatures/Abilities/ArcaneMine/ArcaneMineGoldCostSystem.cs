@@ -6,7 +6,7 @@ using System;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine
 {
-    public class ArcaneMineGoldCostSystem : IInitializableSystem, IDisposableSystem
+    public sealed class ArcaneMineGoldCostSystem : IInitializableSystem, IDisposableSystem
     {
         private readonly WalletService _walletService;
 

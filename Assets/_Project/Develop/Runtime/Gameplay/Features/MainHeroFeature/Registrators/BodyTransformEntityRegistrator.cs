@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature.Registrators
 {
-    public class BodyTransformEntityRegistrator : MonoEntityRegistrator
+    public sealed class BodyTransformEntityRegistrator : MonoEntityRegistrator
     {
         [SerializeField] private Transform _bodyTransform;
         public override void Register(Entity entity)

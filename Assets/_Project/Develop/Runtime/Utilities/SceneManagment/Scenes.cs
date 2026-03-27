@@ -1,6 +1,6 @@
 namespace Assets._Project.Develop.Runtime.Utilities.SceneManagment
 {
-    public class Scenes
+    public sealed class Scenes
     {
         public const string GameEntryPoint = "GameEntryPoint";
         public const string Empty = "Empty";

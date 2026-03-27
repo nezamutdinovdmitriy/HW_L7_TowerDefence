@@ -5,7 +5,7 @@ using Assets._Project.Develop.Runtime.Utilities.Timer;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
-    public class PreparationState : State, IUpdatableState
+    public sealed class PreparationState : State, IUpdatableState
     {
         private readonly TimerService _timer;
         private readonly MainHeroHolderService _mainHeroHolderService;

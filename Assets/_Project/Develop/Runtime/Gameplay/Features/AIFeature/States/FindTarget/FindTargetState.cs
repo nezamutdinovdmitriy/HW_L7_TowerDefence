@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget
 {
-    public class FindTargetState : State, IUpdatableState
+    public sealed class FindTargetState : State, IUpdatableState
     {
         private readonly ITargetSelector _targetSelector;
         private readonly EntitiesLifeContext _entitiesLifeContext;

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.WalletFeature
 {
-    public class WalletService : IDataReader<PlayerData>, IDataWriter<PlayerData>
+    public sealed class WalletService : IDataReader<PlayerData>, IDataWriter<PlayerData>
     {
         private readonly Dictionary<CurrencyType, ReactiveVariable<int>> _currencies;
 

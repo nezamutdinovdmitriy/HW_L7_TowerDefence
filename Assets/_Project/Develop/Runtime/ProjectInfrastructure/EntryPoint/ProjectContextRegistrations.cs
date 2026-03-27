@@ -1,5 +1,7 @@
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
+using Assets._Project.Develop.Runtime.UI;
+using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
@@ -44,7 +46,15 @@ namespace Assets._Project.Develop.Runtime.ProjectInfrastructure.EntryPoint
         private static void RegisterFactories(DIContainer container)
         {
             container.RegisterAsSingle(CreateTimerServiceFactory);
+            container.RegisterAsSingle(CreateProjectPresentersFactory);
+            container.RegisterAsSingle(CreateViewsFactory);
         }
+
+        private static ViewsFactory CreateViewsFactory(DIContainer container)
+            => new(container.Resolve<ResourcesAssetsLoader>());
+
+        private static ProjectPresentersFactory CreateProjectPresentersFactory(DIContainer container)
+            => new(container);
 
         private static WalletService CreateWalletService(DIContainer container)
         {
@@ -54,7 +64,7 @@ namespace Assets._Project.Develop.Runtime.ProjectInfrastructure.EntryPoint
 
             foreach (CurrencyType currencyType in Enum.GetValues(typeof(CurrencyType)))
                 currencies[currencyType] = new ReactiveVariable<int>();
-            
+
             return new WalletService(currencies, playerDataProvider);
         }
 

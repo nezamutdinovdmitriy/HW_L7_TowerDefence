@@ -3,11 +3,10 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage
 {
-    public class TakeDamageSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class TakeDamageSystem : IInitializableSystem, IUpdatableSystem
     {
         private Entity _entity;
         private Buffer<Entity> _contactsEntities;

@@ -4,7 +4,7 @@ using Assets._Project.Develop.Runtime.Utilities.Reactive;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion
 {
-    public class ExplosionLifetimeSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class ExplosionLifetimeSystem : IInitializableSystem, IUpdatableSystem
     {
         private ReactiveVariable<bool> _shouldForceDeath;
         private ReactiveVariable<float> _explosionLifetime;

@@ -6,7 +6,7 @@ using System;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature
 {
-    public class StagesFactory
+    public sealed class StagesFactory
     {
         private readonly DIContainer _container;
 
@@ -18,10 +18,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature
             {
                 case ClearEnemyWaveStageConfig clearEnemyWaveStageConfig:
                     return new ClearEnemyWaveStage(
-                        clearEnemyWaveStageConfig, 
+                        clearEnemyWaveStageConfig,
                         _container.Resolve<EnemiesEntityFactory>(),
                         _container.Resolve<EntitiesLifeContext>());
-                
+
                 default:
                     throw new ArgumentException($"Not support {config.GetType()} type config!");
             }

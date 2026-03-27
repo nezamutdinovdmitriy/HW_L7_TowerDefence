@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Assets._Project.Develop.Runtime.Meta.Configs.Wallet
 {
     [CreateAssetMenu(menuName = "Configs/Meta/Wallet/NewStartWalletConfig", fileName = "StartWalletConfig")]
-    public class StartWalletConfig : ScriptableObject
+    public sealed class StartWalletConfig : ScriptableObject
     {
         [SerializeField] private List<CurrencyConfig> _values;
 
@@ -17,7 +17,7 @@ namespace Assets._Project.Develop.Runtime.Meta.Configs.Wallet
         private class CurrencyConfig
         {
             [field: SerializeField] public CurrencyType Type { get; private set; }
-            [field: SerializeField] public int Value { get; private set; } 
+            [field: SerializeField] public int Value { get; private set; }
         }
     }
 }

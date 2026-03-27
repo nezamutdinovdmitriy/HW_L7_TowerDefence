@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 {
-    public class BodyContactsEntitiesFilterSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class BodyContactsEntitiesFilterSystem : IInitializableSystem, IUpdatableSystem
     {
         private readonly CollidersRegistryService _collidersRegistryService;
 
@@ -30,7 +30,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
                 Collider collider = _contactsColliders.Items[i];
                 Entity contactEntity = _collidersRegistryService.GetBy(collider);
 
-                if(contactEntity != null)
+                if (contactEntity != null)
                 {
                     _contactsEntities.Items[_contactsEntities.Count] = contactEntity;
                     _contactsEntities.Count++;

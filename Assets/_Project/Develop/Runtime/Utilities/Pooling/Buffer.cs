@@ -1,6 +1,6 @@
 namespace Assets._Project.Develop.Runtime.Utilities.Pooling
 {
-    public class Buffer<T>
+    public sealed class Buffer<T>
     {
         public T[] Items;
         public int Count;

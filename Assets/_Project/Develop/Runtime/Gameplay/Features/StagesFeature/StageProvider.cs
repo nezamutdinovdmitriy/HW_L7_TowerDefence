@@ -4,7 +4,7 @@ using System;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature
 {
-    public class StageProvider : IDisposable
+    public sealed class StageProvider : IDisposable
     {
         private readonly ReactiveVariable<int> _currentStageNumber = new();
         private readonly ReactiveVariable<StageResult> _currentStageResult = new();
@@ -50,9 +50,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature
         }
 
         public void UpdateCurrent(float deltaTime) => _currentStage.Update(deltaTime);
-        
+
         public void CleanupCurrent() => _currentStage.Cleanup();
-        
+
         public void Dispose()
         {
             _stageEndedDisposable?.Dispose();

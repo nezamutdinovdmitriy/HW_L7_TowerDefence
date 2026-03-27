@@ -3,7 +3,7 @@ using Assets._Project.Develop.Runtime.Utilities.StateMachineCore;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Combat
 {
-    public class ExplosionState : State, IUpdatableState
+    public sealed class ExplosionState : State, IUpdatableState
     {
         private readonly Entity _entity;
 

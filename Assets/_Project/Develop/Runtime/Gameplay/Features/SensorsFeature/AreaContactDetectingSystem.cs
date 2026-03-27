@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
 {
-    public class AreaContactDetectingSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class AreaContactDetectingSystem : IInitializableSystem, IUpdatableSystem
     {
         private ReactiveVariable<float> _radius;
         private Buffer<Collider> _contactsColliders;
