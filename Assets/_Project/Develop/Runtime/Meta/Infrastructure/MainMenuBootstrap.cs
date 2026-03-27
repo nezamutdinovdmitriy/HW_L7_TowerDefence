@@ -1,10 +1,6 @@
 using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
-using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
-using Assets._Project.Develop.Runtime.UI;
-using Assets._Project.Develop.Runtime.UI.CommonViews;
-using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
@@ -20,14 +16,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
         private PlayerDataProvider _playerDataProvider;
         private ICoroutinesPerformer _coroutinesPerformer;
 
-        private ViewsFactory _viewsFactory;
-        [SerializeField] private Transform _viewsParent;
-
-        private IconTextView _view;
-        private ProjectPresentersFactory _projectPresentersFactory;
-        private CurrencyPresenter _currencyPresenter;
-        private WalletService _walletService;
-
         public override void ProcessRegistrations(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
@@ -42,10 +30,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
             _playerDataProvider = _container.Resolve<PlayerDataProvider>();
             _coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
 
-            _projectPresentersFactory = _container.Resolve<ProjectPresentersFactory>();
-            _viewsFactory = _container.Resolve<ViewsFactory>();
-            _walletService = _container.Resolve<WalletService>();
-
             yield break;
         }
 
@@ -56,33 +40,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                _currencyPresenter?.Dispose();
-
-                if (_view != null)
-                    _viewsFactory.Release(_view);
-
-                _view = _viewsFactory.Create<IconTextView>(ViewIDs.CurrencyView, _viewsParent);
-
-                _currencyPresenter = _projectPresentersFactory.CreateCurrencyPresenter(
-                    _view,
-                    _walletService.GetCurrency(CurrencyType.Gold),
-                    CurrencyType.Gold);
-
-                _currencyPresenter.Initialize();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                _walletService.Add(CurrencyType.Gold, 50);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                _walletService.Spend(CurrencyType.Gold, 50);
-            }
-
-
             if (Input.GetKeyDown(KeyCode.F))
             {
                 SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();

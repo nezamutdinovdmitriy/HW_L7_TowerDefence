@@ -28,6 +28,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.WalletFeature
             _view = view;
         }
 
+        public IconTextView View => _view;
+
         public void Initialize()
         {
             UpdateValue(_currency.Value);
