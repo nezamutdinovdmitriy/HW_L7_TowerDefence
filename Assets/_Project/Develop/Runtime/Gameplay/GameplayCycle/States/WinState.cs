@@ -40,12 +40,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
             _walletService.Add(CurrencyType.Gold, _victoryReward);
 
             _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
+
+            _coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
         }
 
         public void Update(float deltaTime)
         {
-            if (Input.GetKeyDown(KeyCode.Q))
-                _coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
         }
     }
 }
