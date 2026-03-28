@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stageConfigs:
   - {fileID: 11400000, guid: 62cb62078eb5cd04788db6edcab15ad0, type: 2}
+  - {fileID: 11400000, guid: 62cb62078eb5cd04788db6edcab15ad0, type: 2}
+  - {fileID: 11400000, guid: 62cb62078eb5cd04788db6edcab15ad0, type: 2}
   _towerMaxHealth: 100
   _towerSpawnPosition: {x: 0, y: 0, z: 0}
   _victoryReward: 250

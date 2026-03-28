@@ -72,9 +72,7 @@ public sealed class ClearEnemyWaveStage : IStage
     public void Dispose()
     {
         foreach (KeyValuePair<Entity, IDisposable> item in _spawnedEntitiesToRemoveReason)
-        {
             item.Value.Dispose();
-        }
 
         _spawnedEntitiesToRemoveReason.Clear();
 
