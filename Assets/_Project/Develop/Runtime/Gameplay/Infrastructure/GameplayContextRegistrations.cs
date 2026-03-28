@@ -9,11 +9,15 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle;
 using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
+using Assets._Project.Develop.Runtime.UI;
+using Assets._Project.Develop.Runtime.UI.CommonViews;
+using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
-using Unity.VisualScripting.FullSerializer;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 {
@@ -27,6 +31,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 
             RegisterContexts(container);
             RegisterServices(container);
+            RegisterPresenters(container);
             RegisterFactories(container);
         }
 
@@ -45,6 +50,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateScreenToWorldPositionConverter);
             container.RegisterAsSingle(CreateStageProvider);
 
+            container.RegisterAsSingle(CreateGameplayUIRoot);
+
             container.RegisterAsSingle(CreateMainHeroHolderService).NonLazy();
         }
 
@@ -61,6 +68,31 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateGameplayStatesFactory);
 
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
+        }
+
+        private static void RegisterPresenters(DIContainer container)
+        {
+            container.RegisterAsSingle(CreateWalletPresenter).NonLazy();
+        }
+
+        private static UIRoot CreateGameplayUIRoot(DIContainer container)
+        {
+            ResourcesAssetsLoader resourcesAssetsLoader = container.Resolve<ResourcesAssetsLoader>();
+
+            UIRoot prefab = resourcesAssetsLoader.Load<UIRoot>("UI/UIRoot");
+
+            return Object.Instantiate(prefab);
+        }
+
+        private static WalletPresenter CreateWalletPresenter(DIContainer container)
+        {
+            UIRoot root = container.Resolve<UIRoot>();
+
+            IconTextListView view = container.Resolve<ViewsFactory>().Create<IconTextListView>(ViewIDs.WalletView, root.HUDLayer);
+
+            WalletPresenter presenter = container.Resolve<ProjectPresentersFactory>().CreateWalletPresenter(view);
+
+            return presenter;
         }
 
         private static GameplayStatesContext CreateGameplayStatesContext(DIContainer container)

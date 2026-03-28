@@ -30,7 +30,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 
             ICompositeCondition coreLoopToWin = new CompositeCondition()
                 .Add(new FuncCondition(() => stageProvider.CurrentStageResult.Value == StageResult.Completed))
-                .Add(new FuncCondition(() => stageProvider.HasNextStage() == false));
+                .Add(new FuncCondition(() => stageProvider.HasNextStage() == false))
+                .Add(new FuncCondition(() => mainHeroHolderService.MainHero.IsDead.Value == false));
 
             ICompositeCondition coreLoopToDefeat = new CompositeCondition()
                 .Add(new FuncCondition(() =>
