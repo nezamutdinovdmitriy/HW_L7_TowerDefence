@@ -5,25 +5,29 @@ using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
 {
-    public class MainMenuScreenPresenter : IPresenter
+    public sealed class MainMenuScreenPresenter : IPresenter
     {
         private readonly MainMenuScreenView _screenView;
 
         private readonly ProjectPresentersFactory _projectPresentersFactory;
+        private readonly MainMenuPresentersFactory _mainMenuPresentersFactory;
 
         private readonly List<IPresenter> _childPresenters = new();
 
         public MainMenuScreenPresenter(
-            MainMenuScreenView screenView, 
-            ProjectPresentersFactory projectPresentersFactory)
+            MainMenuScreenView screenView,
+            ProjectPresentersFactory projectPresentersFactory,
+            MainMenuPresentersFactory menuPresentersFactory)
         {
             _screenView = screenView;
             _projectPresentersFactory = projectPresentersFactory;
+            _mainMenuPresentersFactory = menuPresentersFactory;
         }
 
         public void Initialize()
         {
             CreateWalletPresenter();
+            CreateStartGameButtonPresenter();
 
             foreach (IPresenter presenter in _childPresenters)
                 presenter.Initialize();
@@ -39,7 +43,16 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
         {
             WalletPresenter walletPresenter = _projectPresentersFactory.CreateWalletPresenter(_screenView.WalletView);
 
-            _childPresenters.Add(walletPresenter);
+            AddChildPresenter(walletPresenter);
         }
+
+        private void CreateStartGameButtonPresenter()
+        {
+            StartGameButtonPresenter startGameButtonPresenter = _mainMenuPresentersFactory.CreateStartGameButtonPresenter(_screenView.StartGameButton);
+
+            AddChildPresenter(startGameButtonPresenter);
+        }
+
+        private void AddChildPresenter(IPresenter presenter) => _childPresenters.Add(presenter);
     }
 }

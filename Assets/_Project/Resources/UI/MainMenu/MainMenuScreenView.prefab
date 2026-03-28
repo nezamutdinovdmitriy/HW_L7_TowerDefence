@@ -382,6 +382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <WalletView>k__BackingField: {fileID: 9197287424208444470}
+  <StartGameButton>k__BackingField: {fileID: 667494617977236266}
 --- !u!1001 &7275425419519659042
 PrefabInstance:
   m_ObjectHideFlags: 0

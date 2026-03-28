@@ -1,9 +1,14 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.UI;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
+using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
+using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
+using UnityEngine.UI;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
 {
-    public class MainMenuPresentersFactory
+    public sealed class MainMenuPresentersFactory
     {
         private readonly DIContainer _container;
 
@@ -15,6 +20,14 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
         public MainMenuScreenPresenter CreateMainMenuScreenPresenter(MainMenuScreenView view)
             => new(
                 view,
-                _container.Resolve<ProjectPresentersFactory>());
+                _container.Resolve<ProjectPresentersFactory>(),
+                this);
+
+        public StartGameButtonPresenter CreateStartGameButtonPresenter(Button view)
+            => new(
+                view,
+                _container.Resolve<SceneSwitcherService>(),
+                _container.Resolve<ICoroutinesPerformer>(),
+                _container.Resolve<ConfigsProvider>().GetConfig<LevelsListConfig>());
     }
 }
