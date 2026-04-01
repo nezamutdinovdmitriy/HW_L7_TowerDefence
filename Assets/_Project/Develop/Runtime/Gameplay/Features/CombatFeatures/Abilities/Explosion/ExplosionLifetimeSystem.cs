@@ -7,20 +7,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     public sealed class ExplosionLifetimeSystem : IInitializableSystem, IUpdatableSystem
     {
         private ReactiveVariable<bool> _shouldForceDeath;
-        private ReactiveVariable<float> _explosionLifetime;
 
         public void OnInitialize(Entity entity)
         {
             _shouldForceDeath = entity.ShouldForceDeath;
-            _explosionLifetime = entity.ExplosionLifetime;
+
+            _shouldForceDeath.Value = true;
         }
 
         public void OnUpdate(float deltaTime)
         {
-            _explosionLifetime.Value -= deltaTime;
-
-            if (_explosionLifetime.Value <= 0)
-                _shouldForceDeath.Value = true;
         }
     }
 }

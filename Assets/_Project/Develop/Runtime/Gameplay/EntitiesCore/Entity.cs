@@ -1,6 +1,4 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
-using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 using System.Collections.Generic;
 
@@ -8,6 +6,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 {
     public sealed partial class Entity : IDisposable
     {
+        public event Action<Entity> Initialized;
+
         private readonly Dictionary<Type, IEntityComponent> _components = new();
         private readonly List<IEntitySystem> _systems = new();
 
@@ -26,6 +26,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
                 initializable.OnInitialize(this);
 
             _isInit = true;
+
+            Initialized?.Invoke(this);
         }
 
         public void OnUpdate(float deltaTime)

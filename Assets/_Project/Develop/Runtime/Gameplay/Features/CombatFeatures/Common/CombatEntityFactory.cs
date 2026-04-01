@@ -150,10 +150,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public Entity CreateExplosion(Vector3 position, float radius, Entity owner)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/ExplosionEffect");
-
-            ParticleSystem.ShapeModule particleShape = monoEntity.gameObject.GetComponent<ParticleSystem>().shape;
-            particleShape.radius = radius;
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/Explosion");
 
             entity
                 .AddIsDead()
@@ -165,6 +162,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
                 .AddDeathMask(UnityLayersAPI.LayerMaskCharacters)
                 .AddAreaContactDetectingRadius(new ReactiveVariable<float>(radius))
+                .AddExplosionRadius(new ReactiveVariable<float>(radius))
                 .AddExplosionLifetime(new ReactiveVariable<float>(0.5f))
                 .AddContactDamage(new ReactiveVariable<float>(50))
                 .AddShouldForceDeath();
@@ -172,16 +170,22 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             ICompositeCondition canStartDetecting = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.ExplosionLifetime.Value > 0));
 
+            ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
+                .Add(new FuncCondition(() => entity.ExplosionLifetime.Value <= 0))
+                .Add(new FuncCondition(() => entity.ShouldForceDeath.Value));
+
             ICompositeCondition mustSelfRelease = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.ExplosionLifetime.Value <= 0));
+                .Add(new FuncCondition(() => entity.IsDead.Value));
 
             entity
                 .AddCanStartDetecting(canStartDetecting)
+                .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease);
 
             entity
                 .AddSystem(new AreaContactDetectingSystem())
                 .AddSystem(new ExplosionLifetimeSystem())
+                .AddSystem(new DeathSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new TakeDamageSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
