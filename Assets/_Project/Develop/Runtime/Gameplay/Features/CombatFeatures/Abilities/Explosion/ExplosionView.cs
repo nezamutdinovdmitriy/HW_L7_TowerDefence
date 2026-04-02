@@ -22,6 +22,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _explosionRadius = entity.ExplosionRadius;
 
             _disposable = _isDead.Subscribe(OnIsDeadChanged);
+
+            SpawnParticle(_isDead.Value);
         }
 
         public override void Cleanup(Entity entity)
@@ -48,7 +50,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         private void SetParticleRadiusFor(ParticleSystem particleSystem, float radius)
         {
-            ParticleSystem[] childrenSystems = _explosionVfxPrefab.GetComponentsInChildren<ParticleSystem>();
+            ParticleSystem[] childrenSystems = particleSystem.GetComponentsInChildren<ParticleSystem>();
             foreach (ParticleSystem child in childrenSystems)
             {
                 ParticleSystem.ShapeModule shape = child.shape;
