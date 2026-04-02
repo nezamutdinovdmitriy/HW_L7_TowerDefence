@@ -114,7 +114,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new MovementDirectionResolveSystem())
                 .AddSystem(new TransformMovementAppliedSystem())
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
-                .AddSystem(new TransformRotationAppliedSystem())
+                .AddSystem(new TransformRotationAppliedSystem(10f))
                 .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, entity.ExplosionRadius.Value))
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())

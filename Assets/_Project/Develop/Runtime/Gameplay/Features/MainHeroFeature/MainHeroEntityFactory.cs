@@ -99,7 +99,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new MouseRotationDirectionUpdateSystem(
                     _container.Resolve<ScreenToWorldPositionConverter>(),
                     _inputService))
-                .AddSystem(new TransformRotationAppliedSystem())
+                .AddSystem(new TransformRotationAppliedSystem(10f))
                 .AddSystem(new AbilityUseSystem(_inputService))
                 .AddSystem(new ArcaneMineSystem(_combatEntityFactory))
                 .AddSystem(new ArcaneMineGoldCostSystem(_walletService))

@@ -8,12 +8,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
     public sealed class TransformRotationAppliedSystem : IInitializableSystem, IUpdatableSystem
     {
         private const float DeathZone = 0.05f;
-        private const float MaxVerticalAngle = 30f;
+        private readonly float _maxVerticalAngle = 10f;
 
         private Transform _transform;
 
         private ReactiveVariable<float> _rotationSpeed;
         private ReactiveVariable<Vector3> _rotationDirection;
+
+        public TransformRotationAppliedSystem(float maxVerticalAngle)
+        {
+            _maxVerticalAngle = maxVerticalAngle;
+        }
 
         public void OnInitialize(Entity entity)
         {
@@ -33,7 +38,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
             if (euler.x > 180)
                 euler.x -= 360;
 
-            euler.x = Mathf.Clamp(euler.x, -MaxVerticalAngle, MaxVerticalAngle);
+            euler.x = Mathf.Clamp(euler.x, -_maxVerticalAngle, _maxVerticalAngle);
 
             lookRotation = Quaternion.Euler(euler);
 

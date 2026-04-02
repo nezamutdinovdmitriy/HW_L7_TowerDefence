@@ -82,7 +82,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new MovementDirectionResolveSystem())
                 .AddSystem(new TransformMovementAppliedSystem())
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
-                .AddSystem(new TransformRotationAppliedSystem())
+                .AddSystem(new TransformRotationAppliedSystem(10f))
                 .AddSystem(new BodyContactDetectingSystem())
                 .AddSystem(new SelfContactFilterSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
