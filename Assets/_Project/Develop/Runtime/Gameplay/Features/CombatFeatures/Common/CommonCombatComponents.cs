@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
@@ -10,6 +11,21 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public ReactiveEvent Value;
     }
 
+    public sealed class AbilityUseRequest : IEntityComponent
+    {
+        public ReactiveEvent Value;
+    }
+
+    public sealed class AbilityStartedEvent : IEntityComponent
+    {
+        public ReactiveEvent Value;
+    }
+
+    public sealed class AbilityEndedEvent : IEntityComponent
+    {
+        public ReactiveEvent Value;
+    }
+
     public sealed class ShootPoint : IEntityComponent
     {
         public Transform Value;
@@ -17,7 +33,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
 
     public sealed class AbilityStorage : IEntityComponent
     {
-        public Dictionary<AbilityType, ReactiveEvent> Value;
+        public Dictionary<AbilityType, Entity> Value;
     }
 
     public sealed class AbilityCurrent : IEntityComponent

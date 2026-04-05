@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 using System.Collections.Generic;
 
@@ -7,6 +8,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
     public sealed partial class Entity : IDisposable
     {
         public event Action<Entity> Initialized;
+        public event Action<Entity> Disposed;
+
+        private ReactiveVariable<EntityHierarchy> _hierarchy;
 
         private readonly Dictionary<Type, IEntityComponent> _components = new();
         private readonly List<IEntitySystem> _systems = new();
@@ -20,10 +24,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 
         public bool IsInit => _isInit;
 
+        public ReactiveVariable<EntityHierarchy> Hierarchy => _hierarchy;
+
         public void Initialize()
         {
             foreach (IInitializableSystem initializable in _initializables)
                 initializable.OnInitialize(this);
+
+            _hierarchy = new();
 
             _isInit = true;
 
@@ -50,6 +58,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 
         public void Dispose()
         {
+            Disposed?.Invoke(this);
+
+            for (int i = _hierarchy.Value.Children.Count - 1; i == 0; i++)
+                _hierarchy.Value.Children[i].Dispose();
+
             foreach (IDisposableSystem disposable in _disposables)
                 disposable.OnDispose();
 

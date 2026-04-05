@@ -10,7 +10,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     {
         private readonly IGameplayInputService _gameplayInputService;
 
-        private Dictionary<AbilityType, ReactiveEvent> _abilityStorage;
+        private Dictionary<AbilityType, Entity> _abilityStorage;
         private ReactiveVariable<AbilityType> _abilityCurrent;
 
         public AbilityUseSystem(IGameplayInputService gameplayInputService)
@@ -25,7 +25,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public void OnUpdate(float deltaTime)
         {
             if (_gameplayInputService.IsShooting)
-                _abilityStorage[_abilityCurrent.Value].Invoke();
+                _abilityStorage[_abilityCurrent.Value].AbilityUseRequest.Invoke();
         }
     }
 }

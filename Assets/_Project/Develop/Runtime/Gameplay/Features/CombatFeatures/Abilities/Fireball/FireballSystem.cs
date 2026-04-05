@@ -26,7 +26,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         public void OnInitialize(Entity entity)
         {
-            _useRequest = entity.FireballUseRequest;
+            _useRequest = entity.AbilityUseRequest;
             
             _entity = entity;
             _aimPoint = entity.AimPoint;
@@ -43,8 +43,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             if (_canUse.Evaluate())
             {
                 Vector3 direction = (_aimPoint.Value - _entity.ShootPoint.position).normalized;
+                //_combatEntityFactory.Create();
 
-                _combatEntityFactory.CreateFireBall(_entity.ShootPoint.position, direction, _entity);
+                //_combatEntityFactory.CreateFireBall(_entity.ShootPoint.position, direction, _entity);
             }
         }
     }

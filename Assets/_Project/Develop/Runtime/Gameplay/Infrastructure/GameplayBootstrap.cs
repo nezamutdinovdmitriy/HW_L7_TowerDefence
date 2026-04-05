@@ -32,9 +32,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             _brainsContext = _container.Resolve<AIBrainsContext>();
             _gameplayStatesContext = _container.Resolve<GameplayStatesContext>();
 
-            _container.Resolve<MainHeroEntityFactory>().CreateTower(
-                _container.Resolve<ConfigsProvider>().GetConfig<BaseTowerConfig>(),
-                _container.Resolve<ConfigsProvider>().GetConfig<LevelsListConfig>().GetConfigBy(_inputArgs.LevelNumber));
+            CreateMainHero();
 
             yield break;
         }
@@ -66,5 +64,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         }
 
         private void FixedUpdate() => _entitiesLifeContext?.FixedUpdate(Time.fixedDeltaTime);
+        
+        private void CreateMainHero()
+        {
+            _container.Resolve<MainHeroEntityFactory>().CreateTower(
+                _container.Resolve<ConfigsProvider>().GetConfig<BaseTowerConfig>(),
+                _container.Resolve<ConfigsProvider>().GetConfig<LevelsListConfig>().GetConfigBy(_inputArgs.LevelNumber));
+        }
     }
 }

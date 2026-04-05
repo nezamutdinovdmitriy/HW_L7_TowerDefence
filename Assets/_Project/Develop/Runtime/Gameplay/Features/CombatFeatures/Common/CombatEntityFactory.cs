@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
@@ -11,6 +12,7 @@ using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
+using System;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common
 {
@@ -32,17 +34,48 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             _collidersRegistryService = container.Resolve<CollidersRegistryService>();
         }
 
-        public Entity CreateFireBall(Vector3 position, Vector3 direction, Entity owner)
+        public Entity Create(AbilityConfig config, Entity owner)
+        {
+            Entity entity;
+
+            switch (config)
+            {
+                case FireballAbilityConfig fireballAbilityConfig:
+                    Vector3 direction = (owner.AimPoint.Value - owner.ShootPoint.position).normalized;
+                    Vector3 shootPoint = owner.ShootPoint.position;
+                    entity = CreateFireBall(shootPoint, direction, owner, fireballAbilityConfig);
+                    break;
+
+                case ArcaneMineAbilityConfig arcaneMineAbilityConfig:
+                    entity = CreateArcaneMine(owner.AimPoint.Value, owner, arcaneMineAbilityConfig);
+                    break;
+
+                case ExplosionAbilityConfig explosionAbilityConfig:
+                    entity = CreateExplosion(owner.Transfrom.position, owner, explosionAbilityConfig);
+                    break;
+
+                default:
+                    throw new InvalidOperationException();
+            }
+
+            entity.SetParent(owner);
+
+            entity.AddAbilityUseRequest();
+
+            return entity;
+        }
+
+        public Entity CreateFireBall(Vector3 position, Vector3 direction, Entity owner, FireballAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/Fireball");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PrefabPath);
 
             entity
                 .AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
                 .AddMovementDirection()
-                .AddMovementSpeed(new ReactiveVariable<float>(25))
+                .AddMovementSpeed(new ReactiveVariable<float>(config.FlySpeed))
                 .AddRotationDirection(new ReactiveVariable<Vector3>(direction))
-                .AddRotationSpeed(new ReactiveVariable<float>(900))
+                .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
                 .AddIsMoving()
                 .AddIsDead()
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
@@ -82,14 +115,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new MovementDirectionResolveSystem())
                 .AddSystem(new TransformMovementAppliedSystem())
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
-                .AddSystem(new TransformRotationAppliedSystem(10f))
+                .AddSystem(new TransformRotationAppliedSystem(10f)) // ??
                 .AddSystem(new BodyContactDetectingSystem())
                 .AddSystem(new SelfContactFilterSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(this, 5f))
+                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig.ExplosionRadius))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -98,17 +131,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             return entity;
         }
 
-        public Entity CreateArcaneMine(Vector3 position, float activationRadius, float explosionRadius, Entity owner)
+        public Entity CreateArcaneMine(Vector3 position, Entity owner, ArcaneMineAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/Mine");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PrefabPath);
 
             entity
                 .AddIsDead()
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
                 .AddContactsEntitiesBuffer(new Buffer<Entity>(64))
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
-                .AddAreaContactDetectingRadius(new ReactiveVariable<float>(activationRadius))
+                .AddAreaContactDetectingRadius(new ReactiveVariable<float>(config.ActivationRadius))
                 .AddTeam(new ReactiveVariable<TeamsFeature.TeamType>(owner.Team.Value))
                 .AddIsTouchAnotherTeam()
                 .AddExplosionRequested()
@@ -138,7 +171,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(this, explosionRadius))
+                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig.ExplosionRadius))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -147,10 +180,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             return entity;
         }
 
-        public Entity CreateExplosion(Vector3 position, float radius, Entity owner)
+        public Entity CreateExplosion(Vector3 position, Entity owner, ExplosionAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, "Gameplay/Entities/Combat/Abilities/Explosion");
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PrefabPath);
 
             entity
                 .AddIsDead()
@@ -161,10 +194,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddIsTouchAnotherTeam()
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
                 .AddDeathMask(UnityLayersAPI.LayerMaskCharacters)
-                .AddAreaContactDetectingRadius(new ReactiveVariable<float>(radius))
-                .AddExplosionRadius(new ReactiveVariable<float>(radius))
+                .AddAreaContactDetectingRadius(new ReactiveVariable<float>(config.ExplosionRadius))
+                .AddExplosionRadius(new ReactiveVariable<float>(config.ExplosionRadius))
                 .AddExplosionLifetime(new ReactiveVariable<float>(0.5f))
-                .AddContactDamage(new ReactiveVariable<float>(50))
+                .AddContactDamage(new ReactiveVariable<float>(config.ExplosionDamage))
                 .AddShouldForceDeath();
 
             ICompositeCondition canStartDetecting = new CompositeCondition()

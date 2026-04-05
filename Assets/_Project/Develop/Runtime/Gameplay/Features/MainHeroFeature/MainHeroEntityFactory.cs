@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
@@ -63,10 +64,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddArcaneMineUseEvent()
                 .AddArcaneMineCost(new ReactiveVariable<int>(towerConfig.UtilityAbilityCost))
                 .AddFireballUseRequest()
-                .AddAbilityStorage(new Dictionary<AbilityType, ReactiveEvent> {
-                    { AbilityType.Main, entity.FireballUseRequest },
-                    { AbilityType.Utility, entity.ArcaneMineUseRequest }
-                });
+                .AddAbilityStorage(new Dictionary<AbilityType, Entity>());
+
+            Entity mainAbility = _combatEntityFactory.Create(new(), entity);
+            Entity utilityAbility = _combatEntityFactory.Create(new(), entity);
+
+            entity.AbilityStorage
+                .Add(AbilityType.Main, mainAbility);
+            
+            entity.AbilityStorage
+                .Add(AbilityType.Utility, utilityAbility);
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));

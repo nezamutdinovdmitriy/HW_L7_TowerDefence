@@ -741,6 +741,78 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.StartAttackEvent() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityUseRequest AbilityUseRequestC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityUseRequest>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent AbilityUseRequest => AbilityUseRequestC.Value;
+
+		public bool TryGetAbilityUseRequest(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityUseRequest component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityUseRequest()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityUseRequest() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityUseRequest(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityUseRequest() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStartedEvent AbilityStartedEventC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStartedEvent>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent AbilityStartedEvent => AbilityStartedEventC.Value;
+
+		public bool TryGetAbilityStartedEvent(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStartedEvent component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStartedEvent()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStartedEvent() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStartedEvent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStartedEvent() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityEndedEvent AbilityEndedEventC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityEndedEvent>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent AbilityEndedEvent => AbilityEndedEventC.Value;
+
+		public bool TryGetAbilityEndedEvent(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityEndedEvent component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityEndedEvent()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityEndedEvent() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityEndedEvent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityEndedEvent() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.ShootPoint ShootPointC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.ShootPoint>();
 
 		public UnityEngine.Transform ShootPoint => ShootPointC.Value;
@@ -762,24 +834,24 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage AbilityStorageC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage>();
 
-		public System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent> AbilityStorage => AbilityStorageC.Value;
+		public System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> AbilityStorage => AbilityStorageC.Value;
 
-		public bool TryGetAbilityStorage(out System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent> value)
+		public bool TryGetAbilityStorage(out System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
 		{
 			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage component);
 			if(result)
 				value = component.Value;
 			else
-				value = default(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent>);
+				value = default(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>);
 			return result;
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStorage()
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage() { Value = new System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent>() }); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage() { Value = new System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>() }); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStorage(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent> value)
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStorage(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
 		{
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage() {Value = value}); 
 		}
