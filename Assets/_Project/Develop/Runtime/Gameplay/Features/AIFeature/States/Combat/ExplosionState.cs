@@ -1,5 +1,6 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Utilities.StateMachineCore;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Combat
 {
@@ -16,8 +17,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
         {
             base.Enter();
 
-            _entity.ExplosionRequested.Value = true;
-            _entity.ShouldForceDeath.Value = true;
+            Debug.Log("EXPLOSION STATE ENTERED");
+            Debug.Log($"{_entity.IsDead.Value}");
+
+            _entity.AbilityUseRequest.Invoke();
+            //_entity.ShouldForceDeath.Value = true;
         }
 
         public void Update(float deltaTime)

@@ -2,6 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Combat;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Movement;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using UnityEngine;
@@ -57,7 +58,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
                        Vector3 targetPosition = entity.CurrentTarget.Value.Transfrom.position;
                        targetPosition.y = 0;
 
-                       float threshold = entity.ExplosionRadius.Value;
+                       //float threshold = entity.ExplosionRadius.Value;
+
+                       float threshold = entity.AbilityStorage[AbilityType.Main].AbilityExplosionConfig.ExplosionRadius;
 
                        float sqrDistance = (entity.Transfrom.position - targetPosition).sqrMagnitude;
                        float sqrThreshold = threshold * threshold;

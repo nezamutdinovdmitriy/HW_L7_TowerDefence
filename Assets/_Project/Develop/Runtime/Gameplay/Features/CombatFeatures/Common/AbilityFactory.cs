@@ -3,6 +3,8 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common
@@ -35,8 +37,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
+                    
+                    ICompositeCondition canSpawn = new CompositeCondition()
+                            .Add(new FuncCondition(() => owner.IsDead.Value));
+
                     entity = CreateCommon(owner)
                         .AddAbilityExplosionConfig(explosionAbilityConfig)
+                        .AddTransfrom(owner.Transfrom)
+                        .AddCanSpawnExplosion(canSpawn)
                         .AddSystem(new ExplosionStartSystem(_combatEntityFactory, explosionAbilityConfig));
                     break;
 

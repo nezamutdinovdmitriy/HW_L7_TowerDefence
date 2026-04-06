@@ -90,20 +90,24 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             ICompositeCondition canUseFireball = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
+            ICompositeCondition canUseAbilities = new CompositeCondition()
+                .Add(new FuncCondition(() => _inputService.IsShooting));
+
             entity
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanRotate(canRotateToMousePosition)
                 .AddCanApplyDamage(canApplyDamage)
                 .AddCanUseArcaneMine(canUseArcaneMine)
-                .AddCanUseFireball(canUseFireball);
+                .AddCanUseFireball(canUseFireball)
+                .AddAbilityCanUse(canUseAbilities);
 
             entity
                 .AddSystem(new MouseRotationDirectionUpdateSystem(
                     _container.Resolve<ScreenToWorldPositionConverter>(),
                     _inputService))
                 .AddSystem(new TransformRotationAppliedSystem(10f))
-                .AddSystem(new AbilityUseSystem(_inputService))
+                .AddSystem(new AbilityUseSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())

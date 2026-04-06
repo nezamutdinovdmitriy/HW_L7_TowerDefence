@@ -4,7 +4,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
@@ -16,6 +16,7 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
@@ -26,7 +27,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
         private readonly EntitiesLifeContext _entitiesLifeContext;
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
         private readonly CollidersRegistryService _collidersRegistryService;
-        private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly AbilityFactory _abilityFactory;
         private readonly BrainsFactory _brainsFactory;
         private readonly MainHeroHolderService _mainHeroHolderService;
 
@@ -37,7 +38,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
             _collidersRegistryService = _container.Resolve<CollidersRegistryService>();
-            _combatEntityFactory = _container.Resolve<CombatEntityFactory>();
+            _abilityFactory = _container.Resolve<AbilityFactory>();
             _brainsFactory = _container.Resolve<BrainsFactory>();
             _mainHeroHolderService = _container.Resolve<MainHeroHolderService>();
         }
@@ -50,6 +51,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             {
                 case BaseCreepConfig baseCreepConfig:
                     entity = CreateBaseСreep(baseCreepConfig, position);
+
+                    Dictionary<AbilityType, AbilityConfig> abilities = baseCreepConfig.GetAbilities();
+
+                    foreach (AbilityType key in abilities.Keys)
+                    {
+                        Entity ability = _abilityFactory.Create(abilities[key], entity);
+
+                        entity.AbilityStorage.Add(key, ability);
+                    }
+
                     _brainsFactory.CreateBaseEnemyBrain(entity, new MainHeroTargetSelector(_mainHeroHolderService));
                     _entitiesLifeContext.Add(entity);
                     break;
@@ -77,11 +88,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddIsDead()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddExplosionRadius(new ReactiveVariable<float>(config.ExplosionAbilityConfig.ExplosionRadius))
                 .AddTeam(new ReactiveVariable<TeamType>(config.Team))
                 .AddCurrentTarget()
                 .AddShouldForceDeath()
-                .AddExplosionRequested();
+                .AddAbilityStorage(new Dictionary<AbilityType, Entity>())
+                .AddAbilityCurrent(new ReactiveVariable<AbilityType>(AbilityType.Main))
+                .AddAbilityUseRequest();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -103,21 +115,25 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .Add(new FuncCondition(() => entity.IsDead.Value))
                 .Add(new FuncCondition(() => entity.ExplosionRequested.Value));
 
+            ICompositeCondition canUseAbilities = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
             entity
                 .AddCanMove(canMove)
                 .AddCanRotate(canRotateToMousePosition)
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanApplyDamage(canApplyDamage)
-                .AddCanSpawnExplosion(canSpawnExplosion);
+                .AddCanSpawnExplosion(canSpawnExplosion)
+                .AddAbilityCanUse(canUseAbilities);
 
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
                 .AddSystem(new TransformMovementAppliedSystem())
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
                 .AddSystem(new TransformRotationAppliedSystem(10f))
-                .AddSystem(new ExplosionStartSystem(_combatEntityFactory, config.ExplosionAbilityConfig))
                 .AddSystem(new ApplyDamageSystem())
+                .AddSystem(new AbilityUseSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));

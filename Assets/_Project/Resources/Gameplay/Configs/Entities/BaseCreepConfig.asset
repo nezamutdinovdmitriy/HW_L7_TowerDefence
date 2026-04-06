@@ -16,6 +16,7 @@ MonoBehaviour:
   <MovementSpeed>k__BackingField: 5
   <RotationSpeed>k__BackingField: 800
   <MaxHealth>k__BackingField: 100
-  <ExplosionAbilityConfig>k__BackingField: {fileID: 11400000, guid: c1c21cc78fe716341a078824fd8fcb05,
-    type: 2}
+  _abilities:
+  - AbilityType: 0
+    Config: {fileID: 11400000, guid: c1c21cc78fe716341a078824fd8fcb05, type: 2}
   <Team>k__BackingField: 1
