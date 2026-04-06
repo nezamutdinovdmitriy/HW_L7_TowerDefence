@@ -1,5 +1,7 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +18,21 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public ReactiveEvent Value;
     }
 
+    public sealed class AbilityFireballConfig : IEntityComponent
+    {
+        public FireballAbilityConfig Value;
+    }
+
+    public sealed class AbilityExplosionConfig : IEntityComponent
+    {
+        public ExplosionAbilityConfig Value;
+    }
+
+    public sealed class AbilityArcaneMineConfig : IEntityComponent
+    {
+        public ArcaneMineAbilityConfig Value;
+    }
+
     public sealed class AbilityStartedEvent : IEntityComponent
     {
         public ReactiveEvent Value;
@@ -24,6 +41,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
     public sealed class AbilityEndedEvent : IEntityComponent
     {
         public ReactiveEvent Value;
+    }
+
+    public sealed class AbilityCanUse : IEntityComponent
+    {
+        public ICompositeCondition Value;
     }
 
     public sealed class ShootPoint : IEntityComponent

@@ -1,41 +1,52 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball
 {
-    public class FireballStartSystem : IInitializableSystem
+    public class FireballStartSystem : IInitializableSystem, IDisposableSystem
     {
-        private ReactiveEvent _useRequest;
         private ReactiveEvent _startedEvent;
 
-        private Entity _owner;
+        private CombatEntityFactory _combatEntityFactory;
 
         private Entity _ability;
+        private Entity _owner;
 
-        private ICompositeCondition _canUse;
         private IDisposable _disposable;
+
+        public FireballStartSystem(CombatEntityFactory combatEntityFactory)
+        {
+            _combatEntityFactory = combatEntityFactory;
+        }
+
+        public void OnDispose()
+        {
+            _disposable.Dispose();
+        }
 
         public void OnInitialize(Entity entity)
         {
-            _owner = entity;
+            _ability = entity;
 
-            _ability = entity.AbilityStorage[entity.AbilityCurrent.Value];
+            _owner = _ability.Hierarchy.Value.Parent;
 
-            _useRequest = _ability.AbilityUseRequest;
             _startedEvent = _ability.AbilityStartedEvent;
 
-            _disposable = _useRequest.Subscribe(OnAbilityUseRequested);
+            _disposable = _startedEvent.Subscribe(OnAbilityUseEvent);
         }
 
-        private void OnAbilityUseRequested()
+        private void OnAbilityUseEvent()
         {
-            if(_canUse.Evaluate())
-                _startedEvent?.Invoke();
+            Vector3 shootPoint = _owner.ShootPoint.position;
+            Vector3 aimPoint = _owner.AimPoint.Value;
 
+            Vector3 direction = (aimPoint - shootPoint).normalized;
+
+            _combatEntityFactory.CreateFireBall(shootPoint, direction, _owner, _ability.AbilityFireballConfig);
         }
     }
 }

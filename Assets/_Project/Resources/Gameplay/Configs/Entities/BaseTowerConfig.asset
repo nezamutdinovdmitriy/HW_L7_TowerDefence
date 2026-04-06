@@ -15,3 +15,10 @@ MonoBehaviour:
   <PathToPrefab>k__BackingField: Gameplay/Entities/Characters/Tower
   <RotationSpeed>k__BackingField: 800
   <UtilityAbilityCost>k__BackingField: 25
+  _abilities:
+  - AbilityType: 0
+    Config: {fileID: 11400000, guid: f74920f750564474ead400da00926823, type: 2}
+    AbilityUseCost: 0
+  - AbilityType: 1
+    Config: {fileID: 11400000, guid: f74920f750564474ead400da00926823, type: 2}
+    AbilityUseCost: 0

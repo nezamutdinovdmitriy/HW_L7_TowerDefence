@@ -1,3 +1,8 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Entities
@@ -5,8 +10,41 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Entities
     [CreateAssetMenu(menuName = "Configs/Gameplay/Entities/NewBaseTowerConfig", fileName = "BaseTowerConfig")]
     public sealed class BaseTowerConfig : EntityConfig
     {
+        [field: SerializeField] private List<AbilityData> _abilities = new();
+
         [field: SerializeField] public string PathToPrefab { get; private set; }
         [field: SerializeField] public float RotationSpeed { get; private set; }
-        [field: SerializeField] public int UtilityAbilityCost { get; private set; }
+
+
+        public Dictionary<AbilityType, AbilityConfig> GetAbilities()
+        {
+            Dictionary<AbilityType, AbilityConfig> abilities = new();
+
+            foreach (AbilityData abilityData in _abilities)
+                abilities.Add(abilityData.AbilityType, abilityData.Config);
+
+            return abilities;
+        }
+
+        public bool TryGetAbilityConfigFor(AbilityType abilityType, out AbilityConfig abilityConfig)
+        {
+            AbilityData abilityData = _abilities.FirstOrDefault(data => data.AbilityType == abilityType);
+
+            if(abilityData == null)
+            {
+                abilityConfig = default;
+                return false;
+            }
+
+            abilityConfig = abilityData.Config;
+            return true;
+        }
+
+        [Serializable]
+        private class AbilityData
+        {
+            public AbilityType AbilityType;
+            public AbilityConfig Config;
+        }
     }
 }

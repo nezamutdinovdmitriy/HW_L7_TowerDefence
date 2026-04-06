@@ -26,7 +26,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
         private readonly DIContainer _container;
         private readonly EntitiesLifeContext _entitiesLifeContext;
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
-        private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly AbilityFactory _abilityFactory;
         private readonly WalletService _walletService;
 
         private readonly IGameplayInputService _inputService;
@@ -37,7 +37,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
 
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _monoEntitiesFactory = _container.Resolve<MonoEntitiesFactory>();
-            _combatEntityFactory = _container.Resolve<CombatEntityFactory>();
+            _abilityFactory = _container.Resolve<AbilityFactory>();
             _inputService = _container.Resolve<IGameplayInputService>();
             _walletService = _container.Resolve<WalletService>();
         }
@@ -60,20 +60,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddTakeDamageEvent()
                 .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero))
                 .AddAbilityCurrent(new ReactiveVariable<AbilityType>(AbilityType.Main))
-                .AddArcaneMineUseRequest()
-                .AddArcaneMineUseEvent()
-                .AddArcaneMineCost(new ReactiveVariable<int>(towerConfig.UtilityAbilityCost))
-                .AddFireballUseRequest()
                 .AddAbilityStorage(new Dictionary<AbilityType, Entity>());
 
-            Entity mainAbility = _combatEntityFactory.Create(new(), entity);
-            Entity utilityAbility = _combatEntityFactory.Create(new(), entity);
+            Dictionary<AbilityType, AbilityConfig> abilities = towerConfig.GetAbilities();
 
-            entity.AbilityStorage
-                .Add(AbilityType.Main, mainAbility);
-            
-            entity.AbilityStorage
-                .Add(AbilityType.Utility, utilityAbility);
+            foreach (AbilityType key in abilities.Keys)
+            {
+                Entity ability = _abilityFactory.Create(abilities[key], entity);
+
+                entity.AbilityStorage.Add(key, ability);
+            }
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
@@ -108,9 +104,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                     _inputService))
                 .AddSystem(new TransformRotationAppliedSystem(10f))
                 .AddSystem(new AbilityUseSystem(_inputService))
-                .AddSystem(new ArcaneMineSystem(_combatEntityFactory))
-                .AddSystem(new ArcaneMineGoldCostSystem(_walletService))
-                .AddSystem(new FireballSystem(_combatEntityFactory))
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())

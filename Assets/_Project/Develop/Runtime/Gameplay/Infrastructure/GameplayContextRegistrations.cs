@@ -63,6 +63,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateBrainsFactory);
 
             container.RegisterAsSingle(CreateCombatEntityFactory);
+            container.RegisterAsSingle(CreateAbilityFactory);
 
             container.RegisterAsSingle(CreateStagesFactory);
             container.RegisterAsSingle(CreateGameplayStatesFactory);
@@ -74,6 +75,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         {
             container.RegisterAsSingle(CreateWalletPresenter).NonLazy();
         }
+
+        private static AbilityFactory CreateAbilityFactory(DIContainer container)
+            => new(container.Resolve<EntitiesLifeContext>(), container.Resolve<CombatEntityFactory>());
 
         private static UIRoot CreateGameplayUIRoot(DIContainer container)
         {

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d97d7dfbf28cda48975748f767551d1, type: 3}
+  m_Name: FireballAbilityConfig
+  m_EditorClassIdentifier: 
+  <ProjectilePrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Fireball
+  <MovementSpeed>k__BackingField: 15
+  <RotationSpeed>k__BackingField: 800
+  <ExplosionConfig>k__BackingField: {fileID: 11400000, guid: 77c1dae0489235d4999fad8daa11fcb3,
+    type: 2}
+  <ProcessTime>k__BackingField: 1

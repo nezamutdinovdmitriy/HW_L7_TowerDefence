@@ -10,7 +10,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
         public event Action<Entity> Initialized;
         public event Action<Entity> Disposed;
 
-        private ReactiveVariable<EntityHierarchy> _hierarchy;
+        private ReactiveVariable<EntityHierarchy> _hierarchy = new();
 
         private readonly Dictionary<Type, IEntityComponent> _components = new();
         private readonly List<IEntitySystem> _systems = new();
@@ -22,6 +22,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 
         private bool _isInit;
 
+        public Entity() => _hierarchy.Value = new();
+
         public bool IsInit => _isInit;
 
         public ReactiveVariable<EntityHierarchy> Hierarchy => _hierarchy;
@@ -30,8 +32,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
         {
             foreach (IInitializableSystem initializable in _initializables)
                 initializable.OnInitialize(this);
-
-            _hierarchy = new();
 
             _isInit = true;
 

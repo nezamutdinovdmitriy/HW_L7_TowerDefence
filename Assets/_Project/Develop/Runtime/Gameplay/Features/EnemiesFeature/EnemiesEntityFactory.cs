@@ -1,21 +1,22 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using UnityEngine;
 using System;
-using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
-using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
-using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
 {
@@ -76,7 +77,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddIsDead()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddExplosionRadius(new ReactiveVariable<float>(config.ExplosionRadius))
+                .AddExplosionRadius(new ReactiveVariable<float>(config.ExplosionAbilityConfig.ExplosionRadius))
                 .AddTeam(new ReactiveVariable<TeamType>(config.Team))
                 .AddCurrentTarget()
                 .AddShouldForceDeath()
@@ -115,7 +116,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new TransformMovementAppliedSystem())
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
                 .AddSystem(new TransformRotationAppliedSystem(10f))
-                .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, entity.ExplosionRadius.Value))
+                .AddSystem(new ExplosionStartSystem(_combatEntityFactory, config.ExplosionAbilityConfig))
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())

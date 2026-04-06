@@ -765,6 +765,63 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityUseRequest() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityFireballConfig AbilityFireballConfigC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityFireballConfig>();
+
+		public Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.FireballAbilityConfig AbilityFireballConfig => AbilityFireballConfigC.Value;
+
+		public bool TryGetAbilityFireballConfig(out Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.FireballAbilityConfig value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityFireballConfig component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.FireballAbilityConfig);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityFireballConfig(Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.FireballAbilityConfig value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityFireballConfig() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityExplosionConfig AbilityExplosionConfigC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityExplosionConfig>();
+
+		public Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.ExplosionAbilityConfig AbilityExplosionConfig => AbilityExplosionConfigC.Value;
+
+		public bool TryGetAbilityExplosionConfig(out Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.ExplosionAbilityConfig value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityExplosionConfig component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.ExplosionAbilityConfig);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityExplosionConfig(Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.ExplosionAbilityConfig value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityExplosionConfig() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityArcaneMineConfig AbilityArcaneMineConfigC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityArcaneMineConfig>();
+
+		public Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.ArcaneMineAbilityConfig AbilityArcaneMineConfig => AbilityArcaneMineConfigC.Value;
+
+		public bool TryGetAbilityArcaneMineConfig(out Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.ArcaneMineAbilityConfig value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityArcaneMineConfig component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.ArcaneMineAbilityConfig);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityArcaneMineConfig(Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.ArcaneMineAbilityConfig value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityArcaneMineConfig() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStartedEvent AbilityStartedEventC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStartedEvent>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent AbilityStartedEvent => AbilityStartedEventC.Value;
@@ -811,6 +868,25 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityEndedEvent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
 		{
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityEndedEvent() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCanUse AbilityCanUseC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCanUse>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition AbilityCanUse => AbilityCanUseC.Value;
+
+		public bool TryGetAbilityCanUse(out Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCanUse component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityCanUse(Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCanUse() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.ShootPoint ShootPointC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.ShootPoint>();
