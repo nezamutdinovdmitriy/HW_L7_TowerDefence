@@ -18,10 +18,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
             base.Enter();
 
             Debug.Log("EXPLOSION STATE ENTERED");
-            Debug.Log($"{_entity.IsDead.Value}");
 
-            _entity.AbilityUseRequest.Invoke();
             //_entity.ShouldForceDeath.Value = true;
+
+            _entity.IsDead.Value = true;
+            _entity.AbilityUseRequest.Invoke();
+
+            //_entity.ShouldForceDeath.Value = true;
+
+            Debug.Log($"{_entity.IsDead.Value}");
         }
 
         public void Update(float deltaTime)

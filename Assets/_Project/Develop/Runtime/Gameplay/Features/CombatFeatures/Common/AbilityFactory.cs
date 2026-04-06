@@ -63,6 +63,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .SetParent(owner)
                 .AddAbilityUseRequest()
                 .AddAbilityStartedEvent()
+                .AddTeam(owner.Team)
                 .AddSystem(new AbilityStartSystem());
 
             _lifeContext.Add(entity);
