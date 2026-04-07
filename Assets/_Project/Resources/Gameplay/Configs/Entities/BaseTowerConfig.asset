@@ -12,13 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31725d28859a03e458aa268ac90a316a, type: 3}
   m_Name: BaseTowerConfig
   m_EditorClassIdentifier: 
-  <PathToPrefab>k__BackingField: Gameplay/Entities/Characters/Tower
-  <RotationSpeed>k__BackingField: 800
-  <UtilityAbilityCost>k__BackingField: 25
   _abilities:
   - AbilityType: 0
     Config: {fileID: 11400000, guid: f74920f750564474ead400da00926823, type: 2}
-    AbilityUseCost: 0
   - AbilityType: 1
-    Config: {fileID: 11400000, guid: f74920f750564474ead400da00926823, type: 2}
-    AbilityUseCost: 0
+    Config: {fileID: 11400000, guid: 4aa30fc43ed947a4081f837824f2649a, type: 2}
+  <PathToPrefab>k__BackingField: Gameplay/Entities/Characters/Tower
+  <RotationSpeed>k__BackingField: 800
