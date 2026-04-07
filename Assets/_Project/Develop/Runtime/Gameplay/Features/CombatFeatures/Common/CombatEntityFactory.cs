@@ -84,8 +84,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
                 .AddSystem(new TransformMovementAppliedSystem())
-                .AddSystem(new MovementRotationDirectionUpdateSystem())
-                .AddSystem(new TransformRotationAppliedSystem(10f)) // ??
+                //.AddSystem(new MovementRotationDirectionUpdateSystem())
+                //.AddSystem(new TransformRotationAppliedSystem(10f)) // ??
                 .AddSystem(new BodyContactDetectingSystem())
                 .AddSystem(new SelfContactFilterSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
@@ -114,7 +114,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddAreaContactDetectingRadius(new ReactiveVariable<float>(config.ActivationRadius))
                 .AddTeam(new ReactiveVariable<TeamsFeature.TeamType>(owner.Team.Value))
                 .AddIsTouchAnotherTeam()
-                .AddExplosionRequested()
                 .AddShouldForceDeath();
 
             ICompositeCondition canStartDetecting = new CompositeCondition()
