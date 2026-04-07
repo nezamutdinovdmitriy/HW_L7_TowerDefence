@@ -8,31 +8,27 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine
 {
-    public sealed class ArcaneMineSystem : IInitializableSystem, IDisposableSystem
+    public sealed class ArcaneMineStartSystem : IInitializableSystem, IDisposableSystem
     {
         private readonly CombatEntityFactory _combatEntityFactory;
 
         private ReactiveEvent _useRequest;
-        private ReactiveEvent _startedEvent;
        
-        private Entity _entity;
+        private Entity _ability;
         private ReactiveVariable<Vector3> _aimPoint;
 
         private ICompositeCondition _canUse;
         
         private IDisposable _disposable;
 
-        public ArcaneMineSystem(CombatEntityFactory combatEntityFactory)
+        public ArcaneMineStartSystem(CombatEntityFactory combatEntityFactory)
             => _combatEntityFactory = combatEntityFactory;
 
         public void OnInitialize(Entity entity)
         {
+            _ability = entity;
             _useRequest = entity.AbilityUseRequest;
-            _startedEvent = entity.AbilityStartedEvent;
-
-            _entity = entity;
             _aimPoint = entity.AimPoint;
-
             _canUse = entity.CanUseArcaneMine;
 
             _disposable = _useRequest.Subscribe(OnAbilityUseRequested);
@@ -43,10 +39,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private void OnAbilityUseRequested()
         {
             if (_canUse.Evaluate())
-            {
-                //_combatEntityFactory.CreateArcaneMine(_aimPoint.Value, 3, 5, _entity);
-                _startedEvent?.Invoke();
-            }
+                _combatEntityFactory.CreateArcaneMine(_aimPoint.Value, _ability, _ability.AbilityArcaneMineConfig);
         }
     }
 }

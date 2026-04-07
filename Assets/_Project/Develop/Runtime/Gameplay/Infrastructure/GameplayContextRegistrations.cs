@@ -77,7 +77,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         }
 
         private static AbilityFactory CreateAbilityFactory(DIContainer container)
-            => new(container.Resolve<EntitiesLifeContext>(), container.Resolve<CombatEntityFactory>());
+            => new(
+                container.Resolve<EntitiesLifeContext>(),
+                container.Resolve<CombatEntityFactory>(),
+                container.Resolve<WalletService>());
 
         private static UIRoot CreateGameplayUIRoot(DIContainer container)
         {

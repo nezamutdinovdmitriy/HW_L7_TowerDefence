@@ -1,8 +1,10 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
@@ -13,11 +15,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
     {
         private readonly EntitiesLifeContext _lifeContext;
         private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly WalletService _wallet;
 
-        public AbilityFactory(EntitiesLifeContext lifeContext, CombatEntityFactory combatEntityFactory)
+        public AbilityFactory(
+            EntitiesLifeContext lifeContext,
+            CombatEntityFactory combatEntityFactory,
+            WalletService wallet)
         {
             _lifeContext = lifeContext;
             _combatEntityFactory = combatEntityFactory;
+            _wallet = wallet;
         }
 
         public Entity Create(AbilityConfig config, Entity owner)
@@ -33,18 +40,27 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                     break;
 
                 case ArcaneMineAbilityConfig arcaneMineAbilityConfig:
-                    entity = CreateCommon(owner);
+                    ICompositeCondition canSpawnArcaneMine = new CompositeCondition()
+                            .Add(new FuncCondition(() => owner.IsDead.Value == false));
+
+                    entity = CreateCommon(owner)
+                        .AddAbilityArcaneMineConfig(arcaneMineAbilityConfig)
+                        .AddAimPoint(owner.AimPoint)
+                        .AddCanUseArcaneMine(canSpawnArcaneMine)
+                        .AddArcaneMineCost(new ReactiveVariable<int>(arcaneMineAbilityConfig.ActivationCost))
+                        .AddSystem(new ArcaneMineStartSystem(_combatEntityFactory))
+                        .AddSystem(new ArcaneMineGoldCostSystem(CurrencyType.Gold, _wallet));
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
                     
-                    ICompositeCondition canSpawn = new CompositeCondition()
+                    ICompositeCondition canSpawnExplosion = new CompositeCondition()
                             .Add(new FuncCondition(() => owner.IsDead.Value));
 
                     entity = CreateCommon(owner)
                         .AddAbilityExplosionConfig(explosionAbilityConfig)
                         .AddTransfrom(owner.Transfrom)
-                        .AddCanSpawnExplosion(canSpawn)
+                        .AddCanSpawnExplosion(canSpawnExplosion)
                         .AddSystem(new ExplosionStartSystem(_combatEntityFactory, explosionAbilityConfig));
                     break;
 

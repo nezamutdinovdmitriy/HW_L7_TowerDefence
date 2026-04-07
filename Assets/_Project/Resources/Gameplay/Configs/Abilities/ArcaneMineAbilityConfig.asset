@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MinePrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Mine
   <ActivationRadius>k__BackingField: 5
+  <ActivationCost>k__BackingField: 50
   <ExplosionConfig>k__BackingField: {fileID: 11400000, guid: c1c21cc78fe716341a078824fd8fcb05,
     type: 2}
   <ProcessTime>k__BackingField: 1
