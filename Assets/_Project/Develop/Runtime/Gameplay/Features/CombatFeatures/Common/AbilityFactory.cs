@@ -49,7 +49,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                         .AddCanUseArcaneMine(canSpawnArcaneMine)
                         .AddArcaneMineCost(new ReactiveVariable<int>(arcaneMineAbilityConfig.ActivationCost))
                         .AddSystem(new ArcaneMineStartSystem(_combatEntityFactory))
-                        .AddSystem(new ArcaneMineGoldCostSystem(CurrencyType.Gold, _wallet));
+                        .AddSystem(new ArcaneMineGoldCostSystem(arcaneMineAbilityConfig.CostCurrency, _wallet));
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
