@@ -52,6 +52,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddMaxHealth(new ReactiveVariable<float>(levelConfig.TowerMaxHealth))
                 .AddCurrentHealth(new ReactiveVariable<float>(levelConfig.TowerMaxHealth))
                 .AddRotationDirection()
+                .AddTargetRotation()
                 .AddRotationSpeed(new ReactiveVariable<float>(towerConfig.RotationSpeed))
                 .AddAimPoint()
                 .AddIsDead()
@@ -106,7 +107,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new MouseRotationDirectionUpdateSystem(
                     _container.Resolve<ScreenToWorldPositionConverter>(),
                     _inputService))
-                .AddSystem(new TransformRotationAppliedSystem(10f))
+                .AddSystem(new LookRotationSystem())
+                .AddSystem(new RotationClampSystem(30f))
+                .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new AbilityUseSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())

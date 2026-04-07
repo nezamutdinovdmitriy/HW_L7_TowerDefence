@@ -44,6 +44,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddMovementDirection()
                 .AddMovementSpeed(new ReactiveVariable<float>(config.MovementSpeed))
                 .AddRotationDirection(new ReactiveVariable<Vector3>(direction))
+                .AddTargetRotation()
                 .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
                 .AddIsMoving()
                 .AddIsDead()
@@ -84,8 +85,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
                 .AddSystem(new TransformMovementAppliedSystem())
-                //.AddSystem(new MovementRotationDirectionUpdateSystem())
-                //.AddSystem(new TransformRotationAppliedSystem(10f)) // ??
+                .AddSystem(new MovementRotationDirectionUpdateSystem())
+                .AddSystem(new LookRotationSystem())
+                .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new BodyContactDetectingSystem())
                 .AddSystem(new SelfContactFilterSystem())
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))

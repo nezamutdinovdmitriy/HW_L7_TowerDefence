@@ -212,6 +212,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.AreaContactDetectingRadius() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature.TargetRotation TargetRotationC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature.TargetRotation>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Quaternion> TargetRotation => TargetRotationC.Value;
+
+		public bool TryGetTargetRotation(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Quaternion> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature.TargetRotation component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Quaternion>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTargetRotation()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature.TargetRotation() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Quaternion>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTargetRotation(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Quaternion> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature.TargetRotation() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature.RotationDirection RotationDirectionC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature.RotationDirection>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<UnityEngine.Vector3> RotationDirection => RotationDirectionC.Value;
