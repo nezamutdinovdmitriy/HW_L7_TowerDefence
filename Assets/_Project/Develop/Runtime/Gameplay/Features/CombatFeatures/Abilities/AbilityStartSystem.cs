@@ -11,7 +11,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private ReactiveEvent _useRequest;
         private ReactiveEvent _startedEvent;
 
-        private ICompositeCondition _canUse;
         private IDisposable _disposable;
 
         public void OnInitialize(Entity entity)
