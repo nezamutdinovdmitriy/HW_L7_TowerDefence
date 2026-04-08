@@ -11,8 +11,9 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using UnityEngine;
 using System;
+using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common
 {
@@ -34,10 +35,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             _collidersRegistryService = container.Resolve<CollidersRegistryService>();
         }
 
-        public Entity CreateFireBall(Vector3 position, Vector3 direction, Entity owner, FireballAbilityConfig config)
+        public Entity CreateFireBall(Entity owner, FireballAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.ProjectilePrefabPath);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.ProjectilePrefabPath);
+
+            Vector3 direction = (owner.AimPoint.Value - owner.ShootPoint.position).normalized;
 
             entity
                 .AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
@@ -103,10 +106,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             return entity;
         }
 
-        public Entity CreateArcaneMine(Vector3 position, Entity owner, ArcaneMineAbilityConfig config)
+        public Entity CreateArcaneMine(Entity owner, ArcaneMineAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.MinePrefabPath);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.AimPoint.Value, config.MinePrefabPath);
 
             entity
                 .AddIsDead()

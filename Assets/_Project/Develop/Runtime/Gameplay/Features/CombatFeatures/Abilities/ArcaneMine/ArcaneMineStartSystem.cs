@@ -39,7 +39,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private void OnAbilityUseRequested()
         {
             if (_canUse.Evaluate())
-                _combatEntityFactory.CreateArcaneMine(_aimPoint.Value, _ability, _ability.AbilityArcaneMineConfig);
+                _combatEntityFactory.CreateArcaneMine(_ability, _ability.AbilityArcaneMineConfig);
         }
     }
 }

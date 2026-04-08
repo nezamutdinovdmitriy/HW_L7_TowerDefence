@@ -41,12 +41,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         private void OnAbilityUseEvent()
         {
-            Vector3 shootPoint = _owner.ShootPoint.position;
-            Vector3 aimPoint = _owner.AimPoint.Value;
+            Vector3 direction = (_owner.AimPoint.Value - _owner.ShootPoint.position).normalized;
 
-            Vector3 direction = (aimPoint - shootPoint).normalized;
-
-            _combatEntityFactory.CreateFireBall(shootPoint, direction, _owner, _ability.AbilityFireballConfig);
+            _combatEntityFactory.CreateFireBall(_owner, _ability.AbilityFireballConfig);
         }
     }
 }
