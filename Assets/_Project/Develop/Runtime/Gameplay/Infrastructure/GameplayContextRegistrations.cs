@@ -4,6 +4,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
@@ -68,12 +69,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateStagesFactory);
             container.RegisterAsSingle(CreateGameplayStatesFactory);
 
+            container.RegisterAsSingle(CreateGameplayPresentersFactory);
+
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
         }
 
         private static void RegisterPresenters(DIContainer container)
         {
-            container.RegisterAsSingle(CreateWalletPresenter).NonLazy();
+            container.RegisterAsSingle(CreateGameplayScreenPresenter).NonLazy();
         }
 
         private static AbilityFactory CreateAbilityFactory(DIContainer container)
@@ -90,6 +93,20 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 
             return Object.Instantiate(prefab);
         }
+
+        private static GameplayScreenPresenter CreateGameplayScreenPresenter(DIContainer container)
+        {
+            UIRoot prefabUIRoot = container.Resolve<UIRoot>();
+
+            GameplayScreenView view = container.Resolve<ViewsFactory>().Create<GameplayScreenView>(ViewIDs.GameplayScreen, prefabUIRoot.HUDLayer);
+
+            GameplayScreenPresenter presenter = container.Resolve<GameplayPresentersFactory>().CreateGameplayScreenPresenter(view);
+
+            return presenter;
+        }
+
+        private static GameplayPresentersFactory CreateGameplayPresentersFactory(DIContainer container)
+            => new(container);
 
         private static WalletPresenter CreateWalletPresenter(DIContainer container)
         {
