@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
@@ -9,19 +10,19 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
     public sealed class DefeatState : EndGameState, IUpdatableState
     {
+        private readonly GameplayPopupService _popupService;
         private readonly PlayerDataProvider _playerDataProvider;
-        private readonly SceneSwitcherService _sceneSwitcherService;
         private readonly ICoroutinesPerformer _coroutinesPerformer;
 
         public DefeatState(
             PlayerDataProvider playerDataProvider,
-            SceneSwitcherService sceneSwitcherService,
             ICoroutinesPerformer coroutinesPerformer,
-            IGameplayInputService inputService) : base(inputService)
+            IGameplayInputService inputService,
+            GameplayPopupService popupService) : base(inputService)
         {
             _playerDataProvider = playerDataProvider;
-            _sceneSwitcherService = sceneSwitcherService;
             _coroutinesPerformer = coroutinesPerformer;
+            _popupService = popupService;
         }
 
         public override void Enter()
@@ -32,7 +33,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 
             _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
 
-            _coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
+            _popupService.OpenDefeatPopup();
         }
 
         public void Update(float deltaTime)

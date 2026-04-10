@@ -53,6 +53,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
 
             container.RegisterAsSingle(CreateGameplayUIRoot);
 
+            container.RegisterAsSingle(CreateGameplayPopupService);
+
             container.RegisterAsSingle(CreateMainHeroHolderService).NonLazy();
         }
 
@@ -77,6 +79,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private static void RegisterPresenters(DIContainer container)
         {
             container.RegisterAsSingle(CreateGameplayScreenPresenter).NonLazy();
+        }
+
+        private static GameplayPopupService CreateGameplayPopupService(DIContainer container)
+        {
+            return new(container.Resolve<ViewsFactory>(),
+                container.Resolve<ProjectPresentersFactory>(),
+                container.Resolve<UIRoot>(),
+                container.Resolve<GameplayPresentersFactory>());
         }
 
         private static AbilityFactory CreateAbilityFactory(DIContainer container)
@@ -106,18 +116,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         }
 
         private static GameplayPresentersFactory CreateGameplayPresentersFactory(DIContainer container)
-            => new(container);
-
-        private static WalletPresenter CreateWalletPresenter(DIContainer container)
-        {
-            UIRoot root = container.Resolve<UIRoot>();
-
-            IconTextListView view = container.Resolve<ViewsFactory>().Create<IconTextListView>(ViewIDs.WalletView, root.HUDLayer);
-
-            WalletPresenter presenter = container.Resolve<ProjectPresentersFactory>().CreateWalletPresenter(view);
-
-            return presenter;
-        }
+            => new(container, _inputArgs);
 
         private static GameplayStatesContext CreateGameplayStatesContext(DIContainer container)
             => new(

@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
@@ -10,25 +11,25 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
     public sealed class WinState : EndGameState, IUpdatableState
     {
+        private readonly GameplayPopupService _popupService;
         private readonly PlayerDataProvider _playerDataProvider;
-        private readonly SceneSwitcherService _sceneSwitcherService;
         private readonly ICoroutinesPerformer _coroutinesPerformer;
         private readonly WalletService _walletService;
         private readonly int _victoryReward;
 
         public WinState(
             PlayerDataProvider playerDataProvider,
-            SceneSwitcherService sceneSwitcherService,
             ICoroutinesPerformer coroutinesPerformer,
             IGameplayInputService inputService,
             WalletService walletService,
-            int victoryReward) : base(inputService)
+            int victoryReward,
+            GameplayPopupService popupService) : base(inputService)
         {
             _playerDataProvider = playerDataProvider;
-            _sceneSwitcherService = sceneSwitcherService;
             _coroutinesPerformer = coroutinesPerformer;
             _walletService = walletService;
             _victoryReward = victoryReward;
+            _popupService = popupService;
         }
 
         public override void Enter()
@@ -41,7 +42,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 
             _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
 
-            _coroutinesPerformer.StartPerform(_sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu));
+            _popupService.OpenWinPopup();
         }
 
         public void Update(float deltaTime)

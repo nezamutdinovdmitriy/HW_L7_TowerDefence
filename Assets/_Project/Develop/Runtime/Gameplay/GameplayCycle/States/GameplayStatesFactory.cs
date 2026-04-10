@@ -10,6 +10,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
+using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
@@ -95,19 +96,19 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
         public WinState CreateWinState(int victoryReward)
             => new(
                 _container.Resolve<PlayerDataProvider>(),
-                _container.Resolve<SceneSwitcherService>(),
                 _container.Resolve<ICoroutinesPerformer>(),
                 _container.Resolve<IGameplayInputService>(),
                 _container.Resolve<WalletService>(),
-                victoryReward
+                victoryReward,
+                _container.Resolve<GameplayPopupService>()
                 );
 
         public DefeatState CreateDefeatState()
             => new(
                 _container.Resolve<PlayerDataProvider>(),
-                _container.Resolve<SceneSwitcherService>(),
                 _container.Resolve<ICoroutinesPerformer>(),
-                _container.Resolve<IGameplayInputService>()
+                _container.Resolve<IGameplayInputService>(),
+                _container.Resolve<GameplayPopupService>()
                 );
     }
 }
