@@ -1,6 +1,7 @@
+using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.UI;
-using UnityEngine;
+using Assets._Project.Develop.Runtime.UI.CommonViews;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature
 {
@@ -12,5 +13,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
 
         public GameplayScreenPresenter CreateGameplayScreenPresenter(GameplayScreenView view)
             => new(view, _container.Resolve<GameplayPresentersFactory>(), _container.Resolve<ProjectPresentersFactory>());
+
+        public StagePresenter CreateStagePresenter(IconTextView view)
+            => new(view, _container.Resolve<StageProvider>());
     }
 }

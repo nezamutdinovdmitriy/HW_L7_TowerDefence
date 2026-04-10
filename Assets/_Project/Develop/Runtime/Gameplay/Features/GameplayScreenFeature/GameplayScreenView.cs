@@ -7,5 +7,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
     public class GameplayScreenView : MonoBehaviour, IView
     {
         [field: SerializeField] public IconTextListView WalletView { get; private set; }
+        [field: SerializeField] public IconTextView StageView { get; private set; }
     }
 }

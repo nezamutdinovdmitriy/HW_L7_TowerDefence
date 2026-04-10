@@ -1,6 +1,8 @@
+using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.UI;
 using Assets._Project.Develop.Runtime.UI.Core;
+using System;
 using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature
@@ -27,6 +29,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
         public void Initialize()
         {
             CreateWalletPresenter();
+            CreateStagePresenter();
 
             foreach (IPresenter presenter in _childPresenters)
                 presenter.Initialize();
@@ -36,6 +39,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
         {
             foreach (IPresenter presenter in _childPresenters)
                 presenter.Dispose();
+        }
+
+
+        private void CreateStagePresenter()
+        {
+            StagePresenter stagePresenter = _gameplayPresentersFactory.CreateStagePresenter(_screenView.StageView);
+            AddChildPresenter(stagePresenter);
         }
 
         private void CreateWalletPresenter()
