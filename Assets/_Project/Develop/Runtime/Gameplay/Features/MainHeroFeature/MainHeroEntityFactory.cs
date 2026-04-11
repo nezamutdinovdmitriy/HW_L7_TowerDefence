@@ -6,7 +6,6 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
@@ -54,14 +53,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddRotationDirection()
                 .AddTargetRotation()
                 .AddRotationSpeed(new ReactiveVariable<float>(towerConfig.RotationSpeed))
-                .AddAimPoint()
+                //.AddAimPoint()
                 .AddIsDead()
                 .AddInDeathProcess()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero))
-                .AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
-                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>());
+                .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero));
+                //.AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                //.AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>());
 
             Dictionary<AbilitySlotType, AbilityConfig> abilities = towerConfig.GetAbilities();
 
@@ -69,7 +68,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             {
                 Entity ability = _abilityFactory.Create(abilities[key], entity);
 
-                entity.AbilityStorage.Add(key, ability);
+                //entity.AbilityStorage.Add(key, ability);
             }
 
             ICompositeCondition mustDie = new CompositeCondition()
@@ -100,8 +99,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddCanRotate(canRotateToMousePosition)
                 .AddCanApplyDamage(canApplyDamage)
                 .AddCanUseArcaneMine(canUseArcaneMine)
-                .AddCanUseFireball(canUseFireball)
-                .AddAbilityCanUse(canUseAbilities);
+                .AddCanUseFireball(canUseFireball);
+                //.AddAbilityCanUse(canUseAbilities);
 
             entity
                 .AddSystem(new MouseRotationDirectionUpdateSystem(
@@ -110,7 +109,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new LookRotationSystem())
                 .AddSystem(new RotationClampSystem(30f))
                 .AddSystem(new TransformRotationAppliedSystem())
-                .AddSystem(new AbilityUseSystem())
+                //.AddSystem(new AbilityUseSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())

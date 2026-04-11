@@ -13,9 +13,9 @@ using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
 {
-    public sealed class CombatEntityFactory
+    public sealed class AbilityEffectsFactory
     {
         private readonly DIContainer _container;
 
@@ -25,7 +25,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
 
         private readonly CollidersRegistryService _collidersRegistryService;
 
-        public CombatEntityFactory(DIContainer container)
+        public AbilityEffectsFactory(DIContainer container)
         {
             _container = container;
             _monoEntitiesFactory = container.Resolve<MonoEntitiesFactory>();
@@ -38,13 +38,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             Entity entity = new();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.ProjectilePrefabPath, owner.ShootPoint.rotation);
 
-            Vector3 direction = (owner.AimPoint.Value - owner.ShootPoint.position).normalized;
+            //Vector3 direction = (owner.AimPoint.Value - owner.ShootPoint.position).normalized;
 
             entity
-                .AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
+                //.AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
                 .AddMovementDirection()
                 .AddMovementSpeed(new ReactiveVariable<float>(config.MovementSpeed))
-                .AddRotationDirection(new ReactiveVariable<Vector3>(direction))
+                //.AddRotationDirection(new ReactiveVariable<Vector3>(direction))
                 .AddTargetRotation()
                 .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
                 .AddIsMoving()
@@ -57,8 +57,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddExplosionRequested()
-                .AddShouldForceDeath()
-                .AddAbilityStartedEvent();
+                .AddShouldForceDeath();
+                //.AddAbilityStartedEvent();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -107,7 +107,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public Entity CreateArcaneMine(Entity owner, ArcaneMineAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.AimPoint.Value, config.MinePrefabPath);
+            //MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.AimPoint.Value, config.MinePrefabPath);
 
             entity
                 .AddIsDead()

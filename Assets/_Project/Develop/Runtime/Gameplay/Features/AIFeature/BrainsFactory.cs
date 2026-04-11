@@ -60,12 +60,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
 
                        //float threshold = entity.ExplosionRadius.Value;
 
-                       float threshold = entity.AbilityStorage[AbilitySlotType.Main].AbilityExplosionConfig.ExplosionRadius;
+                       //float threshold = entity.AbilityStorage[AbilitySlotType.Main].AbilityExplosionConfig.ExplosionRadius;
 
-                       float sqrDistance = (entity.Transfrom.position - targetPosition).sqrMagnitude;
-                       float sqrThreshold = threshold * threshold;
+                       //float sqrDistance = (entity.Transfrom.position - targetPosition).sqrMagnitude;
+                       //float sqrThreshold = threshold * threshold;
 
-                       if (sqrDistance <= sqrThreshold)
+                       //if (sqrDistance <= sqrThreshold)
                            return true;
                    }
 

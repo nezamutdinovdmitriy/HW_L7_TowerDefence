@@ -1,6 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
@@ -10,7 +9,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 {
     public sealed class ArcaneMineStartSystem : IInitializableSystem, IDisposableSystem
     {
-        private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly AbilityEffectsFactory _combatEntityFactory;
 
         private ReactiveEvent _useRequest;
        
@@ -21,25 +20,25 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         
         private IDisposable _disposable;
 
-        public ArcaneMineStartSystem(CombatEntityFactory combatEntityFactory)
+        public ArcaneMineStartSystem(AbilityEffectsFactory combatEntityFactory)
             => _combatEntityFactory = combatEntityFactory;
 
         public void OnInitialize(Entity entity)
         {
             _ability = entity;
-            _useRequest = entity.AbilityUseRequest;
-            _aimPoint = entity.AimPoint;
+            //_useRequest = entity.AbilityUseRequest;
+            //_aimPoint = entity.AimPoint;
             _canUse = entity.CanUseArcaneMine;
 
-            _disposable = _useRequest.Subscribe(OnAbilityUseRequested);
+            //_disposable = _useRequest.Subscribe(OnAbilityUseRequested);
         }
 
-        public void OnDispose() => _disposable.Dispose();
+        public void OnDispose() => _disposable?.Dispose();
 
         private void OnAbilityUseRequested()
         {
-            if (_canUse.Evaluate())
-                _combatEntityFactory.CreateArcaneMine(_ability, _ability.AbilityArcaneMineConfig);
+            //if (_canUse.Evaluate())
+            //    _combatEntityFactory.CreateArcaneMine(_ability, _ability.AbilityArcaneMineConfig);
         }
     }
 }

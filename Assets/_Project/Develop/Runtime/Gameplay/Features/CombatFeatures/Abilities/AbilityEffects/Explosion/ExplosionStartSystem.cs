@@ -1,7 +1,6 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
@@ -13,7 +12,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     {
         private ReactiveEvent _startedEvent;
 
-        private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly AbilityEffectsFactory _combatEntityFactory;
 
         private Entity _ability;
         private Entity _owner;
@@ -24,7 +23,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         private ICompositeCondition _canUse;
 
-        public ExplosionStartSystem(CombatEntityFactory combatEntityFactory, ExplosionAbilityConfig config)
+        public ExplosionStartSystem(AbilityEffectsFactory combatEntityFactory, ExplosionAbilityConfig config)
         {
             _combatEntityFactory = combatEntityFactory;
             _config = config;

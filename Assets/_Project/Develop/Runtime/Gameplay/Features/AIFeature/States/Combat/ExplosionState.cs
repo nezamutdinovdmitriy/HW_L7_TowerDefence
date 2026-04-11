@@ -17,7 +17,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
             base.Enter();
 
             _entity.IsDead.Value = true;
-            _entity.AbilityUseRequest.Invoke();
+            //_entity.AbilityUseRequest.Invoke();
         }
 
         public void Update(float deltaTime)

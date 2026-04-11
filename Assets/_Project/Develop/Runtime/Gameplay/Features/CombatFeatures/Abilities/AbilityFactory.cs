@@ -1,6 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
@@ -9,17 +8,17 @@ using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
 {
     public class AbilityFactory
     {
         private readonly EntitiesLifeContext _lifeContext;
-        private readonly CombatEntityFactory _combatEntityFactory;
+        private readonly AbilityEffectsFactory _combatEntityFactory;
         private readonly WalletService _wallet;
 
         public AbilityFactory(
             EntitiesLifeContext lifeContext,
-            CombatEntityFactory combatEntityFactory,
+            AbilityEffectsFactory combatEntityFactory,
             WalletService wallet)
         {
             _lifeContext = lifeContext;
@@ -35,7 +34,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
             {
                 case FireballAbilityConfig fireballAbilityConfig:
                     entity = CreateCommon(owner)
-                        .AddAbilityFireballConfig(fireballAbilityConfig)
+                        //.AddAbilityFireballConfig(fireballAbilityConfig)
                         .AddSystem(new FireballStartSystem(_combatEntityFactory));
                     break;
 
@@ -44,8 +43,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                             .Add(new FuncCondition(() => owner.IsDead.Value == false));
 
                     entity = CreateCommon(owner)
-                        .AddAbilityArcaneMineConfig(arcaneMineAbilityConfig)
-                        .AddAimPoint(owner.AimPoint)
+                        //.AddAbilityArcaneMineConfig(arcaneMineAbilityConfig)
+                        //.AddAimPoint(owner.AimPoint)
                         .AddCanUseArcaneMine(canSpawnArcaneMine)
                         .AddArcaneMineCost(new ReactiveVariable<int>(arcaneMineAbilityConfig.ActivationCost))
                         .AddSystem(new ArcaneMineStartSystem(_combatEntityFactory))
@@ -58,7 +57,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
                             .Add(new FuncCondition(() => owner.IsDead.Value));
 
                     entity = CreateCommon(owner)
-                        .AddAbilityExplosionConfig(explosionAbilityConfig)
+                        //.AddAbilityExplosionConfig(explosionAbilityConfig)
                         .AddTransfrom(owner.Transfrom)
                         .AddCanSpawnExplosion(canSpawnExplosion)
                         .AddSystem(new ExplosionStartSystem(_combatEntityFactory, explosionAbilityConfig));
@@ -77,10 +76,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
 
             entity
                 .SetParent(owner)
-                .AddAbilityUseRequest()
-                .AddAbilityStartedEvent()
-                .AddTeam(owner.Team)
-                .AddSystem(new AbilityStartSystem());
+                //.AddAbilityUseRequest()
+                //.AddAbilityStartedEvent()
+                .AddTeam(owner.Team);
+                //.AddSystem(new AbilityCastStartSystem());
 
             _lifeContext.Add(entity);
 

@@ -5,7 +5,6 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
@@ -58,7 +57,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                     {
                         Entity ability = _abilityFactory.Create(abilities[key], entity);
 
-                        entity.AbilityStorage.Add(key, ability);
+                        //entity.AbilityStorage.Add(key, ability);
                     }
 
                     _brainsFactory.CreateBaseEnemyBrain(entity, new MainHeroTargetSelector(_mainHeroHolderService));
@@ -91,10 +90,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddTakeDamageEvent()
                 .AddTeam(new ReactiveVariable<TeamType>(config.Team))
                 .AddCurrentTarget()
-                .AddShouldForceDeath()
-                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
-                .AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
-                .AddAbilityUseRequest();
+                .AddShouldForceDeath();
+                //.AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                //.AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                //.AddAbilityUseRequest();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -125,8 +124,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanApplyDamage(canApplyDamage)
-                .AddCanSpawnExplosion(canSpawnExplosion)
-                .AddAbilityCanUse(canUseAbilities);
+                .AddCanSpawnExplosion(canSpawnExplosion);
+                //.AddAbilityCanUse(canUseAbilities);
 
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
@@ -135,7 +134,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new LookRotationSystem())
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new ApplyDamageSystem())
-                .AddSystem(new AbilityUseSystem())
+                //.AddSystem(new AbilityUseSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));

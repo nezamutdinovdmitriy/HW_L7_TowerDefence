@@ -2,7 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
@@ -92,7 +92,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private static AbilityFactory CreateAbilityFactory(DIContainer container)
             => new(
                 container.Resolve<EntitiesLifeContext>(),
-                container.Resolve<CombatEntityFactory>(),
+                container.Resolve<AbilityEffectsFactory>(),
                 container.Resolve<WalletService>());
 
         private static UIRoot CreateGameplayUIRoot(DIContainer container)
@@ -150,7 +150,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private static MainHeroHolderService CreateMainHeroHolderService(DIContainer container)
             => new(container.Resolve<EntitiesLifeContext>());
 
-        private static CombatEntityFactory CreateCombatEntityFactory(DIContainer container) => new(container);
+        private static AbilityEffectsFactory CreateCombatEntityFactory(DIContainer container) => new(container);
 
         private static ScreenToWorldPositionConverter CreateScreenToWorldPositionConverter(DIContainer container)
             => new(

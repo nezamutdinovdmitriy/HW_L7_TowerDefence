@@ -30,7 +30,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature
         public void OnInitialize(Entity entity)
         {
             _rotationDirection = entity.RotationDirection;
-            _aimPoint = entity.AimPoint;
+            //_aimPoint = entity.AimPoint;
             _transform = entity.Transfrom;
             _canRotate = entity.CanRotate;
         }

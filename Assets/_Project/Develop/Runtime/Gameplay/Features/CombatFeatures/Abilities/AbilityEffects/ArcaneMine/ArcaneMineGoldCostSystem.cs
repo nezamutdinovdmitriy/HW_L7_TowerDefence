@@ -26,12 +26,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public void OnInitialize(Entity entity)
         {
             _cost = entity.ArcaneMineCost;
-            _arcaneMineUseEvent = entity.AbilityStartedEvent;
+            //_arcaneMineUseEvent = entity.AbilityStartedEvent;
 
-            _disposable = _arcaneMineUseEvent.Subscribe(OnArcaneMineUsed);
+            //_disposable = _arcaneMineUseEvent.Subscribe(OnArcaneMineUsed);
         }
 
-        public void OnDispose() => _disposable.Dispose();
+        public void OnDispose() => _disposable?.Dispose();
 
         private void OnArcaneMineUsed() => _walletService.Spend(_currencyType, _cost.Value);
     }
