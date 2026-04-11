@@ -21,11 +21,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono
         }
 
 
-        public MonoEntity Create(Entity entity, Vector3 position, string path)
+        public MonoEntity Create(Entity entity, Vector3 position, string path, Quaternion rotation = default)
         {
             MonoEntity prefab = _resources.Load<MonoEntity>(path);
 
-            MonoEntity viewInstance = Object.Instantiate(prefab, position, prefab.transform.rotation, null);
+            MonoEntity viewInstance = Object.Instantiate(prefab, position, rotation, null);
 
             viewInstance.Initialize(_colllidersRegistryService);
 

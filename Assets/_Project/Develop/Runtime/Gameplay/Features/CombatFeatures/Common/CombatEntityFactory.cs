@@ -11,9 +11,7 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using System;
 using UnityEngine;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common
 {
@@ -38,7 +36,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public Entity CreateFireBall(Entity owner, FireballAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.ProjectilePrefabPath);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.ProjectilePrefabPath, owner.ShootPoint.rotation);
 
             Vector3 direction = (owner.AimPoint.Value - owner.ShootPoint.position).normalized;
 
