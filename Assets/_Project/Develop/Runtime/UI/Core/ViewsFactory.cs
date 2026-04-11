@@ -12,7 +12,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core
 
         private readonly Dictionary<string, string> _viewIDToResourcesPath = new()
         {
-            {ViewIDs.CurrencyView, "UI/Wallet/CurrencyView" },
+            {ViewIDs.CurrencyView, "UI/Wallet/CurrencyView 1" },
             {ViewIDs.GameplayScreen, "UI/Gameplay/GameplayScreenView" },
             {ViewIDs.MainMenuScreen, "UI/MainMenu/MainMenuScreenView" },
             {ViewIDs.WalletView, "UI/Wallet/WalletVIew" },
