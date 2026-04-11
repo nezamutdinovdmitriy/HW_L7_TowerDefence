@@ -16,9 +16,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Entities
         [field: SerializeField] public float RotationSpeed { get; private set; }
 
 
-        public Dictionary<AbilityType, AbilityConfig> GetAbilities()
+        public Dictionary<AbilitySlotType, AbilityConfig> GetAbilities()
         {
-            Dictionary<AbilityType, AbilityConfig> abilities = new();
+            Dictionary<AbilitySlotType, AbilityConfig> abilities = new();
 
             foreach (AbilityData abilityData in _abilities)
                 abilities.Add(abilityData.AbilityType, abilityData.Config);
@@ -26,7 +26,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Entities
             return abilities;
         }
 
-        public bool TryGetAbilityConfigFor(AbilityType abilityType, out AbilityConfig abilityConfig)
+        public bool TryGetAbilityConfigFor(AbilitySlotType abilityType, out AbilityConfig abilityConfig)
         {
             AbilityData abilityData = _abilities.FirstOrDefault(data => data.AbilityType == abilityType);
 
@@ -43,7 +43,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Entities
         [Serializable]
         private class AbilityData
         {
-            public AbilityType AbilityType;
+            public AbilitySlotType AbilityType;
             public AbilityConfig Config;
         }
     }

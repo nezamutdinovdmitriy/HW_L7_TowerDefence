@@ -934,48 +934,48 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage AbilityStorageC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage>();
 
-		public System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> AbilityStorage => AbilityStorageC.Value;
+		public System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> AbilityStorage => AbilityStorageC.Value;
 
-		public bool TryGetAbilityStorage(out System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		public bool TryGetAbilityStorage(out System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
 		{
 			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage component);
 			if(result)
 				value = component.Value;
 			else
-				value = default(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>);
+				value = default(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>);
 			return result;
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStorage()
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage() { Value = new System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>() }); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage() { Value = new System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>() }); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStorage(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStorage(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
 		{
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCurrent AbilityCurrentC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCurrent>();
 
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType> AbilityCurrent => AbilityCurrentC.Value;
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType> AbilityCurrent => AbilityCurrentC.Value;
 
-		public bool TryGetAbilityCurrent(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType> value)
+		public bool TryGetAbilityCurrent(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType> value)
 		{
 			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCurrent component);
 			if(result)
 				value = component.Value;
 			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType>);
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType>);
 			return result;
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityCurrent()
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCurrent() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType>() }); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCurrent() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType>() }); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityCurrent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityType> value)
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityCurrent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType> value)
 		{
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityCurrent() {Value = value}); 
 		}

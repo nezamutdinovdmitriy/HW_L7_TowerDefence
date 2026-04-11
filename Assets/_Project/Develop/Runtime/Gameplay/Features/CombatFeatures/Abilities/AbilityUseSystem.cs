@@ -8,8 +8,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 {
     public sealed class AbilityUseSystem : IInitializableSystem, IUpdatableSystem
     {
-        private Dictionary<AbilityType, Entity> _abilityStorage;
-        private ReactiveVariable<AbilityType> _abilityCurrent;
+        private Dictionary<AbilitySlotType, Entity> _abilityStorage;
+        private ReactiveVariable<AbilitySlotType> _abilityCurrent;
 
         private ICompositeCondition _canUse;
 

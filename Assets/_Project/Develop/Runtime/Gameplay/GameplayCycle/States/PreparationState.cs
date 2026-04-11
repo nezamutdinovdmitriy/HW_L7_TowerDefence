@@ -22,7 +22,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 
             _timer.Restart();
 
-            _mainHeroHolderService.MainHero.AbilityCurrent.Value = AbilityType.Utility;
+            _mainHeroHolderService.MainHero.AbilityCurrent.Value = AbilitySlotType.Utility;
         }
 
         public override void Exit()

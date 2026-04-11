@@ -55,12 +55,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
 
     public sealed class AbilityStorage : IEntityComponent
     {
-        public Dictionary<AbilityType, Entity> Value;
+        public Dictionary<AbilitySlotType, Entity> Value;
     }
 
     public sealed class AbilityCurrent : IEntityComponent
     {
-        public ReactiveVariable<AbilityType> Value;
+        public ReactiveVariable<AbilitySlotType> Value;
     }
 
     public sealed class AimPoint : IEntityComponent

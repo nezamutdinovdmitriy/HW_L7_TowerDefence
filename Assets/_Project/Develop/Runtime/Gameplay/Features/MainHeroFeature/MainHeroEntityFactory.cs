@@ -60,12 +60,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
                 .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero))
-                .AddAbilityCurrent(new ReactiveVariable<AbilityType>(AbilityType.Main))
-                .AddAbilityStorage(new Dictionary<AbilityType, Entity>());
+                .AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>());
 
-            Dictionary<AbilityType, AbilityConfig> abilities = towerConfig.GetAbilities();
+            Dictionary<AbilitySlotType, AbilityConfig> abilities = towerConfig.GetAbilities();
 
-            foreach (AbilityType key in abilities.Keys)
+            foreach (AbilitySlotType key in abilities.Keys)
             {
                 Entity ability = _abilityFactory.Create(abilities[key], entity);
 

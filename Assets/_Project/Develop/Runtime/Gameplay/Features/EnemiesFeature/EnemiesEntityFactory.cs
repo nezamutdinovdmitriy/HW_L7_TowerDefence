@@ -52,9 +52,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 case BaseCreepConfig baseCreepConfig:
                     entity = CreateBaseСreep(baseCreepConfig, position);
 
-                    Dictionary<AbilityType, AbilityConfig> abilities = baseCreepConfig.GetAbilities();
+                    Dictionary<AbilitySlotType, AbilityConfig> abilities = baseCreepConfig.GetAbilities();
 
-                    foreach (AbilityType key in abilities.Keys)
+                    foreach (AbilitySlotType key in abilities.Keys)
                     {
                         Entity ability = _abilityFactory.Create(abilities[key], entity);
 
@@ -92,8 +92,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddTeam(new ReactiveVariable<TeamType>(config.Team))
                 .AddCurrentTarget()
                 .AddShouldForceDeath()
-                .AddAbilityStorage(new Dictionary<AbilityType, Entity>())
-                .AddAbilityCurrent(new ReactiveVariable<AbilityType>(AbilityType.Main))
+                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
                 .AddAbilityUseRequest();
 
             ICompositeCondition canMove = new CompositeCondition()
