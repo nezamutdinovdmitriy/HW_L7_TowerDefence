@@ -37,7 +37,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public Entity CreateFireBall(Entity owner, FireballAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.PrefabPath, owner.ShootPoint.rotation);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.ProjectileConfig.PrefabPath, owner.ShootPoint.rotation);
 
             Vector3 direction = (owner.InputAimPoint.Value - owner.ShootPoint.position).normalized;
 
@@ -59,7 +59,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddExplosionRequested()
                 .AddShouldForceDeath();
-            //.AddAbilityStartedEvent();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));

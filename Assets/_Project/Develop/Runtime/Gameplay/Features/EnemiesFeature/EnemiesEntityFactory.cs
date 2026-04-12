@@ -12,6 +12,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
@@ -143,7 +144,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new LookRotationSystem())
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new ApplyDamageSystem())
-                .AddSystem(new AbilityCastStartSystem())
+                .AddSystem(new AbilityCastStartSystem(_container.Resolve<WalletService>()))
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));

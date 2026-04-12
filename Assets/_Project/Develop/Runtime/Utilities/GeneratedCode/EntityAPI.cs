@@ -1086,6 +1086,68 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityAnimatorKey() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCost AbilityCostC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCost>();
+
+		public System.Int32 AbilityCost => AbilityCostC.Value;
+
+		public bool TryGetAbilityCost(out System.Int32 value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCost component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(System.Int32);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityCost(System.Int32 value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCost() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrencyCost CurrencyCostC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrencyCost>();
+
+		public Assets._Project.Develop.Runtime.Meta.Features.WalletFeature.CurrencyType CurrencyCost => CurrencyCostC.Value;
+
+		public bool TryGetCurrencyCost(out Assets._Project.Develop.Runtime.Meta.Features.WalletFeature.CurrencyType value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrencyCost component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Meta.Features.WalletFeature.CurrencyType);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCurrencyCost(Assets._Project.Develop.Runtime.Meta.Features.WalletFeature.CurrencyType value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrencyCost() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldSpendCost ShouldSpendCostC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldSpendCost>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> ShouldSpendCost => ShouldSpendCostC.Value;
+
+		public bool TryGetShouldSpendCost(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldSpendCost component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddShouldSpendCost()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldSpendCost() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddShouldSpendCost(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldSpendCost() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRadius ExplosionRadiusC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRadius>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> ExplosionRadius => ExplosionRadiusC.Value;
@@ -1199,78 +1261,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddExplosionRequested(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
 		{
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRequested() {Value = value}); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseRequest ArcaneMineUseRequestC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseRequest>();
-
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent ArcaneMineUseRequest => ArcaneMineUseRequestC.Value;
-
-		public bool TryGetArcaneMineUseRequest(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
-		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseRequest component);
-			if(result)
-				value = component.Value;
-			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent);
-			return result;
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddArcaneMineUseRequest()
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseRequest() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddArcaneMineUseRequest(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseRequest() {Value = value}); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseEvent ArcaneMineUseEventC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseEvent>();
-
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent ArcaneMineUseEvent => ArcaneMineUseEventC.Value;
-
-		public bool TryGetArcaneMineUseEvent(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
-		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseEvent component);
-			if(result)
-				value = component.Value;
-			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent);
-			return result;
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddArcaneMineUseEvent()
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseEvent() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddArcaneMineUseEvent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineUseEvent() {Value = value}); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineCost ArcaneMineCostC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineCost>();
-
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> ArcaneMineCost => ArcaneMineCostC.Value;
-
-		public bool TryGetArcaneMineCost(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
-		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineCost component);
-			if(result)
-				value = component.Value;
-			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>);
-			return result;
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddArcaneMineCost()
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineCost() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>() }); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddArcaneMineCost(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.ArcaneMineCost() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.CanUseArcaneMine CanUseArcaneMineC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine.CanUseArcaneMine>();

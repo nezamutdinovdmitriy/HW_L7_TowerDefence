@@ -7,6 +7,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities
     [CreateAssetMenu(menuName = "Configs/Gameplay/Abilities/NewArcaneMineAbilityConfig", fileName = "ArcaneMineAbilityConfig")]
     public class ArcaneMineAbilityConfig : AbilityConfig
     {
+        [field: SerializeField] public string PrefabPath { get; private set; }
         [field: SerializeField] public string AbilityParameterKey { get; private set; }
         [field: SerializeField] public float ActivationRadius { get; private set; }
         [field: SerializeField] public CurrencyType CostCurrency { get; private set; }

@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 
@@ -51,5 +52,20 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     public sealed class AbilityAnimatorKey : IEntityComponent
     {
         public string Value;
+    }
+
+    public sealed class AbilityCost : IEntityComponent
+    {
+        public int Value;
+    }
+
+    public sealed class CurrencyCost : IEntityComponent
+    {
+        public CurrencyType Value;
+    }
+
+    public sealed class ShouldSpendCost : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
     }
 }

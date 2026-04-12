@@ -3,24 +3,23 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using Unity.VisualScripting.FullSerializer;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine
 {
     public sealed class ArcaneMineSpawnSystem : IInitializableSystem, IUpdatableSystem
     {
         private readonly AbilityEffectsFactory _combatEntityFactory;
-
-        private ArcaneMineAbilityConfig _config;
-
-        private ReactiveVariable<bool> _shouldSpawnEffect;
+        private readonly ArcaneMineAbilityConfig _config;
 
         private Entity _owner;
 
+        private ReactiveVariable<bool> _shouldSpawnEffect;
+        private ReactiveVariable<bool> _shouldSpendCost;
         private ICompositeCondition _canUse;
 
-        public ArcaneMineSpawnSystem(AbilityEffectsFactory combatEntityFactory, ArcaneMineAbilityConfig config)
+        public ArcaneMineSpawnSystem(
+            AbilityEffectsFactory combatEntityFactory, 
+            ArcaneMineAbilityConfig config)
         {
             _combatEntityFactory = combatEntityFactory;
             _config = config;
@@ -31,6 +30,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _owner = entity.Hierarchy.Value.Parent;
             _canUse = entity.CanUseArcaneMine;
             _shouldSpawnEffect = entity.ShouldSpawnEffect;
+            _shouldSpendCost = entity.ShouldSpendCost;
         }
 
         public void OnUpdate(float deltaTime)

@@ -93,7 +93,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new LookRotationSystem())
                 .AddSystem(new RotationClampSystem(30f))
                 .AddSystem(new TransformRotationAppliedSystem())
-                .AddSystem(new AbilityCastStartSystem())
+                .AddSystem(new AbilityCastStartSystem(_container.Resolve<WalletService>()))
                 //.AddSystem(new AbilityUseSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())

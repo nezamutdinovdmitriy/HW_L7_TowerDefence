@@ -58,10 +58,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(arcaneMineAbilityConfig.AbilityData.AbilitySlot))
                         .AddAbility(new ReactiveVariable<AbilityType>(arcaneMineAbilityConfig.AbilityData.AbilityType))
                         .AddCanUseArcaneMine(canSpawnArcaneMine)
-                        .AddArcaneMineCost(new ReactiveVariable<int>(arcaneMineAbilityConfig.ActivationCost))
+                        .AddCurrencyCost(arcaneMineAbilityConfig.CostCurrency)
+                        .AddAbilityCost(arcaneMineAbilityConfig.ActivationCost)
+                        .AddShouldSpendCost()
                         .AddSystem(new AbilityCastProcessSystem())
-                        .AddSystem(new ArcaneMineSpawnSystem(_combatEntityFactory, arcaneMineAbilityConfig))
-                        .AddSystem(new ArcaneMineGoldCostSystem(arcaneMineAbilityConfig.CostCurrency, _wallet));
+                        .AddSystem(new ArcaneMineSpawnSystem(_combatEntityFactory, arcaneMineAbilityConfig));
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:

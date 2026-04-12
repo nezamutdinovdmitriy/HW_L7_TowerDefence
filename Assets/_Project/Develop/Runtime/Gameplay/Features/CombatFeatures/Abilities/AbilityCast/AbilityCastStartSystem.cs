@@ -1,20 +1,28 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast
 {
     public class AbilityCastStartSystem : IInitializableSystem, IUpdatableSystem
     {
+        private readonly WalletService _wallet;
+
         private Dictionary<AbilitySlotType, Entity> _abilityStorage;
         private ReactiveVariable<AbilitySlotType> _abilityCurrent;
 
         private ReactiveVariable<bool> _abilityCastInProcess;
 
         private ICompositeCondition _canCastAbility;
+
+        private Entity _ability;
+
+        public AbilityCastStartSystem(WalletService wallet) => _wallet = wallet;
+
 
         public void OnInitialize(Entity entity)
         {
@@ -23,6 +31,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
             _canCastAbility = entity.CanCastAbility;
             _abilityCastInProcess = entity.AbilityCastInProcess;
+
+            _ability = _abilityStorage[_abilityCurrent.Value];
         }
 
         public void OnUpdate(float deltaTime)
@@ -37,7 +47,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
             _abilityStorage[_abilityCurrent.Value].ShouldStartProcess.Value = true;
 
-            Debug.Log("+++");
+            if (_abilityStorage[_abilityCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
+                _wallet.Spend(_abilityStorage[_abilityCurrent.Value].CurrencyCost, _abilityStorage[_abilityCurrent.Value].AbilityCost);
+
+            //if (_ability.TryGetShouldSpendCost(out ReactiveVariable<bool> value))
+            //    _wallet.Spend(_ability.CurrencyCost, _ability.AbilityCost);
         }
     }
 }

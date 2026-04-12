@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665e89a77df59ba41845e299af58b3ba, type: 3}
   m_Name: FireballProjectileConfig
   m_EditorClassIdentifier: 
+  <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Fireball
   <ProjectileSpeed>k__BackingField: 15
   <ProjectileRotationSpeed>k__BackingField: 900
