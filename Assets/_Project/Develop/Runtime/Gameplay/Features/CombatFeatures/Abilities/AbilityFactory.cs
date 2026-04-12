@@ -1,5 +1,4 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.Casts;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
@@ -9,7 +8,6 @@ using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
 {
@@ -37,11 +35,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             {
                 case FireballAbilityConfig fireballAbilityConfig:
                     entity = CreateCommon(owner)
-                        .AddAbilityCastInitialTime(new ReactiveVariable<float>(fireballAbilityConfig.InitialTime))
-                        .AddAbilityCastCurrentTime(new ReactiveVariable<float>(fireballAbilityConfig.InitialTime))
-                        .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(fireballAbilityConfig.EffectSpawnDelay))
-                        .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(fireballAbilityConfig.AbilitySlot))
-                        .AddAbility(new ReactiveVariable<AbilityType>(fireballAbilityConfig.AbilityType))
+                        .AddAbilityCastInitialTime(new ReactiveVariable<float>(fireballAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastCurrentTime(new ReactiveVariable<float>(fireballAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(fireballAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(fireballAbilityConfig.AbilityData.AbilitySlot))
+                        .AddAbility(new ReactiveVariable<AbilityType>(fireballAbilityConfig.AbilityData.AbilityType))
                         .AddSystem(new AbilityCastProcessSystem())
                         .AddSystem(new ProjectileSpawnSystem(_combatEntityFactory, fireballAbilityConfig));
                     break;
@@ -54,11 +52,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
                     entity = CreateCommon(owner)
 
-                        .AddAbilityCastInitialTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.InitialTime))
-                        .AddAbilityCastCurrentTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.InitialTime))
-                        .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(arcaneMineAbilityConfig.EffectSpawnDelay))
-                        .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(arcaneMineAbilityConfig.AbilitySlot))
-                        .AddAbility(new ReactiveVariable<AbilityType>(arcaneMineAbilityConfig.AbilityType))
+                        .AddAbilityCastInitialTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastCurrentTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(arcaneMineAbilityConfig.AbilityData.AbilitySlot))
+                        .AddAbility(new ReactiveVariable<AbilityType>(arcaneMineAbilityConfig.AbilityData.AbilityType))
                         .AddCanUseArcaneMine(canSpawnArcaneMine)
                         .AddArcaneMineCost(new ReactiveVariable<int>(arcaneMineAbilityConfig.ActivationCost))
                         .AddSystem(new AbilityCastProcessSystem())
@@ -74,9 +72,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                     entity = CreateCommon(owner)
                         .AddTransfrom(owner.Transfrom)
                         .AddCanSpawnExplosion(canSpawnExplosion)
-                        .AddExplosionDamage(new(explosionAbilityConfig.ExplosionDamage))
-                        .AddExplosionRadius(new(explosionAbilityConfig.ExplosionRadius))
-                        .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, explosionAbilityConfig));
+                        .AddExplosionDamage(new(explosionAbilityConfig.ExplosionConfig.ExplosionDamage))
+                        .AddExplosionRadius(new(explosionAbilityConfig.ExplosionConfig.ExplosionRadius))
+                        .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, explosionAbilityConfig.ExplosionConfig));
                     break;
 
                 default:

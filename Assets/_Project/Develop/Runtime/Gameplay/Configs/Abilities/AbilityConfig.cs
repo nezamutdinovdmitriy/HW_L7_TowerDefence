@@ -1,11 +1,12 @@
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.Casts;
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.Effects;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.Data;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities
 {
     public class AbilityConfig : ScriptableObject
     {
+        [field: SerializeField] public string PrefabPath { get; private set; }
+        [field: SerializeField] public AbilityData AbilityData { get; private set; }
+        [field: SerializeField] public AbilityCastData CastData { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Common;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
@@ -43,10 +44,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             entity
                 .AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
                 .AddMovementDirection()
-                .AddMovementSpeed(new ReactiveVariable<float>(config.ProjectileSpeed))
+                .AddMovementSpeed(new ReactiveVariable<float>(config.ProjectileConfig.ProjectileSpeed))
                 .AddRotationDirection(new ReactiveVariable<Vector3>(direction))
                 .AddTargetRotation()
-                .AddRotationSpeed(new ReactiveVariable<float>(config.ProjectileRotationSpeed))
+                .AddRotationSpeed(new ReactiveVariable<float>(config.ProjectileConfig.ProjectileRotationSpeed))
                 .AddIsMoving()
                 .AddIsDead()
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
@@ -152,7 +153,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             return entity;
         }
 
-        public Entity CreateExplosion(Vector3 position, Entity owner, ExplosionAbilityConfig config)
+        public Entity CreateExplosion(Vector3 position, Entity owner, ExplosionConfig config)
         {
             Entity entity = new();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PrefabPath);

@@ -9,14 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfec219257f35c5429b5d5a331dba638, type: 3}
-  m_Name: ProjectileExplosionAbilityConfig 1
+  m_Script: {fileID: 11500000, guid: 096955a0dfcb5df41b44354410fcea92, type: 3}
+  m_Name: FireballExplosionConfig
   m_EditorClassIdentifier: 
-  <AbilityType>k__BackingField: 2
-  <AbilitySlot>k__BackingField: 0
-  <AbilityParameterKey>k__BackingField: sss
   <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Explosion
-  <InitialTime>k__BackingField: 0
-  <EffectSpawnDelay>k__BackingField: 0
   <ExplosionDamage>k__BackingField: 50
-  <ExplosionRadius>k__BackingField: 10
+  <ExplosionRadius>k__BackingField: 5
