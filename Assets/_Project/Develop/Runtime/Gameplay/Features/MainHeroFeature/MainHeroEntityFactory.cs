@@ -65,15 +65,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
                 .AddAbilityCastInProcess();
 
-            Dictionary<AbilitySlotType, AbilityConfig> abilities = towerConfig.GetAbilities();
-
-            foreach (AbilitySlotType key in abilities.Keys)
-            {
-                Entity ability = _abilityFactory.Create(abilities[key], entity);
-
-                entity.AbilityStorage.Add(key, ability);
-            }
-
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
 
@@ -113,6 +104,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);
+
+            Dictionary<AbilitySlotType, AbilityConfig> abilities = towerConfig.GetAbilities();
+
+            foreach (AbilitySlotType key in abilities.Keys)
+            {
+                Entity ability = _abilityFactory.Create(abilities[key], entity);
+
+                entity.AbilityStorage.Add(key, ability);
+            }
 
             return entity;
         }
