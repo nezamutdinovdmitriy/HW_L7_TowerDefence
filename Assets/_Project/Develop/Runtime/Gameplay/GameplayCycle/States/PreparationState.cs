@@ -2,6 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Utilities.StateMachineCore;
 using Assets._Project.Develop.Runtime.Utilities.Timer;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
@@ -22,7 +23,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 
             _timer.Restart();
 
-            //_mainHeroHolderService.MainHero.AbilityCurrent.Value = AbilitySlotType.Utility;
+            _mainHeroHolderService.MainHero.AbilityCurrent.Value = AbilitySlotType.Utility;
         }
 
         public override void Exit()

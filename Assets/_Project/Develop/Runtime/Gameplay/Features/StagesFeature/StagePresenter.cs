@@ -20,7 +20,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature
 
         public void Initialize()
         {
-            Debug.Log("++++");
             _disposable = _stageProvider.CurrentStageNumber.Subscribe(OnNextStageIndexChanged);
 
             UpdateStage();

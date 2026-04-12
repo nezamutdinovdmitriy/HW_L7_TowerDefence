@@ -36,17 +36,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public Entity CreateFireBall(Entity owner, FireballAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.ProjectilePrefabPath, owner.ShootPoint.rotation);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.PrefabPath, owner.ShootPoint.rotation);
 
-            //Vector3 direction = (owner.AimPoint.Value - owner.ShootPoint.position).normalized;
+            Vector3 direction = (owner.InputAimPoint.Value - owner.ShootPoint.position).normalized;
 
             entity
-                //.AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
+                .AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
                 .AddMovementDirection()
-                .AddMovementSpeed(new ReactiveVariable<float>(config.MovementSpeed))
-                //.AddRotationDirection(new ReactiveVariable<Vector3>(direction))
+                .AddMovementSpeed(new ReactiveVariable<float>(config.ProjectileSpeed))
+                .AddRotationDirection(new ReactiveVariable<Vector3>(direction))
                 .AddTargetRotation()
-                .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
+                .AddRotationSpeed(new ReactiveVariable<float>(config.ProjectileRotationSpeed))
                 .AddIsMoving()
                 .AddIsDead()
                 .AddContactsCollidersBuffer(new Buffer<Collider>(64))
@@ -58,7 +58,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddExplosionRequested()
                 .AddShouldForceDeath();
-                //.AddAbilityStartedEvent();
+            //.AddAbilityStartedEvent();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -95,7 +95,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionStartSystem(this, config.ExplosionConfig))
+                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -107,7 +107,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public Entity CreateArcaneMine(Entity owner, ArcaneMineAbilityConfig config)
         {
             Entity entity = new();
-            //MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.AimPoint.Value, config.MinePrefabPath);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.InputAimPoint.Value, config.PrefabPath);
 
             entity
                 .AddIsDead()
@@ -143,7 +143,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionStartSystem(this, config.ExplosionConfig))
+                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -155,7 +155,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public Entity CreateExplosion(Vector3 position, Entity owner, ExplosionAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.EffectPrefabPath);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PrefabPath);
 
             entity
                 .AddIsDead()

@@ -33,6 +33,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public ReactiveVariable<bool> Value;
     }
 
+    public sealed class ShouldStartProcess : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
+
     public sealed class AbilitySlot : IEntityComponent
     {
         public ReactiveVariable<AbilitySlotType> Value;
@@ -41,5 +46,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     public sealed class Ability : IEntityComponent
     {
         public ReactiveVariable<AbilityType> Value;
+    }
+
+    public sealed class AbilityAnimatorKey : IEntityComponent
+    {
+        public string Value;
     }
 }

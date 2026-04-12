@@ -995,6 +995,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldSpawnEffect() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldStartProcess ShouldStartProcessC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldStartProcess>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> ShouldStartProcess => ShouldStartProcessC.Value;
+
+		public bool TryGetShouldStartProcess(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldStartProcess component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddShouldStartProcess()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldStartProcess() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddShouldStartProcess(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ShouldStartProcess() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlot AbilitySlotC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlot>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType> AbilitySlot => AbilitySlotC.Value;
@@ -1043,47 +1067,23 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Ability() {Value = value}); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.FireballUseRequest FireballUseRequestC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.FireballUseRequest>();
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityAnimatorKey AbilityAnimatorKeyC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityAnimatorKey>();
 
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent FireballUseRequest => FireballUseRequestC.Value;
+		public System.String AbilityAnimatorKey => AbilityAnimatorKeyC.Value;
 
-		public bool TryGetFireballUseRequest(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
+		public bool TryGetAbilityAnimatorKey(out System.String value)
 		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.FireballUseRequest component);
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityAnimatorKey component);
 			if(result)
 				value = component.Value;
 			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent);
+				value = default(System.String);
 			return result;
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddFireballUseRequest()
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityAnimatorKey(System.String value)
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.FireballUseRequest() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent() }); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddFireballUseRequest(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent value)
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.FireballUseRequest() {Value = value}); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.CanUseFireball CanUseFireballC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.CanUseFireball>();
-
-		public Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanUseFireball => CanUseFireballC.Value;
-
-		public bool TryGetCanUseFireball(out Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
-		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.CanUseFireball component);
-			if(result)
-				value = component.Value;
-			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition);
-			return result;
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanUseFireball(Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball.CanUseFireball() {Value = value}); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityAnimatorKey() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRadius ExplosionRadiusC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRadius>();

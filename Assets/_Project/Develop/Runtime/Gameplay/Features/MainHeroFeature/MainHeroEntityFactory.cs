@@ -1,9 +1,11 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.Casts;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
@@ -53,14 +55,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddRotationDirection()
                 .AddTargetRotation()
                 .AddRotationSpeed(new ReactiveVariable<float>(towerConfig.RotationSpeed))
-                //.AddAimPoint()
+                .AddInputAimPoint()
                 .AddIsDead()
                 .AddInDeathProcess()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero));
-                //.AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
-                //.AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>());
+                .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero))
+                .AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddAbilityCastInProcess();
 
             Dictionary<AbilitySlotType, AbilityConfig> abilities = towerConfig.GetAbilities();
 
@@ -68,7 +71,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             {
                 Entity ability = _abilityFactory.Create(abilities[key], entity);
 
-                //entity.AbilityStorage.Add(key, ability);
+                entity.AbilityStorage.Add(key, ability);
             }
 
             ICompositeCondition mustDie = new CompositeCondition()
@@ -83,13 +86,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             ICompositeCondition canApplyDamage = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
-            ICompositeCondition canUseArcaneMine = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsDead.Value == false))
-                .Add(new FuncCondition(() => _walletService.Enough(CurrencyType.Gold, entity.ArcaneMineCost.Value)));
-
-            ICompositeCondition canUseFireball = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsDead.Value == false));
-
             ICompositeCondition canUseAbilities = new CompositeCondition()
                 .Add(new FuncCondition(() => _inputService.IsShooting));
 
@@ -98,8 +94,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanRotate(canRotateToMousePosition)
                 .AddCanApplyDamage(canApplyDamage)
-                .AddCanUseArcaneMine(canUseArcaneMine)
-                .AddCanUseFireball(canUseFireball);
+                .AddCanCastAbility(canUseAbilities);
+                //.AddCanUseFireball(canUseFireball);
                 //.AddAbilityCanUse(canUseAbilities);
 
             entity
@@ -109,6 +105,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new LookRotationSystem())
                 .AddSystem(new RotationClampSystem(30f))
                 .AddSystem(new TransformRotationAppliedSystem())
+                .AddSystem(new AbilityCastStartSystem())
                 //.AddSystem(new AbilityUseSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())

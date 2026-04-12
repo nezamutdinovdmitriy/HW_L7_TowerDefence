@@ -23,7 +23,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
             _stageProvider.SwitchToNextStage();
             _stageProvider.StartCurrent();
 
-            //_mainHeroHolderService.MainHero.AbilityCurrent.Value = AbilitySlotType.Main;
+            _mainHeroHolderService.MainHero.AbilityCurrent.Value = AbilitySlotType.Main;
         }
 
         public void Update(float deltaTime)

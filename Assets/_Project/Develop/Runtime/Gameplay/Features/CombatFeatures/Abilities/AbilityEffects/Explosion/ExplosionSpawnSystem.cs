@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion
 {
-    public sealed class ExplosionStartSystem : IInitializableSystem, IUpdatableSystem
+    public sealed class ExplosionSpawnSystem : IInitializableSystem, IUpdatableSystem
     {
         private ReactiveEvent _startedEvent;
 
-        private readonly AbilityEffectsFactory _combatEntityFactory;
+        private readonly AbilityEffectsFactory _abilityEffectsFactory;
 
         private Entity _ability;
         private Entity _owner;
@@ -23,9 +23,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         private ICompositeCondition _canUse;
 
-        public ExplosionStartSystem(AbilityEffectsFactory combatEntityFactory, ExplosionAbilityConfig config)
+        public ExplosionSpawnSystem(AbilityEffectsFactory abilityEffectsFactory, ExplosionAbilityConfig config) //ExplosionAbilityConfig config
         {
-            _combatEntityFactory = combatEntityFactory;
+            _abilityEffectsFactory = abilityEffectsFactory;
             _config = config;
         }
 
@@ -57,7 +57,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public void OnUpdate(float deltaTime)
         {
             if (_canUse.Evaluate())
-                _combatEntityFactory.CreateExplosion(_transform.position, _ability, _config);
+                _abilityEffectsFactory.CreateExplosion(_transform.position, _ability, _config);
         }
     }
 }

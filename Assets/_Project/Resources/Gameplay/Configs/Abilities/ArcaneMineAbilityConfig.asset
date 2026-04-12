@@ -9,12 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a080a3c504f05742a4fc91f8800e9b3, type: 3}
+  m_Script: {fileID: 11500000, guid: cf2a65c3589dcda4284ad97d838d6675, type: 3}
   m_Name: ArcaneMineAbilityConfig
   m_EditorClassIdentifier: 
-  <MinePrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Mine
-  <ActivationRadius>k__BackingField: 5
-  <ActivationCost>k__BackingField: 50
-  <ExplosionConfig>k__BackingField: {fileID: 11400000, guid: c1c21cc78fe716341a078824fd8fcb05,
+  <AbilityType>k__BackingField: 1
+  <AbilitySlot>k__BackingField: 1
+  <AbilityParameterKey>k__BackingField: sssd
+  <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Mine
+  <InitialTime>k__BackingField: 1.33
+  <EffectSpawnDelay>k__BackingField: 0.89
+  <ExplosionConfig>k__BackingField: {fileID: 11400000, guid: 605f0bb319184c94d910b4a7e5e4d1ad,
     type: 2}
-  <ProcessTime>k__BackingField: 1
+  <ActivationRadius>k__BackingField: 10
+  <ActivationCost>k__BackingField: 5
+  <CostCurrency>k__BackingField: 0

@@ -5,6 +5,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
@@ -51,14 +52,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 case BaseCreepConfig baseCreepConfig:
                     entity = CreateBaseСreep(baseCreepConfig, position);
 
-                    Dictionary<AbilitySlotType, AbilityConfig> abilities = baseCreepConfig.GetAbilities();
+                    //Dictionary<AbilitySlotType, AbilityConfig> abilities = baseCreepConfig.GetAbilities();
 
-                    foreach (AbilitySlotType key in abilities.Keys)
-                    {
-                        Entity ability = _abilityFactory.Create(abilities[key], entity);
+                    //foreach (AbilitySlotType key in abilities.Keys)
+                    //{
+                    //    Entity ability = _abilityFactory.Create(abilities[key], entity);
 
-                        //entity.AbilityStorage.Add(key, ability);
-                    }
+                    //    entity.AbilityStorage.Add(key, ability);
+                    //}
 
                     _brainsFactory.CreateBaseEnemyBrain(entity, new MainHeroTargetSelector(_mainHeroHolderService));
                     _entitiesLifeContext.Add(entity);
@@ -90,10 +91,19 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddTakeDamageEvent()
                 .AddTeam(new ReactiveVariable<TeamType>(config.Team))
                 .AddCurrentTarget()
-                .AddShouldForceDeath();
-                //.AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
-                //.AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
-                //.AddAbilityUseRequest();
+                .AddShouldForceDeath()
+                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                .AddAbilityCastInProcess();
+
+            Dictionary<AbilitySlotType, AbilityConfig> abilities = config.GetAbilities();
+
+            foreach (AbilitySlotType key in abilities.Keys)
+            {
+                Entity ability = _abilityFactory.Create(abilities[key], entity);
+
+                entity.AbilityStorage.Add(key, ability);
+            }
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -124,8 +134,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanApplyDamage(canApplyDamage)
-                .AddCanSpawnExplosion(canSpawnExplosion);
-                //.AddAbilityCanUse(canUseAbilities);
+                .AddCanCastAbility(canUseAbilities);
 
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
@@ -134,7 +143,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new LookRotationSystem())
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new ApplyDamageSystem())
-                //.AddSystem(new AbilityUseSystem())
+                .AddSystem(new AbilityCastStartSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));

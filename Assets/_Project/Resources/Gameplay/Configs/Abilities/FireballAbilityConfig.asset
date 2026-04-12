@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d97d7dfbf28cda48975748f767551d1, type: 3}
   m_Name: FireballAbilityConfig
   m_EditorClassIdentifier: 
-  <ProjectilePrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Fireball
-  <MovementSpeed>k__BackingField: 15
-  <RotationSpeed>k__BackingField: 800
-  <ExplosionConfig>k__BackingField: {fileID: 11400000, guid: 77c1dae0489235d4999fad8daa11fcb3,
+  <AbilityType>k__BackingField: 0
+  <AbilitySlot>k__BackingField: 0
+  <AbilityParameterKey>k__BackingField: sos
+  <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Fireball
+  <ProjectileSpeed>k__BackingField: 20
+  <ProjectileRotationSpeed>k__BackingField: 900
+  <InitialTime>k__BackingField: 1.33
+  <EffectSpawnDelay>k__BackingField: 0.89
+  <ExplosionConfig>k__BackingField: {fileID: 11400000, guid: 605f0bb319184c94d910b4a7e5e4d1ad,
     type: 2}
-  <ProcessTime>k__BackingField: 1

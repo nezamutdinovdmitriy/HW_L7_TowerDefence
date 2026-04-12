@@ -15,4 +15,4 @@ MonoBehaviour:
   _waveConfigs:
   - <EntityConfig>k__BackingField: {fileID: 11400000, guid: 0978a42205c2f8d4c9c16f880d9a7ab3,
       type: 2}
-    <Count>k__BackingField: 5
+    <Count>k__BackingField: 3

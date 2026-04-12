@@ -1,5 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities.Casts;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
@@ -7,6 +9,7 @@ using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
 {
@@ -34,33 +37,46 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             {
                 case FireballAbilityConfig fireballAbilityConfig:
                     entity = CreateCommon(owner)
-                        //.AddAbilityFireballConfig(fireballAbilityConfig)
-                        .AddSystem(new FireballStartSystem(_combatEntityFactory));
+                        .AddAbilityCastInitialTime(new ReactiveVariable<float>(fireballAbilityConfig.InitialTime))
+                        .AddAbilityCastCurrentTime(new ReactiveVariable<float>(fireballAbilityConfig.InitialTime))
+                        .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(fireballAbilityConfig.EffectSpawnDelay))
+                        .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(fireballAbilityConfig.AbilitySlot))
+                        .AddAbility(new ReactiveVariable<AbilityType>(fireballAbilityConfig.AbilityType))
+                        .AddSystem(new AbilityCastProcessSystem())
+                        .AddSystem(new ProjectileSpawnSystem(_combatEntityFactory, fireballAbilityConfig));
                     break;
 
                 case ArcaneMineAbilityConfig arcaneMineAbilityConfig:
                     ICompositeCondition canSpawnArcaneMine = new CompositeCondition()
-                            .Add(new FuncCondition(() => owner.IsDead.Value == false));
+                            .Add(new FuncCondition(() => _wallet.Enough(
+                                arcaneMineAbilityConfig.CostCurrency, 
+                                arcaneMineAbilityConfig.ActivationCost)));
 
                     entity = CreateCommon(owner)
-                        //.AddAbilityArcaneMineConfig(arcaneMineAbilityConfig)
-                        //.AddAimPoint(owner.AimPoint)
+
+                        .AddAbilityCastInitialTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.InitialTime))
+                        .AddAbilityCastCurrentTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.InitialTime))
+                        .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(arcaneMineAbilityConfig.EffectSpawnDelay))
+                        .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(arcaneMineAbilityConfig.AbilitySlot))
+                        .AddAbility(new ReactiveVariable<AbilityType>(arcaneMineAbilityConfig.AbilityType))
                         .AddCanUseArcaneMine(canSpawnArcaneMine)
                         .AddArcaneMineCost(new ReactiveVariable<int>(arcaneMineAbilityConfig.ActivationCost))
-                        .AddSystem(new ArcaneMineStartSystem(_combatEntityFactory))
+                        .AddSystem(new AbilityCastProcessSystem())
+                        .AddSystem(new ArcaneMineSpawnSystem(_combatEntityFactory, arcaneMineAbilityConfig))
                         .AddSystem(new ArcaneMineGoldCostSystem(arcaneMineAbilityConfig.CostCurrency, _wallet));
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
-                    
+
                     ICompositeCondition canSpawnExplosion = new CompositeCondition()
                             .Add(new FuncCondition(() => owner.IsDead.Value));
 
                     entity = CreateCommon(owner)
-                        //.AddAbilityExplosionConfig(explosionAbilityConfig)
                         .AddTransfrom(owner.Transfrom)
                         .AddCanSpawnExplosion(canSpawnExplosion)
-                        .AddSystem(new ExplosionStartSystem(_combatEntityFactory, explosionAbilityConfig));
+                        .AddExplosionDamage(new(explosionAbilityConfig.ExplosionDamage))
+                        .AddExplosionRadius(new(explosionAbilityConfig.ExplosionRadius))
+                        .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, explosionAbilityConfig));
                     break;
 
                 default:
@@ -76,10 +92,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
             entity
                 .SetParent(owner)
-                //.AddAbilityUseRequest()
-                //.AddAbilityStartedEvent()
+                .AddShouldSpawnEffect()
+                .AddShouldStartProcess()
                 .AddTeam(owner.Team);
-                //.AddSystem(new AbilityCastStartSystem());
 
             _lifeContext.Add(entity);
 
