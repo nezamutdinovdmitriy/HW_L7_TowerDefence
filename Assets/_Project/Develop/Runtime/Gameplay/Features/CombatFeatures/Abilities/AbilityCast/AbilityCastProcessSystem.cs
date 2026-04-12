@@ -42,7 +42,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 return;
 
             if (_owner.IsDead.Value)
+            {
                 FinishCastProcess();
+                return;
+            }
 
             _processCastCurrentTime.Value -= deltaTime;
 
