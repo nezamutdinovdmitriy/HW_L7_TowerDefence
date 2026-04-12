@@ -3,7 +3,6 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using System;
 using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast
@@ -19,8 +18,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         private ICompositeCondition _canCastAbility;
 
-        private Entity _ability;
-
         public AbilityCastStartSystem(WalletService wallet) => _wallet = wallet;
 
 
@@ -31,8 +28,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
             _canCastAbility = entity.CanCastAbility;
             _abilityCastInProcess = entity.AbilityCastInProcess;
-
-            _ability = _abilityStorage[_abilityCurrent.Value];
         }
 
         public void OnUpdate(float deltaTime)
@@ -48,10 +43,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _abilityStorage[_abilityCurrent.Value].ShouldStartProcess.Value = true;
 
             if (_abilityStorage[_abilityCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
-                _wallet.Spend(_abilityStorage[_abilityCurrent.Value].CurrencyCost, _abilityStorage[_abilityCurrent.Value].AbilityCost);
+                SpendAbilityCost();
+        }
 
-            //if (_ability.TryGetShouldSpendCost(out ReactiveVariable<bool> value))
-            //    _wallet.Spend(_ability.CurrencyCost, _ability.AbilityCost);
+        private void SpendAbilityCost()
+        {
+            _wallet.Spend(
+                _abilityStorage[_abilityCurrent.Value].CurrencyCost,
+                _abilityStorage[_abilityCurrent.Value].AbilityCost);
         }
     }
 }

@@ -29,10 +29,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
         {
             base.Enter();
 
-            Debug.Log("Defeat");
-
             _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
-
             _popupService.OpenDefeatPopup();
         }
 

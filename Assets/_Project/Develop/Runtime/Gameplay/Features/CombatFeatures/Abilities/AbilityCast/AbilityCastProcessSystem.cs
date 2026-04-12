@@ -69,15 +69,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _shouldStartProcess.Value = false;
             _owner.AbilityCastInProcess.Value = false;
             _effectSpawned = false;
-
-            Debug.Log("FinishCastProcess");
         }
 
         private void RequestSpawnEffect()
         {
             _effectSpawned = true;
             _shouldSpawnEffect.Value = true;
-            Debug.Log("RequestSpawnEffect");
         }
     }
 }
