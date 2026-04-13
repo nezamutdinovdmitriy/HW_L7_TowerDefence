@@ -4,17 +4,19 @@ using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.TestView
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast
 {
     [RequireComponent(typeof(Animator))]
     public class AbilityCastView : MonoEntityView
     {
         [SerializeField] private Animator _animator;
+        private int _animatorKeyHash; 
 
         private AbilityToAnimatorKeyMapping _mapping;
 
-        private ReactiveVariable<bool> _castInProcess;
         private ReactiveVariable<Entity> _currentCastingAbility;
+        private Entity _previousAbility;
+
 
         private IDisposable _disposable;
 
@@ -22,9 +24,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         {
             _mapping = entity.AbilityCastKeyMapping;
             _currentCastingAbility = entity.CurrentCastingAbility;
-            _castInProcess = entity.AbilityCastInProcess;
 
-            _disposable = _castInProcess.Subscribe(OnCastInProcessChanged);
+            _disposable = entity.AbilityCastInProcess.Subscribe(OnCastInProcessChanged);
         }
 
         public override void Cleanup(Entity entity)
@@ -34,11 +35,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _disposable?.Dispose();
         }
 
-        private void OnCastInProcessChanged(bool arg1, bool isCasting)
+        private void OnCastInProcessChanged(bool arg1, bool value)
         {
-            _mapping.TryGetCastProcessKey(_currentCastingAbility.Value.Ability.Value, out string key);
+            if (_currentCastingAbility.Value != _previousAbility)
+            {
+                _mapping.TryGetCastProcessKey(_currentCastingAbility.Value.Ability.Value, out string key);
+                _previousAbility = _currentCastingAbility.Value;
 
-            _animator.SetBool(key, isCasting);
+                _animatorKeyHash = Animator.StringToHash(key);
+            }
+
+            _animator.SetBool(_animatorKeyHash, value);
         }
     }
 }
