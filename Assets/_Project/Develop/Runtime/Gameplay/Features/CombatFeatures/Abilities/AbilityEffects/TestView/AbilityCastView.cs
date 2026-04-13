@@ -27,18 +27,18 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _disposable = _castInProcess.Subscribe(OnCastInProcessChanged);
         }
 
-        private void OnCastInProcessChanged(bool arg1, bool isCasting)
-        {
-            _mapping.TryGetCastProcessKey(_currentCastingAbility.Value.Ability.Value, out string key);
-
-            _animator.SetBool(key, isCasting);
-        }
-
         public override void Cleanup(Entity entity)
         {
             base.Cleanup(entity);
 
             _disposable?.Dispose();
+        }
+
+        private void OnCastInProcessChanged(bool arg1, bool isCasting)
+        {
+            _mapping.TryGetCastProcessKey(_currentCastingAbility.Value.Ability.Value, out string key);
+
+            _animator.SetBool(key, isCasting);
         }
     }
 }
