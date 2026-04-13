@@ -4,6 +4,7 @@ using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast
 {

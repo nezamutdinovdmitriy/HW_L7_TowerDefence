@@ -225,6 +225,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyView
       objectReference: {fileID: 0}
+    - target: {fileID: 7226210576890675612, guid: 975b941bc49d2234b89226d980a1a4be,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ab4ebf19ec12f664780522ff2a1e5329, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -233,7 +238,21 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2070927068548606453}
+    - targetCorrespondingSourceObject: {fileID: 7226210576881168988, guid: 975b941bc49d2234b89226d980a1a4be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8137382289242472199}
+    - targetCorrespondingSourceObject: {fileID: 7226210576881168988, guid: 975b941bc49d2234b89226d980a1a4be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 69956350074531646}
   m_SourcePrefab: {fileID: 100100000, guid: 975b941bc49d2234b89226d980a1a4be, type: 3}
+--- !u!95 &395655602531960737 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7226210576890675612, guid: 975b941bc49d2234b89226d980a1a4be,
+    type: 3}
+  m_PrefabInstance: {fileID: 7004520838522390077}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &395655602540996673 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7226210576881135228, guid: 975b941bc49d2234b89226d980a1a4be,
@@ -260,3 +279,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxPrefab: {fileID: 19899290, guid: 3547e5e490f502041ae6e8a59042e4bd, type: 3}
   _hitPoint: {fileID: 2477573055732732325}
+--- !u!114 &8137382289242472199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395655602541360225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f75019c2245cd7d49b6a03b6c9af8124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 395655602531960737}
+  _animationKey: IsMoving
+--- !u!114 &69956350074531646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 395655602541360225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bed59d4229d94c4badc8f68e1d3b6d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 395655602531960737}

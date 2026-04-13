@@ -182,10 +182,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
 
+            //ICompositeCondition canSpawnExplosion = new CompositeCondition()
+            //    .Add(new FuncCondition(() => true));
+
             entity
                 .AddCanStartDetecting(canStartDetecting)
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease);
+                //.AddCanSpawnExplosion(canSpawnExplosion);
 
             entity
                 .AddSystem(new AreaContactDetectingSystem())

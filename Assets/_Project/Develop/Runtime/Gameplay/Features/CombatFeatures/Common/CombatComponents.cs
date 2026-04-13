@@ -32,4 +32,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
     {
         public ReactiveVariable<AbilitySlotType> Value;
     }
+
+    public sealed class ShouldCastAbility : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
 }

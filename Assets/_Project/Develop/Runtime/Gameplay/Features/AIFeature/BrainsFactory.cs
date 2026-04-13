@@ -58,8 +58,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
                        Vector3 targetPosition = entity.CurrentTarget.Value.Transfrom.position;
                        targetPosition.y = 0;
 
-                       //float threshold = entity.ExplosionRadius.Value;
-
                        float threshold = entity.AbilityStorage[AbilitySlotType.Main].ExplosionRadius.Value;
 
                        float sqrDistance = (entity.Transfrom.position - targetPosition).sqrMagnitude;

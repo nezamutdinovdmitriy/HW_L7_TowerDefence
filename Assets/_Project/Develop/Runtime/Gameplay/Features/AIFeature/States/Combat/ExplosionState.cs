@@ -6,6 +6,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
     public sealed class ExplosionState : State, IUpdatableState
     {
         private readonly Entity _entity;
+        private bool _inExplosionProcess;
 
         public ExplosionState(Entity entity)
         {
@@ -16,11 +17,26 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
         {
             base.Enter();
 
-            _entity.IsDead.Value = true;
+            _entity.ShouldCastAbility.Value = true;
         }
 
         public void Update(float deltaTime)
         {
+            if(_inExplosionProcess == false)
+            {
+                if (_entity.AbilityCastInProcess.Value)
+                {
+                    _inExplosionProcess = true;
+                }
+            }
+            else
+            {
+                if(_entity.AbilityCastInProcess.Value == false)
+                {
+                    _entity.ShouldForceDeath.Value = true;
+                    _entity.ShouldCastAbility.Value = false;
+                }
+            }
         }
     }
 }

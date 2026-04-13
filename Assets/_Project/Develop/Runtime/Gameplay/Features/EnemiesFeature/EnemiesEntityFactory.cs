@@ -15,6 +15,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 using System.Collections.Generic;
@@ -53,15 +54,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 case BaseCreepConfig baseCreepConfig:
                     entity = CreateBaseСreep(baseCreepConfig, position);
 
-                    //Dictionary<AbilitySlotType, AbilityConfig> abilities = baseCreepConfig.GetAbilities();
-
-                    //foreach (AbilitySlotType key in abilities.Keys)
-                    //{
-                    //    Entity ability = _abilityFactory.Create(abilities[key], entity);
-
-                    //    entity.AbilityStorage.Add(key, ability);
-                    //}
-
                     _brainsFactory.CreateBaseEnemyBrain(entity, new MainHeroTargetSelector(_mainHeroHolderService));
                     _entitiesLifeContext.Add(entity);
                     break;
@@ -96,7 +88,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
                 .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
                 .AddAbilityCastInProcess()
-                .AddCurrentCastingAbility();
+                .AddCurrentCastingAbility()
+                .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>())
+                .AddShouldCastAbility();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -114,12 +108,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             ICompositeCondition canApplyDamage = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
-            ICompositeCondition canSpawnExplosion = new CompositeCondition(LogicOperation.Or)
-                .Add(new FuncCondition(() => entity.IsDead.Value))
-                .Add(new FuncCondition(() => entity.ExplosionRequested.Value));
-
             ICompositeCondition canUseAbilities = new CompositeCondition()
-                .Add(new FuncCondition(() => entity.IsDead.Value));
+                .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                .Add(new FuncCondition(() => entity.ShouldCastAbility.Value));
 
             entity
                 .AddCanMove(canMove)
@@ -127,7 +118,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanApplyDamage(canApplyDamage)
-                .AddCanCastAbility(canUseAbilities);
+                .AddCanCastAbility(canUseAbilities)
+                .AddCanSpawnExplosion(canUseAbilities);
 
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
@@ -135,8 +127,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new MovementRotationDirectionUpdateSystem())
                 .AddSystem(new LookRotationSystem())
                 .AddSystem(new TransformRotationAppliedSystem())
-                .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new AbilityCastStartSystem(_container.Resolve<WalletService>()))
+                .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));

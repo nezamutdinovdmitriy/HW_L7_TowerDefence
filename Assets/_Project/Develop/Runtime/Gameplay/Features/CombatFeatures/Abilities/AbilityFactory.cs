@@ -67,12 +67,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
 
-                    ICompositeCondition canSpawnExplosion = new CompositeCondition()
-                            .Add(new FuncCondition(() => owner.IsDead.Value));
+                    //ICompositeCondition canSpawnExplosion = new CompositeCondition()
+                    //        .Add(new FuncCondition(() => owner.IsDead.Value));
 
                     entity = CreateCommon(owner)
+                        .AddAbilityCastInitialTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastCurrentTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(explosionAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(explosionAbilityConfig.AbilityData.AbilitySlot))
+                        .AddAbility(new ReactiveVariable<AbilityType>(explosionAbilityConfig.AbilityData.AbilityType))
                         .AddTransfrom(owner.Transfrom)
-                        .AddCanSpawnExplosion(canSpawnExplosion)
+                        //.AddCanSpawnExplosion(canSpawnExplosion)
                         .AddExplosionDamage(new(explosionAbilityConfig.ExplosionConfig.ExplosionDamage))
                         .AddExplosionRadius(new(explosionAbilityConfig.ExplosionConfig.ExplosionRadius))
                         .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, explosionAbilityConfig.ExplosionConfig));
