@@ -94,7 +94,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddCurrentTarget()
                 .AddShouldForceDeath()
                 .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
-                .AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
                 .AddAbilityCastInProcess();
 
             Dictionary<AbilitySlotType, AbilityConfig> abilities = config.GetAbilities();

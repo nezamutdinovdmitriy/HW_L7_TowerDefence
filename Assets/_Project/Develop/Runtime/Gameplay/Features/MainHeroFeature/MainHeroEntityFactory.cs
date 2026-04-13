@@ -13,6 +13,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
@@ -58,9 +59,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
                 .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero))
-                .AddAbilityCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
                 .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
-                .AddAbilityCastInProcess();
+                .AddAbilityCastInProcess()
+                .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>());
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0));
@@ -83,8 +85,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddCanRotate(canRotateToMousePosition)
                 .AddCanApplyDamage(canApplyDamage)
                 .AddCanCastAbility(canUseAbilities);
-                //.AddCanUseFireball(canUseFireball);
-                //.AddAbilityCanUse(canUseAbilities);
 
             entity
                 .AddSystem(new MouseRotationDirectionUpdateSystem(
@@ -94,7 +94,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new RotationClampSystem(30f))
                 .AddSystem(new TransformRotationAppliedSystem())
                 .AddSystem(new AbilityCastStartSystem(_container.Resolve<WalletService>()))
-                //.AddSystem(new AbilityUseSystem())
                 .AddSystem(new ApplyDamageSystem())
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())

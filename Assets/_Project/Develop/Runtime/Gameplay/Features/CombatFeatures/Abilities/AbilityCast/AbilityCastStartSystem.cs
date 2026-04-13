@@ -12,7 +12,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private readonly WalletService _wallet;
 
         private Dictionary<AbilitySlotType, Entity> _abilityStorage;
-        private ReactiveVariable<AbilitySlotType> _abilityCurrent;
+        private ReactiveVariable<AbilitySlotType> _abilitySlotCurrent;
 
         private ReactiveVariable<bool> _abilityCastInProcess;
 
@@ -24,7 +24,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public void OnInitialize(Entity entity)
         {
             _abilityStorage = entity.AbilityStorage;
-            _abilityCurrent = entity.AbilityCurrent;
+            _abilitySlotCurrent = entity.AbilitySlotCurrent;
 
             _canCastAbility = entity.CanCastAbility;
             _abilityCastInProcess = entity.AbilityCastInProcess;
@@ -40,17 +40,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
             _abilityCastInProcess.Value = true;
 
-            _abilityStorage[_abilityCurrent.Value].ShouldStartProcess.Value = true;
+            _abilityStorage[_abilitySlotCurrent.Value].ShouldStartProcess.Value = true;
 
-            if (_abilityStorage[_abilityCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
+            if (_abilityStorage[_abilitySlotCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
                 SpendAbilityCost();
         }
 
         private void SpendAbilityCost()
         {
             _wallet.Spend(
-                _abilityStorage[_abilityCurrent.Value].CurrencyCost,
-                _abilityStorage[_abilityCurrent.Value].AbilityCost);
+                _abilityStorage[_abilitySlotCurrent.Value].CurrencyCost,
+                _abilityStorage[_abilitySlotCurrent.Value].AbilityCost);
         }
     }
 }

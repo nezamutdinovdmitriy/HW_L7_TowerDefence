@@ -28,7 +28,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public Dictionary<AbilitySlotType, Entity> Value;
     }
 
-    public sealed class AbilityCurrent : IEntityComponent
+    public sealed class AbilitySlotCurrent : IEntityComponent
     {
         public ReactiveVariable<AbilitySlotType> Value;
     }
