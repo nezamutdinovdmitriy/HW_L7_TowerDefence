@@ -95,16 +95,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddShouldForceDeath()
                 .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
                 .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
-                .AddAbilityCastInProcess();
-
-            Dictionary<AbilitySlotType, AbilityConfig> abilities = config.GetAbilities();
-
-            foreach (AbilitySlotType key in abilities.Keys)
-            {
-                Entity ability = _abilityFactory.Create(abilities[key], entity);
-
-                entity.AbilityStorage.Add(key, ability);
-            }
+                .AddAbilityCastInProcess()
+                .AddCurrentCastingAbility();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -148,6 +140,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
+
+            Dictionary<AbilitySlotType, AbilityConfig> abilities = config.GetAbilities();
+
+            foreach (AbilitySlotType key in abilities.Keys)
+            {
+                Entity ability = _abilityFactory.Create(abilities[key], entity);
+
+                entity.AbilityStorage.Add(key, ability);
+            }
 
             return entity;
         }

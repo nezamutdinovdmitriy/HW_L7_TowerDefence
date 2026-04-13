@@ -62,6 +62,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
                 .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
                 .AddAbilityCastInProcess()
+                .AddCurrentCastingAbility()
                 .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>());
 
             ICompositeCondition mustDie = new CompositeCondition()

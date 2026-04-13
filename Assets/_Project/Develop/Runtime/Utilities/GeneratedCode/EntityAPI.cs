@@ -1167,6 +1167,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCastKeyMapping() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrentCastingAbility CurrentCastingAbilityC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrentCastingAbility>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> CurrentCastingAbility => CurrentCastingAbilityC.Value;
+
+		public bool TryGetCurrentCastingAbility(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrentCastingAbility component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCurrentCastingAbility()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrentCastingAbility() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCurrentCastingAbility(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrentCastingAbility() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRadius ExplosionRadiusC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion.ExplosionRadius>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> ExplosionRadius => ExplosionRadiusC.Value;

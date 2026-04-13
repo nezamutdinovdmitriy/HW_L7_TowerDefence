@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
@@ -73,5 +74,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     public sealed class AbilityCastKeyMapping : IEntityComponent
     {
         public AbilityToAnimatorKeyMapping Value;
+    }
+
+    public sealed class CurrentCastingAbility : IEntityComponent
+    {
+        public ReactiveVariable<Entity> Value; 
     }
 }

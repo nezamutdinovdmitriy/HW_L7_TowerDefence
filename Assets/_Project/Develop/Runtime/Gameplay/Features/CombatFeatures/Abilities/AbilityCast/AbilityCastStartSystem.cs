@@ -15,6 +15,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private ReactiveVariable<AbilitySlotType> _abilitySlotCurrent;
 
         private ReactiveVariable<bool> _abilityCastInProcess;
+        private ReactiveVariable<Entity> _currentCastingAbility;
 
         private ICompositeCondition _canCastAbility;
 
@@ -26,6 +27,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _abilityStorage = entity.AbilityStorage;
             _abilitySlotCurrent = entity.AbilitySlotCurrent;
 
+            _currentCastingAbility = entity.CurrentCastingAbility;
             _canCastAbility = entity.CanCastAbility;
             _abilityCastInProcess = entity.AbilityCastInProcess;
         }
@@ -38,12 +40,20 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             if (_canCastAbility.Evaluate() == false)
                 return;
 
+            UpdateCurrentCastingAbility();
+
             _abilityCastInProcess.Value = true;
 
             _abilityStorage[_abilitySlotCurrent.Value].ShouldStartProcess.Value = true;
 
             if (_abilityStorage[_abilitySlotCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
                 SpendAbilityCost();
+        }
+
+        private void UpdateCurrentCastingAbility()
+        {
+            _abilityStorage.TryGetValue(_abilitySlotCurrent.Value, out Entity currentCastingAbility);
+            _currentCastingAbility.Value = currentCastingAbility;
         }
 
         private void SpendAbilityCost()
