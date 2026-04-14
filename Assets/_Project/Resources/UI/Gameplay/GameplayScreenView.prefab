@@ -220,12 +220,12 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4985027857047523615, guid: 1af0a2d14c90e2c45b812b9b14d735a5,
         type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2415018267812988612}
+      insertIndex: 0
+      addedObject: {fileID: 8609361388075524591}
     - targetCorrespondingSourceObject: {fileID: 4985027857047523615, guid: 1af0a2d14c90e2c45b812b9b14d735a5,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8609361388075524591}
+      addedObject: {fileID: 2415018267812988612}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1af0a2d14c90e2c45b812b9b14d735a5, type: 3}
 --- !u!114 &3923358769406220698 stripped
@@ -258,6 +258,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: 0/0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1940853729950705824, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1940853729950705824, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370271106556029362, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370271106556029362, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3370271106556029362, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 29.4
       objectReference: {fileID: 0}
     - target: {fileID: 4865880350939579956, guid: d971c07a1d517c64382ce2ec87e97ead,
         type: 3}
@@ -292,12 +317,12 @@ PrefabInstance:
     - target: {fileID: 4865880350939579956, guid: d971c07a1d517c64382ce2ec87e97ead,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 210
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4865880350939579956, guid: d971c07a1d517c64382ce2ec87e97ead,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 80
+      value: 54.2
       objectReference: {fileID: 0}
     - target: {fileID: 4865880350939579956, guid: d971c07a1d517c64382ce2ec87e97ead,
         type: 3}
@@ -337,12 +362,12 @@ PrefabInstance:
     - target: {fileID: 4865880350939579956, guid: d971c07a1d517c64382ce2ec87e97ead,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -105
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 4865880350939579956, guid: d971c07a1d517c64382ce2ec87e97ead,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 40
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4865880350939579956, guid: d971c07a1d517c64382ce2ec87e97ead,
         type: 3}
@@ -358,6 +383,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849944465197881562, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849944465197881562, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849944465197881562, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 92.3503
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849944465197881562, guid: d971c07a1d517c64382ce2ec87e97ead,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 102.47478
       objectReference: {fileID: 0}
     - target: {fileID: 8638842848877343800, guid: d971c07a1d517c64382ce2ec87e97ead,
         type: 3}
