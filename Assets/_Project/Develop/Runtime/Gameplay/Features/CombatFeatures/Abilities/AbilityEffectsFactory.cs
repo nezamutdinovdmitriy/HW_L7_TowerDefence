@@ -2,6 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Common;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
@@ -58,14 +59,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddExplosionRequested()
-                .AddShouldForceDeath()
-                .AddShouldSpawnEffect();
-
-            entity.IsDead.Subscribe((oldValue, newValue) =>
-            {
-                if(newValue == true)
-                    entity.ShouldSpawnEffect.Value = true;
-            });
+                .AddShouldForceDeath();
 
             ICompositeCondition canMove = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -79,12 +73,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
                 .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value))
                 .Add(new FuncCondition(() => entity.IsTouchAnotherTeam.Value));
+            
+            ICompositeCondition canExplosion = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
 
             entity
                 .AddCanMove(canMove)
                 .AddCanRotate(canRotate)
                 .AddMustSelfRelease(mustSelfRelease)
-                .AddMustDie(mustDie);
+                .AddMustDie(mustDie)
+                .AddCanSpawnExplosion(canExplosion);
 
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
@@ -98,7 +96,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig))
+                .AddSystem(new ExplosionSystem(this, config.ExplosionConfig))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -120,8 +118,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddAreaContactDetectingRadius(new ReactiveVariable<float>(config.ActivationRadius))
                 .AddTeam(new ReactiveVariable<TeamsFeature.TeamType>(owner.Team.Value))
                 .AddIsTouchAnotherTeam()
-                .AddShouldForceDeath()
-                .AddShouldSpawnEffect();
+                .AddShouldForceDeath();
 
             ICompositeCondition canStartDetecting = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
@@ -132,16 +129,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             ICompositeCondition mustSelfRelease = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
 
-            entity.IsDead.Subscribe((oldValue, newValue) =>
-            {
-                if (newValue == true)
-                    entity.ShouldSpawnEffect.Value = true;
-            });
+            ICompositeCondition canExplosion = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
 
             entity
                 .AddCanStartDetecting(canStartDetecting)
                 .AddMustDie(mustDie)
-                .AddMustSelfRelease(mustSelfRelease);
+                .AddMustSelfRelease(mustSelfRelease)
+                .AddCanSpawnExplosion(canExplosion);
 
             entity
                 .AddSystem(new AreaContactDetectingSystem())
@@ -149,7 +144,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig))
+                .AddSystem(new ExplosionSystem(this, config.ExplosionConfig))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 

@@ -1,5 +1,6 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
@@ -19,6 +20,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private ReactiveVariable<Entity> _currentCastingAbility;
 
         private ICompositeCondition _canCastAbility;
+        private ReactiveVariable<bool> _shouldCastAbility;
 
         public AbilityCastStartSystem(WalletService wallet) => _wallet = wallet;
 

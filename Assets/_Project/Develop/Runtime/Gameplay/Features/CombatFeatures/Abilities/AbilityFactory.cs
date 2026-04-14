@@ -75,6 +75,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddTransfrom(owner.Transfrom)
                         .AddExplosionDamage(new(explosionAbilityConfig.ExplosionConfig.ExplosionDamage))
                         .AddExplosionRadius(new(explosionAbilityConfig.ExplosionConfig.ExplosionRadius))
+                        .AddSystem(new AbilityCastProcessSystem())
                         .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, explosionAbilityConfig.ExplosionConfig));
                     break;
 

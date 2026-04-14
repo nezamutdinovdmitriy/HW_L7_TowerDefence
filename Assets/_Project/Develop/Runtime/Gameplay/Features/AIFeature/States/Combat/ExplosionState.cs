@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Utilities.StateMachineCore;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Combat
@@ -27,6 +28,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
                 if (_entity.AbilityCastInProcess.Value)
                 {
                     _inExplosionProcess = true;
+                    _entity.ShouldCastAbility.Value = false;
                 }
             }
             else
