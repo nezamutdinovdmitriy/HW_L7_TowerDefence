@@ -2,6 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
@@ -24,6 +25,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         private EntitiesLifeContext _entitiesLifeContext;
         private GameplayStatesContext _gameplayStatesContext;
 
+        private GameplayScreenPresenter _gameplayScreenPresenter;
+
         public override IEnumerator Initialize()
         {
             Debug.Log("Инициализация геймплейной сцены");
@@ -31,6 +34,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             _entitiesLifeContext = _container.Resolve<EntitiesLifeContext>();
             _brainsContext = _container.Resolve<AIBrainsContext>();
             _gameplayStatesContext = _container.Resolve<GameplayStatesContext>();
+            _gameplayScreenPresenter = _container.Resolve<GameplayScreenPresenter>();
 
             CreateMainHero();
 
@@ -64,7 +68,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
         }
 
         private void FixedUpdate() => _entitiesLifeContext?.FixedUpdate(Time.fixedDeltaTime);
-        
+
+        private void LateUpdate() => _gameplayScreenPresenter?.LateUpdate();
+
         private void CreateMainHero()
         {
             _container.Resolve<MainHeroEntityFactory>().CreateTower(

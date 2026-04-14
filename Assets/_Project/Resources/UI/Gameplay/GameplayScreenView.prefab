@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5978628265786812850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8609361388075524591}
+  - component: {fileID: 8671015785359829636}
+  m_Layer: 5
+  m_Name: EntitiesHealthDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8609361388075524591
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5978628265786812850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5213140784503777416}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8671015785359829636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5978628265786812850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dadf16d3ce0fd94a987d3b4db51c5ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parent: {fileID: 8609361388075524591}
 --- !u!1 &6493982389302296257
 GameObject:
   m_ObjectHideFlags: 0
@@ -51,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <WalletView>k__BackingField: {fileID: 3923358769406220698}
   <StageView>k__BackingField: {fileID: 2942366702988488252}
+  <EntitiesHealthDisplay>k__BackingField: {fileID: 8671015785359829636}
 --- !u!1001 &970151339324373399
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -172,6 +222,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2415018267812988612}
+    - targetCorrespondingSourceObject: {fileID: 4985027857047523615, guid: 1af0a2d14c90e2c45b812b9b14d735a5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8609361388075524591}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1af0a2d14c90e2c45b812b9b14d735a5, type: 3}
 --- !u!114 &3923358769406220698 stripped

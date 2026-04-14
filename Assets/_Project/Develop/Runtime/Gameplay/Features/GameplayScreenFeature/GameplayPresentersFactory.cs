@@ -1,9 +1,12 @@
+using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.HealthFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States;
 using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.UI;
 using Assets._Project.Develop.Runtime.UI.CommonViews;
+using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 
@@ -19,6 +22,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
             _container = container;
             _gameplayInputArgs = gameplayInputArgs;
         }
+
+        public EntityHealthPresenter CreateEntityHealthPresenter(Entity entity, BarWithText view)
+            => new(view, entity);
+
+        public EntitiesHealthDisplayPresenter CreateEntitiesHealthDisplayPresenter(EntitiesHealthDisplay view)
+            => new(
+                view,
+                _container.Resolve<EntitiesLifeContext>(),
+                this,
+                _container.Resolve<ViewsFactory>());
 
         public GameplayScreenPresenter CreateGameplayScreenPresenter(GameplayScreenView view)
             => new(view, _container.Resolve<GameplayPresentersFactory>(), _container.Resolve<ProjectPresentersFactory>());

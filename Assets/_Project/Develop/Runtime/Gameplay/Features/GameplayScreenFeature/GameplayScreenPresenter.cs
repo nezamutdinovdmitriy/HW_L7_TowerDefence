@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Features.HealthFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.UI;
@@ -13,6 +14,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
 
         private readonly ProjectPresentersFactory _projectPresentersFactory;
         private readonly GameplayPresentersFactory _gameplayPresentersFactory;
+        private EntitiesHealthDisplayPresenter _entitiesHealthDisplayPresenter;
 
         private readonly List<IPresenter> _childPresenters = new();
 
@@ -30,6 +32,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
         {
             CreateWalletPresenter();
             CreateStagePresenter();
+            CreateEntitiesHealthDisplayPresenter();
 
             foreach (IPresenter presenter in _childPresenters)
                 presenter.Initialize();
@@ -41,6 +44,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
                 presenter.Dispose();
         }
 
+        public void LateUpdate()
+        {
+            _entitiesHealthDisplayPresenter.LateUpdate();
+        }
 
         private void CreateStagePresenter()
         {
@@ -55,5 +62,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
         }
 
         private void AddChildPresenter(IPresenter presenter) => _childPresenters.Add(presenter);
+
+        private void CreateEntitiesHealthDisplayPresenter()
+        {
+            _entitiesHealthDisplayPresenter = _gameplayPresentersFactory.CreateEntitiesHealthDisplayPresenter(_screenView.EntitiesHealthDisplay);
+
+            _childPresenters.Add(_entitiesHealthDisplayPresenter);
+        }
     }
 }

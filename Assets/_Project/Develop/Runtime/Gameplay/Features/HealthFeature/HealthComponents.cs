@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.HealthFeature
 {
@@ -10,5 +11,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.HealthFeature
     public class CurrentHealth : IEntityComponent
     {
         public ReactiveVariable<float> Value;
+    }
+
+    public class HealthBarPoint : IEntityComponent
+    {
+        public Transform Value;
     }
 }
