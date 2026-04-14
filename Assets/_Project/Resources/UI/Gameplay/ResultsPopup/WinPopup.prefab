@@ -302,7 +302,7 @@ MonoBehaviour:
   _mainGroup: {fileID: 6083408462996879408}
   _anticlicker: {fileID: 2976457321973732281}
   _body: {fileID: 6569160239616055355}
-  _animationType: 0
+  _animationType: 2
   _tile: {fileID: 680107162339160263}
   _textTransform: {fileID: 3607628603389408649}
   _stars:

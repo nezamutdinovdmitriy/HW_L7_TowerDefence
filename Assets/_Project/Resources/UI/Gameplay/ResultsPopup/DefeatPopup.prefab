@@ -559,7 +559,7 @@ MonoBehaviour:
   _mainGroup: {fileID: 5131565223335609194}
   _anticlicker: {fileID: 3706956217118500622}
   _body: {fileID: 3012630092582769102}
-  _animationType: 0
+  _animationType: 2
   _tile: {fileID: 2317045588055364353}
   _restartButton: {fileID: 7853995229019027959}
   _exitButton: {fileID: 1706935001945472112}
