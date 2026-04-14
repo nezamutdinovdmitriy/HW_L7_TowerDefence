@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BaseCreepConfig
   m_EditorClassIdentifier: 
   <PathToPrefab>k__BackingField: Gameplay/Entities/Characters/Enemy
-  <MovementSpeed>k__BackingField: 5
+  <MovementSpeed>k__BackingField: 3
   <RotationSpeed>k__BackingField: 800
   <MaxHealth>k__BackingField: 100
   _abilities:
