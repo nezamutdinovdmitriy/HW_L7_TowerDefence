@@ -41,6 +41,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             if (_canCastAbility.Evaluate() == false)
                 return;
 
+            Debug.Log("+++");
+
             UpdateCurrentCastingAbility();
 
             _abilityCastInProcess.Value = true;

@@ -66,10 +66,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
-
-                    //ICompositeCondition canSpawnExplosion = new CompositeCondition()
-                    //        .Add(new FuncCondition(() => owner.IsDead.Value));
-
                     entity = CreateCommon(owner)
                         .AddAbilityCastInitialTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastCurrentTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
@@ -77,7 +73,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(explosionAbilityConfig.AbilityData.AbilitySlot))
                         .AddAbility(new ReactiveVariable<AbilityType>(explosionAbilityConfig.AbilityData.AbilityType))
                         .AddTransfrom(owner.Transfrom)
-                        //.AddCanSpawnExplosion(canSpawnExplosion)
                         .AddExplosionDamage(new(explosionAbilityConfig.ExplosionConfig.ExplosionDamage))
                         .AddExplosionRadius(new(explosionAbilityConfig.ExplosionConfig.ExplosionRadius))
                         .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, explosionAbilityConfig.ExplosionConfig));
