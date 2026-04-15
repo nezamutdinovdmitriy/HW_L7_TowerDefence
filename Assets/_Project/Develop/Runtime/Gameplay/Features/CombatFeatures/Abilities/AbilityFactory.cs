@@ -1,6 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
@@ -66,7 +67,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
-                    entity = CreateCommon(owner)
+                    entity = CreateCommon(owner);
+
+                    ICompositeCondition shouldExplosion = new CompositeCondition()
+                        .Add(new FuncCondition(() => entity.ShouldSpawnEffect.Value));
+
+                    entity
+                        .AddCanSpawnExplosion(shouldExplosion)
                         .AddAbilityCastInitialTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastCurrentTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(explosionAbilityConfig.CastData.EffectSpawnDelay))
@@ -76,7 +83,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddExplosionDamage(new(explosionAbilityConfig.ExplosionConfig.ExplosionDamage))
                         .AddExplosionRadius(new(explosionAbilityConfig.ExplosionConfig.ExplosionRadius))
                         .AddSystem(new AbilityCastProcessSystem())
-                        .AddSystem(new ExplosionSpawnSystem(_combatEntityFactory, explosionAbilityConfig.ExplosionConfig));
+                        .AddSystem(new ExplosionSystem(_combatEntityFactory, explosionAbilityConfig.ExplosionConfig))
+                        .AddSystem(new ExplosionConsumeSystem());
                     break;
 
                 default:

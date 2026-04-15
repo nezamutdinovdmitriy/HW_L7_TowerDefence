@@ -118,8 +118,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
                 .AddCanApplyDamage(canApplyDamage)
-                .AddCanCastAbility(canUseAbilities)
-                .AddCanSpawnExplosion(canUseAbilities);
+                .AddCanCastAbility(canUseAbilities);
 
             entity
                 .AddSystem(new MovementDirectionResolveSystem())
