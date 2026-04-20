@@ -35,8 +35,13 @@ namespace Assets._Project.Develop.Runtime.Utilities.StateMachineCore
             _isRunning = false;
 
             foreach (StateNode<TState> stateNode in _states)
-                if (stateNode is IDisposable stateDisposable)
+                if (stateNode.State is IDisposable stateDisposable)
                     stateDisposable.Dispose();
+
+            _states.Clear();
+
+            foreach (IDisposable disposable in _disposables)
+                disposable?.Dispose();
 
             _disposables.Clear();
         }
