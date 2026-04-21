@@ -3,14 +3,14 @@ using Assets._Project.Develop.Runtime.UI.Core;
 using TMPro;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Meta.Features.AbilityStoreFeature
+namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {
-    public class AbilityStorePopupView : PopupViewBase
+    public class UpgradesPopupView : PopupViewBase
     {
         [SerializeField] private TMP_Text _title;
 
         [field: SerializeField] public IconTextListView WalletListView;
-        [field: SerializeField] public AbilityStoreItemListView ItemListView;
+        [field: SerializeField] public UpgradesListView ItemListView;
 
         public void SetTitle(string title) => _title.text = title;
     }

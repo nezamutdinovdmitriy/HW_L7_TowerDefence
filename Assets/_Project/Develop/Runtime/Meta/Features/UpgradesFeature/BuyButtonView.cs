@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets._Project.Develop.Runtime.Meta.Features.AbilityStoreFeature
+namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {
     public class BuyButtonView : MonoBehaviour, IView
     {

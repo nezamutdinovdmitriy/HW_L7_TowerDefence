@@ -3,9 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets._Project.Develop.Runtime.Meta.Features.AbilityStoreFeature
+namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {
-    public class AbilityStoreItemView : MonoBehaviour, IView
+    public class UpgradeCardView : MonoBehaviour, IView
     {
         [SerializeField] private TMP_Text _name;
         [SerializeField] private Image _image;
