@@ -286,6 +286,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5650256025157589628}
+  - component: {fileID: 5095361010409636833}
   m_Layer: 5
   m_Name: PopupElements
   m_TagString: Untagged
@@ -315,6 +316,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 600, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &5095361010409636833
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4089204496848364924}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4245421031471085653
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,6 +338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5616436433488612276}
   - component: {fileID: 2016907102156332153}
+  - component: {fileID: 7278602334027202519}
   m_Layer: 5
   m_Name: AbilityStorePopupView
   m_TagString: Untagged
@@ -362,9 +376,28 @@ CanvasGroup:
   m_GameObject: {fileID: 4245421031471085653}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &7278602334027202519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4245421031471085653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb69e70d944d2a47a5927fb20f43ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainGroup: {fileID: 2016907102156332153}
+  _anticlicker: {fileID: 2514090375407890287}
+  _body: {fileID: 5095361010409636833}
+  _animationType: 2
+  _title: {fileID: 2583678747157651829}
+  WalletListView: {fileID: 5974994423110860674}
+  ItemListView: {fileID: 2049693023501738428}
 --- !u!1 &6228576144123512012
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,6 +483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8112148518907645653}
+  - component: {fileID: 2049693023501738428}
   - component: {fileID: 7272508335143400341}
   - component: {fileID: 8588223382429143743}
   - component: {fileID: 8366066450464210577}
@@ -480,6 +514,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2049693023501738428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7246933125608800557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e8c240845202e478b6eb261953a2cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parent: {fileID: 1982254407621572248}
 --- !u!222 &7272508335143400341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -884,6 +931,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1517932399523222034}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2514090375407890287 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4031584344329502077, guid: 2d965624873402545a8dd22436d1b980,
+    type: 3}
+  m_PrefabInstance: {fileID: 1517932399523222034}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3315618655118162671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1042,6 +1101,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6095857533488836565, guid: 6e8a3249a8c31334292bbe798dc0d24e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7278602334027202519}
+    - target: {fileID: 6095857533488836565, guid: 6e8a3249a8c31334292bbe798dc0d24e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnCloseButtonClicked
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1203,3 +1272,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 5314147731520614294}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5974994423110860674 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1969433071057735700, guid: 8639249eb4451a242847764ab08e89ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 5314147731520614294}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0da255d61cbbb045be7d61ff6e0e5db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
