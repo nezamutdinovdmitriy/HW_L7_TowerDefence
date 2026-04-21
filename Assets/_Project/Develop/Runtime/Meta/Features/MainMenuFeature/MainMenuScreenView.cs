@@ -9,5 +9,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
     {
         [field: SerializeField] public IconTextListView WalletView { get; private set; }
         [field: SerializeField] public Button StartGameButton { get; private set; }
+        [field: SerializeField] public Button AbilityStoreButton { get; private set; }
     }
 }
