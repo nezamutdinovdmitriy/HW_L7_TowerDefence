@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {
-    public class UpgradesPopupView : PopupViewBase
+    public sealed class UpgradesPopupView : PopupViewBase
     {
         [SerializeField] private TMP_Text _title;
 

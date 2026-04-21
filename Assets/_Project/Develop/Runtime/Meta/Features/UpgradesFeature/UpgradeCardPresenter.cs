@@ -1,19 +1,111 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
+using Assets._Project.Develop.Runtime.Meta.Configs.Wallet;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.UI.Core;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {
-    public class UpgradeCardPresenter : IPresenter
+    public sealed class UpgradeCardPresenter : IPresenter
     {
+        private readonly UpgradeCardView _view;
+        private readonly UpgradesViewConfig _viewConfig;
+        private readonly UpgradesService _upgradeService;
+        private readonly WalletService _walletService;
+        private readonly UpgradeType _upgradeType;
+        private readonly CurrencyIconsConfig _currencyIconsConfig;
+
+        private IDisposable _disposables;
+
+        public UpgradeCardPresenter(
+            UpgradeCardView view,
+            UpgradesViewConfig viewConfig,
+            UpgradesService upgradeService,
+            WalletService walletService,
+            UpgradeType upgradeType,
+            CurrencyIconsConfig currencyIconsConfig)
+        {
+            _view = view;
+            _viewConfig = viewConfig;
+            _upgradeService = upgradeService;
+            _walletService = walletService;
+            _upgradeType = upgradeType;
+            _currencyIconsConfig = currencyIconsConfig;
+        }
+
+        public UpgradeCardView View => _view;
+
         public void Initialize()
         {
-            throw new System.NotImplementedException();
+            UpgradesViewConfig.UpgradeViewData upgradeViewData = _viewConfig.GetConfigBy(_upgradeType);
+
+            _view.SetImage(upgradeViewData.Sprite);
+
+            UpdateDescription(upgradeViewData);
+
+            UpdateBuyButton();
+            _view.BuyButtonView.Clicked += OnBuyButtonClicked;
+
+            IReadOnlyVariable<int> currency = _walletService.GetCurrency(_upgradeService.GetUpgradeCostTypeBy(_upgradeType));
+
+            _disposables = currency.Subscribe(OnWalletChanged);
         }
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            _view.BuyButtonView.Clicked -= OnBuyButtonClicked;
+
+            _disposables.Dispose();
         }
+
+        private void UpdateDescription(UpgradesViewConfig.UpgradeViewData upgradeViewData)
+        {
+            if (_upgradeService.AvailableUpgrades.Contains(_upgradeType))
+            {
+                _view.SetDescription("Already unlocked!");
+                return;
+            }
+
+            _view.SetDescription(upgradeViewData.Description);
+        }
+
+        private void UpdateBuyButton()
+        {
+            if (_upgradeService.TryGetUpgradeCost(_upgradeType, out CurrencyType currency, out int cost))
+            {
+                _view.BuyButtonView.SetIcon(_currencyIconsConfig.GetSpriteFor(currency));
+                _view.BuyButtonView.ShowIcon();
+
+                _view.BuyButtonView.SetPrice(cost.ToString());
+                _view.BuyButtonView.ShowPrice();
+
+                if (_walletService.Enough(currency, cost))
+                    _view.BuyButtonView.Unlock();
+                else
+                    _view.BuyButtonView.Lock();
+            }
+            else
+            {
+                _view.BuyButtonView.HideIcon();
+                _view.BuyButtonView.HidePrice();
+                _view.BuyButtonView.Lock();
+            }
+        }
+
+        private void OnBuyButtonClicked()
+        {
+            if (_upgradeService.TryGetUpgradeCost(_upgradeType, out CurrencyType currency, out int cost))
+                if (_walletService.Enough(currency, cost))
+                    _walletService.Spend(currency, cost);
+                else
+                    Debug.Log("Not enought currency!");
+            else
+                Debug.Log("Already unlocked!");
+        }
+
+        private void OnWalletChanged(int arg1, int arg2) => UpdateBuyButton();
     }
 }

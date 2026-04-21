@@ -1,6 +1,7 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Entities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Meta.Configs.Wallet;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
@@ -20,6 +21,8 @@ public sealed class ResourcesConfigsLoader : IConfigsLoader
         {typeof(LevelsListConfig), "Gameplay/Configs/Levels/LevelsListConfig" },
         {typeof(BaseTowerConfig), "Gameplay/Configs/Entities/BaseTowerConfig" },
         {typeof(AbilityToAnimatorKeyMapping), "Gameplay/Configs/Abilities/Mapping/AbilityToAnimatorKeyMapping" },
+        {typeof(UpgradesViewConfig), "Meta/Configs/Upgrades/UpgradeViewConfig" },
+        {typeof(UpgradesConfig), "Meta/Configs/Upgrades/UpgradesConfig" },
     };
 
     public ResourcesConfigsLoader(ResourcesAssetsLoader resources) => _resources = resources;

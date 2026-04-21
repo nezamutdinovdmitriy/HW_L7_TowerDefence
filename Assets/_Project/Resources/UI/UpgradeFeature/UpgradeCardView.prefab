@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6211480278538811204}
-  - component: {fileID: 4219610123459523583}
   - component: {fileID: 8417969044603667281}
   - component: {fileID: 2579553957901247938}
+  - component: {fileID: -4084691981195062437}
   m_Layer: 5
-  m_Name: AbilityStoreItemView
+  m_Name: UpgradeCardView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,22 +41,6 @@ RectTransform:
   m_AnchoredPosition: {x: 175, y: -225}
   m_SizeDelta: {x: 350, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4219610123459523583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 411903005503205059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e95fcb15c6123ee4582ddca860cdb06f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _name: {fileID: 0}
-  _image: {fileID: 2579553957901247938}
-  _description: {fileID: 1641089171259345699}
-  <BuyButtonView>k__BackingField: {fileID: 3192312782641655743}
 --- !u!222 &8417969044603667281
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -95,6 +79,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-4084691981195062437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411903005503205059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7f516b509f16d43bb8ddcdfdffe81d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 6845781255118505556}
+  _description: {fileID: 1641089171259345699}
+  <BuyButtonView>k__BackingField: {fileID: 3192312782641655743}
 --- !u!1 &2299372332170421202
 GameObject:
   m_ObjectHideFlags: 0

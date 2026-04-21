@@ -5,9 +5,8 @@ using UnityEngine.UI;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {
-    public class UpgradeCardView : MonoBehaviour, IView
+    public sealed class UpgradeCardView : MonoBehaviour, IView
     {
-        [SerializeField] private TMP_Text _name;
         [SerializeField] private Image _image;
         [SerializeField] private TMP_Text _description;
 
@@ -15,7 +14,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 
         [field: SerializeField] public BuyButtonView BuyButtonView { get; private set; }
 
-        public void SetName(string abilityName) => _name.text = abilityName;
         public void SetImage(Sprite abilitySprite) => _image.sprite = abilitySprite;
         public void SetDescription(string description) => _description.text = description;
     }

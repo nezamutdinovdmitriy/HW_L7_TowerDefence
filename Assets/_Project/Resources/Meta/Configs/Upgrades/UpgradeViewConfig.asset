@@ -12,4 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 049bb69f25650b04a8f28e762e8411f1, type: 3}
   m_Name: UpgradeViewConfig
   m_EditorClassIdentifier: 
-  _upgradesView: []
+  _upgradesView:
+  - <Type>k__BackingField: 0
+    <Sprite>k__BackingField: {fileID: 21300000, guid: 2977e522a0399fe4f964e6e9d9628178,
+      type: 3}
+    <Description>k__BackingField: Tower Heal
+  - <Type>k__BackingField: 1
+    <Sprite>k__BackingField: {fileID: 21300000, guid: 1ace21a1206d1d5438c680ee8ff5d720,
+      type: 3}
+    <Description>k__BackingField: Damage First Enemies
+  - <Type>k__BackingField: 2
+    <Sprite>k__BackingField: {fileID: 21300000, guid: e507e60f92551f945bc24b9cd61a18ef,
+      type: 3}
+    <Description>k__BackingField: Fireball Damage Multiplier

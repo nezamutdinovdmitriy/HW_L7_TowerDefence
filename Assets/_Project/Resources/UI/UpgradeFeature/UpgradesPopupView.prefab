@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 2016907102156332153}
   - component: {fileID: 7278602334027202519}
   m_Layer: 5
-  m_Name: AbilityStorePopupView
+  m_Name: UpgradesPopupView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,7 +397,7 @@ MonoBehaviour:
   _animationType: 2
   _title: {fileID: 2583678747157651829}
   WalletListView: {fileID: 5974994423110860674}
-  ItemListView: {fileID: 2049693023501738428}
+  ItemListView: {fileID: 0}
 --- !u!1 &6228576144123512012
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,10 +483,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8112148518907645653}
-  - component: {fileID: 2049693023501738428}
   - component: {fileID: 7272508335143400341}
   - component: {fileID: 8588223382429143743}
   - component: {fileID: 8366066450464210577}
+  - component: {fileID: 6182261292414377868}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -514,19 +514,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2049693023501738428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7246933125608800557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e8c240845202e478b6eb261953a2cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _parent: {fileID: 1982254407621572248}
 --- !u!222 &7272508335143400341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -595,6 +582,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6182261292414377868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7246933125608800557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5979c3eb500437749942bd3d57d06234, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parent: {fileID: 1982254407621572248}
 --- !u!1 &7329991601864176254
 GameObject:
   m_ObjectHideFlags: 0

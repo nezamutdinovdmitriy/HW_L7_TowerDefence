@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {
-    public class BuyButtonView : MonoBehaviour, IView
+    public sealed class BuyButtonView : MonoBehaviour, IView
     {
         public event Action Clicked;
 
@@ -28,9 +28,11 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 
         public void SetIcon(Sprite sprite) => _priceIcon.sprite = sprite;
         public void SetPrice(string price) => _priceText.text = price;
+        public void HidePrice() => _priceText.gameObject.SetActive(false);
+        public void ShowPrice() => _priceText.gameObject.SetActive(true);
 
         public void HideIcon() => _priceIcon.gameObject.SetActive(false);
-        public void ShpwIcon() => _priceIcon.gameObject.SetActive(true);
+        public void ShowIcon() => _priceIcon.gameObject.SetActive(true);
 
         private void OnButtonClicked() => Clicked?.Invoke();
     }

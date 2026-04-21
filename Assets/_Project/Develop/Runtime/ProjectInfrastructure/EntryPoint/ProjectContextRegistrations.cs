@@ -1,3 +1,5 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
+using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.UI;

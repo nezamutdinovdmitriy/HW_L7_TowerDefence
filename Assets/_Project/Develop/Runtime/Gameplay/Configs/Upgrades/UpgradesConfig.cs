@@ -22,7 +22,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades
         {
             [field: SerializeField] public UpgradeType Type { get; private set; }
             [field: SerializeField] public CurrencyType CostType { get; private set; }
-            [field: SerializeField] public float Cost { get; private set; }
+            [field: SerializeField] public int Cost { get; private set; }
         }
     }
 }
