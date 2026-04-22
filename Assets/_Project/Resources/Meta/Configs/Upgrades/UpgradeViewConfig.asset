@@ -25,7 +25,3 @@ MonoBehaviour:
     <Sprite>k__BackingField: {fileID: 21300000, guid: e507e60f92551f945bc24b9cd61a18ef,
       type: 3}
     <Description>k__BackingField: Fireball Damage Multiplier
-  - <Type>k__BackingField: 3
-    <Sprite>k__BackingField: {fileID: 21300000, guid: 673942666bbcb4284a801271f86a9eab,
-      type: 3}
-    <Description>k__BackingField: GRA

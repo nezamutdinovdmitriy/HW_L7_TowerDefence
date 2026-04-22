@@ -30,7 +30,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
                 _container.Resolve<ICoroutinesPerformer>(),
                 view,
                 _container.Resolve<ViewsFactory>(),
-                this);
+                this,
+                _container.Resolve<ConfigsProvider>().GetConfig<UpgradesViewConfig>());
 
         public UpgradeCardPresenter CreateUpgradeCardPresenter(UpgradeCardView view, UpgradeType upgradeType)
             => new(

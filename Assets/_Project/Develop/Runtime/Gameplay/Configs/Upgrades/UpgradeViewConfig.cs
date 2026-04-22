@@ -16,6 +16,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades
         public UpgradeViewData GetConfigBy(UpgradeType type)
             => _upgradesView.First(upgrade => upgrade.Type == type);
 
+        public IReadOnlyList<UpgradeViewData> Upgrades => _upgradesView;
+
         [Serializable]
         public class UpgradeViewData
         {

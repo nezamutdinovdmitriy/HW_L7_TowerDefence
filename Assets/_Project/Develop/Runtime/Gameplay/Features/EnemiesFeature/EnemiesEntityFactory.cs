@@ -58,9 +58,54 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                     _entitiesLifeContext.Add(entity);
                     break;
 
+                case RangeCreepConfig rangeCreepConfig:
+                    entity = CreateRangeCreep(rangeCreepConfig, position);
+
+                    break;
+
                 default:
                     throw new ArgumentException($"Not support {config.GetType()} type config!");
             }
+            return entity;
+        }
+
+        private Entity CreateRangeCreep(RangeCreepConfig config, Vector3 position)
+        {
+            Entity entity = new();
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PathToPrefab);
+
+            entity
+                .AddInputMovementDirection()
+                .AddMovementDirection()
+                .AddMovementSpeed(new ReactiveVariable<float>(config.MovementSpeed))
+                .AddIsMoving()
+                .AddRotationDirection()
+                .AddTargetRotation()
+                .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
+                .AddMaxHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddCurrentHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddIsDead()
+                .AddTakeDamageRequest()
+                .AddTakeDamageEvent()
+                .AddTeam(new ReactiveVariable<TeamType>(config.Team))
+                .AddCurrentTarget()
+                .AddShouldForceDeath()
+                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                .AddAbilityCastInProcess()
+                .AddCurrentCastingAbility()
+                .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>())
+                .AddShouldCastAbility();
+
+            Dictionary<AbilitySlotType, AbilityConfig> abilities = config.GetAbilities();
+
+            foreach (AbilitySlotType key in abilities.Keys)
+            {
+                Entity ability = _abilityFactory.Create(abilities[key], entity);
+
+                entity.AbilityStorage.Add(key, ability);
+            }
+
             return entity;
         }
 
