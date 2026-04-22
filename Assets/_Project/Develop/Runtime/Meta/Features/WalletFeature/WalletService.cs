@@ -4,6 +4,7 @@ using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.WalletFeature
 {

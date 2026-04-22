@@ -28,7 +28,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
         private static void RegisterServices(DIContainer container)
         {
             container.RegisterAsSingle(CreateMainMenuUIRoot);
-            container.RegisterAsSingle(CreateUpgradesService).NonLazy();
             container.RegisterAsSingle(CreateMainMenuPopupService);
         }
 
@@ -43,11 +42,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
                 container.Resolve<ProjectPresentersFactory>(),
                 container.Resolve<UIRoot>(),
                 container.Resolve<MainMenuPresentersFactory>());
-
-        private static UpgradesService CreateUpgradesService(DIContainer container)
-            => new(
-                container.Resolve<ConfigsProvider>().GetConfig<UpgradesConfig>(),
-                container.Resolve<PlayerDataProvider>());
 
         private static UIRoot CreateMainMenuUIRoot(DIContainer container)
         {

@@ -4,6 +4,7 @@ using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -44,7 +45,7 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 
             _view.SetImage(upgradeViewData.Sprite);
 
-            UpdateDescription(upgradeViewData);
+            UpdateDescription(upgradeViewData.Description);
 
             UpdateBuyButton();
             _view.BuyButtonView.Clicked += OnBuyButtonClicked;
@@ -61,7 +62,7 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
             _disposables.Dispose();
         }
 
-        private void UpdateDescription(UpgradesViewConfig.UpgradeViewData upgradeViewData)
+        private void UpdateDescription(string description)
         {
             if (_upgradeService.AvailableUpgrades.Contains(_upgradeType))
             {
@@ -69,7 +70,7 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
                 return;
             }
 
-            _view.SetDescription(upgradeViewData.Description);
+            _view.SetDescription(description);
         }
 
         private void UpdateBuyButton()
@@ -89,21 +90,35 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
             }
             else
             {
-                _view.BuyButtonView.HideIcon();
-                _view.BuyButtonView.HidePrice();
-                _view.BuyButtonView.Lock();
+                _view.BuyButtonView.gameObject.SetActive(false);
+
+                //_view.BuyButtonView.HideIcon();
+                //_view.BuyButtonView.HidePrice();
+                //_view.BuyButtonView.Lock();
             }
         }
 
         private void OnBuyButtonClicked()
         {
             if (_upgradeService.TryGetUpgradeCost(_upgradeType, out CurrencyType currency, out int cost))
+            {
                 if (_walletService.Enough(currency, cost))
+                {
                     _walletService.Spend(currency, cost);
+                    _upgradeService.AddUpgrade(_upgradeType);
+
+                    UpdateDescription("Already unlocked!");
+                    UpdateBuyButton();
+                }
                 else
+                {
                     Debug.Log("Not enought currency!");
+                }
+            }
             else
+            {
                 Debug.Log("Already unlocked!");
+            }
         }
 
         private void OnWalletChanged(int arg1, int arg2) => UpdateBuyButton();

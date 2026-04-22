@@ -43,6 +43,7 @@ namespace Assets._Project.Develop.Runtime.ProjectInfrastructure.EntryPoint
             container.RegisterAsSingle(CreatePlayerDataProvider);
 
             container.RegisterAsSingle(CreateWalletService).NonLazy();
+            container.RegisterAsSingle(CreateUpgradesService).NonLazy();
         }
 
         private static void RegisterFactories(DIContainer container)
@@ -52,6 +53,11 @@ namespace Assets._Project.Develop.Runtime.ProjectInfrastructure.EntryPoint
             container.RegisterAsSingle(CreateViewsFactory);
         }
 
+        private static UpgradesService CreateUpgradesService(DIContainer container)
+            => new(
+                container.Resolve<ConfigsProvider>(),
+                container.Resolve<PlayerDataProvider>());
+
         private static ViewsFactory CreateViewsFactory(DIContainer container)
             => new(container.Resolve<ResourcesAssetsLoader>());
 
@@ -60,6 +66,8 @@ namespace Assets._Project.Develop.Runtime.ProjectInfrastructure.EntryPoint
 
         private static WalletService CreateWalletService(DIContainer container)
         {
+            Debug.Log("WALLET SERVICE CREATED");
+
             Dictionary<CurrencyType, ReactiveVariable<int>> currencies = new();
 
             PlayerDataProvider playerDataProvider = container.Resolve<PlayerDataProvider>();
