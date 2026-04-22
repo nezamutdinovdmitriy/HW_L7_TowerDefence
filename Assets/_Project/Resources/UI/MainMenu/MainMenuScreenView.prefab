@@ -278,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <WalletView>k__BackingField: {fileID: 9197287424208444470}
   <StartGameButton>k__BackingField: {fileID: 667494617977236266}
-  <AbilityStoreButton>k__BackingField: {fileID: 3292032851239056790}
+  <UpgradesShopButton>k__BackingField: {fileID: 3292032851239056790}
 --- !u!1 &8131060735398503539
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 2614737541181308124}
   - component: {fileID: 3292032851239056790}
   m_Layer: 5
-  m_Name: AbilityStoreButton
+  m_Name: UpgradesShopButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2,6 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
+using Assets._Project.Develop.Runtime.UI;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
@@ -28,12 +29,20 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
         {
             container.RegisterAsSingle(CreateMainMenuUIRoot);
             container.RegisterAsSingle(CreateUpgradesService).NonLazy();
+            container.RegisterAsSingle(CreateMainMenuPopupService);
         }
 
         private static void RegisterPresenters(DIContainer container)
         {
             container.RegisterAsSingle(CreateMainMenuScreenPresenter).NonLazy();
         }
+
+        private static MainMenuPopupService CreateMainMenuPopupService(DIContainer container)
+            => new(
+                container.Resolve<ViewsFactory>(),
+                container.Resolve<ProjectPresentersFactory>(),
+                container.Resolve<UIRoot>(),
+                container.Resolve<MainMenuPresentersFactory>());
 
         private static UpgradesService CreateUpgradesService(DIContainer container)
             => new(

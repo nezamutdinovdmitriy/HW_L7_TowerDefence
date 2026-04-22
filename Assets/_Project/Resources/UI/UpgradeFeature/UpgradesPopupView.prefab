@@ -376,7 +376,7 @@ CanvasGroup:
   m_GameObject: {fileID: 4245421031471085653}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 0
+  m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &7278602334027202519
@@ -396,8 +396,8 @@ MonoBehaviour:
   _body: {fileID: 5095361010409636833}
   _animationType: 2
   _title: {fileID: 2583678747157651829}
-  WalletListView: {fileID: 5974994423110860674}
-  ItemListView: {fileID: 0}
+  <WalletListView>k__BackingField: {fileID: 5974994423110860674}
+  <UpgradesListView>k__BackingField: {fileID: 6182261292414377868}
 --- !u!1 &6228576144123512012
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ability Store
+  m_text: Upgrades Shop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 18e5ede33e490485d9576cb16d82ad1e, type: 2}
   m_sharedMaterial: {fileID: -4171563015097924827, guid: 18e5ede33e490485d9576cb16d82ad1e,

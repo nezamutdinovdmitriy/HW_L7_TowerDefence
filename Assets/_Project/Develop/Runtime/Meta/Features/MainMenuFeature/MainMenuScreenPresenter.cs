@@ -12,22 +12,27 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
         private readonly ProjectPresentersFactory _projectPresentersFactory;
         private readonly MainMenuPresentersFactory _mainMenuPresentersFactory;
 
+        private readonly MainMenuPopupService _menuPopupService;
+
         private readonly List<IPresenter> _childPresenters = new();
 
         public MainMenuScreenPresenter(
             MainMenuScreenView screenView,
             ProjectPresentersFactory projectPresentersFactory,
-            MainMenuPresentersFactory menuPresentersFactory)
+            MainMenuPresentersFactory menuPresentersFactory,
+            MainMenuPopupService menuPopupService)
         {
             _screenView = screenView;
             _projectPresentersFactory = projectPresentersFactory;
             _mainMenuPresentersFactory = menuPresentersFactory;
+            _menuPopupService = menuPopupService;
         }
 
         public void Initialize()
-        {
+        {            
             CreateWalletPresenter();
             CreateStartGameButtonPresenter();
+            CreateUpgradesShopButtonPresenter();
 
             foreach (IPresenter presenter in _childPresenters)
                 presenter.Initialize();
@@ -48,9 +53,18 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
 
         private void CreateStartGameButtonPresenter()
         {
-            StartGameButtonPresenter startGameButtonPresenter = _mainMenuPresentersFactory.CreateStartGameButtonPresenter(_screenView.StartGameButton);
+            StartGameButtonPresenter startGameButtonPresenter = _mainMenuPresentersFactory
+                .CreateStartGameButtonPresenter(_screenView.StartGameButton);
 
             AddChildPresenter(startGameButtonPresenter);
+        }
+
+        private void CreateUpgradesShopButtonPresenter()
+        {
+            UpgradesShopButtonPresenter upgradesShopButtonPresenter = _mainMenuPresentersFactory.
+                CreateUpgradesShopButtonPresenter(_screenView.UpgradesShopButton);
+
+            AddChildPresenter(upgradesShopButtonPresenter);
         }
 
         private void AddChildPresenter(IPresenter presenter) => _childPresenters.Add(presenter);

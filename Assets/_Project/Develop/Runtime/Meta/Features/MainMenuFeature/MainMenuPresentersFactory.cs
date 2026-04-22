@@ -7,6 +7,7 @@ using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.UI;
+using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
@@ -23,6 +24,13 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
             _container = container;
         }
 
+        public UpgradesPopupPresenter CreateUpgradesPopupPresenter(UpgradesPopupView view)
+            => new(
+                _container.Resolve<ICoroutinesPerformer>(),
+                view,
+                _container.Resolve<ViewsFactory>(),
+                this);
+
         public UpgradeCardPresenter CreateUpgradeCardPresenter(UpgradeCardView view, UpgradeType upgradeType)
             => new(
                 view,
@@ -36,7 +44,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
             => new(
                 view,
                 _container.Resolve<ProjectPresentersFactory>(),
-                this);
+                this,
+                _container.Resolve<MainMenuPopupService>());
 
         public StartGameButtonPresenter CreateStartGameButtonPresenter(Button view)
             => new(
@@ -44,5 +53,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
                 _container.Resolve<SceneSwitcherService>(),
                 _container.Resolve<ICoroutinesPerformer>(),
                 _container.Resolve<ConfigsProvider>().GetConfig<LevelsListConfig>());
+
+        public UpgradesShopButtonPresenter CreateUpgradesShopButtonPresenter(Button view)
+            => new(view, _container.Resolve<MainMenuPopupService>());
     }
 }

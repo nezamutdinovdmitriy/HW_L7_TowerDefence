@@ -43,7 +43,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core
             return view;
         }
 
-        public void Release<TView>(TView view) 
+        public void Remove<TView>(TView view) 
             where TView : MonoBehaviour, IView
             => Object.Destroy(view.gameObject);
     }

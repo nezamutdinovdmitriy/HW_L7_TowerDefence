@@ -95,7 +95,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.HealthFeature
             info.RemoveReason.Dispose();
 
             _view.Remove(info.HealthPresenter.Bar);
-            _viewsFactory.Release(info.HealthPresenter.Bar);
+            _viewsFactory.Remove(info.HealthPresenter.Bar);
 
             info.HealthPresenter.Dispose();
         }

@@ -9,8 +9,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
     {
         [SerializeField] private TMP_Text _title;
 
-        [field: SerializeField] public IconTextListView WalletListView;
-        [field: SerializeField] public UpgradesListView ItemListView;
+        [field: SerializeField] public IconTextListView WalletListView { get; private set; }
+        [field: SerializeField] public UpgradesListView UpgradesListView { get; private set; }
 
         public void SetTitle(string title) => _title.text = title;
     }

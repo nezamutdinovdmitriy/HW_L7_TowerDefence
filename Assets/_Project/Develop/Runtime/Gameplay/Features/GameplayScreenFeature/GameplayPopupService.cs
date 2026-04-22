@@ -8,8 +8,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
 {
     public class GameplayPopupService : PopupService
     {
-        private UIRoot _root;
-        private GameplayPresentersFactory _presentersFactory;
+        private readonly UIRoot _root;
+        private readonly GameplayPresentersFactory _presentersFactory;
 
         public GameplayPopupService(
             ViewsFactory viewsFactory,

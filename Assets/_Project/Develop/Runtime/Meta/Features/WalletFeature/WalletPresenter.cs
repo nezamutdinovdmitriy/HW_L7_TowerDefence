@@ -52,7 +52,7 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.WalletFeature
             foreach (CurrencyPresenter currencyPresenter in _currencyPresenters)
             {
                 _listView.Remove(currencyPresenter.View);
-                _viewsFactory.Release(currencyPresenter.View);
+                _viewsFactory.Remove(currencyPresenter.View);
                 currencyPresenter.Dispose();
             }
 

@@ -63,7 +63,7 @@ namespace Assets._Project.Develop.Runtime.UI.Core
         private void DisposeFor(PopupPresenterBase popup)
         {
             popup.Dispose();
-            _viewsFactory.Release(_presenterToInfo[popup].View);
+            _viewsFactory.Remove(_presenterToInfo[popup].View);
         }
 
         private class PopupInfo

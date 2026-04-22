@@ -1,5 +1,6 @@
 using Assets._Project.Develop.Runtime.UI.CommonViews;
 using Assets._Project.Develop.Runtime.UI.Core;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
     {
         [field: SerializeField] public IconTextListView WalletView { get; private set; }
         [field: SerializeField] public Button StartGameButton { get; private set; }
-        [field: SerializeField] public Button AbilityStoreButton { get; private set; }
+        [field: SerializeField] public Button UpgradesShopButton { get; private set; }
     }
 }
