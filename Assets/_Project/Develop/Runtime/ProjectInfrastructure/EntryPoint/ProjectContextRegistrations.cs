@@ -66,8 +66,6 @@ namespace Assets._Project.Develop.Runtime.ProjectInfrastructure.EntryPoint
 
         private static WalletService CreateWalletService(DIContainer container)
         {
-            Debug.Log("WALLET SERVICE CREATED");
-
             Dictionary<CurrencyType, ReactiveVariable<int>> currencies = new();
 
             PlayerDataProvider playerDataProvider = container.Resolve<PlayerDataProvider>();

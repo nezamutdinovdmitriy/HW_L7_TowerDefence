@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
+using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
@@ -16,6 +17,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
         private PlayerDataProvider _playerDataProvider;
         private ICoroutinesPerformer _coroutinesPerformer;
 
+        private UpgradesService _upgradeService;
+
         public override void ProcessRegistrations(DIContainer container, IInputSceneArgs sceneArgs = null)
         {
             _container = container;
@@ -29,6 +32,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
 
             _playerDataProvider = _container.Resolve<PlayerDataProvider>();
             _coroutinesPerformer = _container.Resolve<ICoroutinesPerformer>();
+
+            _upgradeService = _container.Resolve<UpgradesService>();
 
             yield break;
         }
@@ -51,6 +56,12 @@ namespace Assets._Project.Develop.Runtime.Meta.Infrastructure
             {
                 _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
                 Debug.Log("Сохранение было вызвано");
+            }
+
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                foreach (var upgrade in _upgradeService.AvailableUpgrades)
+                    Debug.Log(upgrade);
             }
         }
     }

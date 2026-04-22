@@ -2,6 +2,8 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Meta.Configs.Wallet;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.UI.Core;
+using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
+using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
         private readonly WalletService _walletService;
         private readonly UpgradeType _upgradeType;
         private readonly CurrencyIconsConfig _currencyIconsConfig;
+        private readonly PlayerDataProvider _playerDataProvider;
+        private readonly ICoroutinesPerformer _coroutinesPerformer;
 
         private IDisposable _disposables;
 
@@ -27,7 +31,9 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
             UpgradesService upgradeService,
             WalletService walletService,
             UpgradeType upgradeType,
-            CurrencyIconsConfig currencyIconsConfig)
+            CurrencyIconsConfig currencyIconsConfig,
+            PlayerDataProvider playerDataProvider,
+            ICoroutinesPerformer coroutinesPerformer)
         {
             _view = view;
             _viewConfig = viewConfig;
@@ -35,6 +41,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
             _walletService = walletService;
             _upgradeType = upgradeType;
             _currencyIconsConfig = currencyIconsConfig;
+            _playerDataProvider = playerDataProvider;
+            _coroutinesPerformer = coroutinesPerformer;
         }
 
         public UpgradeCardView View => _view;
@@ -91,10 +99,6 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
             else
             {
                 _view.BuyButtonView.gameObject.SetActive(false);
-
-                //_view.BuyButtonView.HideIcon();
-                //_view.BuyButtonView.HidePrice();
-                //_view.BuyButtonView.Lock();
             }
         }
 
@@ -109,6 +113,8 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 
                     UpdateDescription("Already unlocked!");
                     UpdateBuyButton();
+
+                    _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
                 }
                 else
                 {

@@ -10,6 +10,7 @@ using Assets._Project.Develop.Runtime.UI;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
+using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 using UnityEngine.UI;
 
@@ -38,7 +39,9 @@ namespace Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature
                 _container.Resolve<UpgradesService>(),
                 _container.Resolve<WalletService>(),
                 upgradeType,
-                _container.Resolve<ConfigsProvider>().GetConfig<CurrencyIconsConfig>());
+                _container.Resolve<ConfigsProvider>().GetConfig<CurrencyIconsConfig>(),
+                _container.Resolve<PlayerDataProvider>(),
+                _container.Resolve<ICoroutinesPerformer>());
 
         public MainMenuScreenPresenter CreateMainMenuScreenPresenter(MainMenuScreenView view)
             => new(
