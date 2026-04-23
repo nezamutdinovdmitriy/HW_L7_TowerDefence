@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 096955a0dfcb5df41b44354410fcea92, type: 3}
   m_Name: EnemyRangeExplosionConfig
   m_EditorClassIdentifier: 
-  <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Explosion
+  <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/EnemyExplosion
   <ExplosionDamage>k__BackingField: 15
   <ExplosionRadius>k__BackingField: 5

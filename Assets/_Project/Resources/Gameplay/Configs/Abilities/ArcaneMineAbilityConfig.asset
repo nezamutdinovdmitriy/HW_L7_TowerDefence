@@ -18,6 +18,7 @@ MonoBehaviour:
   <CastData>k__BackingField:
     <InitialTime>k__BackingField: 1
     <EffectSpawnDelay>k__BackingField: 0.44
+    <CastPerSecond>k__BackingField: 1
   <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Mine
   <AbilityParameterKey>k__BackingField: 
   <ActivationRadius>k__BackingField: 5

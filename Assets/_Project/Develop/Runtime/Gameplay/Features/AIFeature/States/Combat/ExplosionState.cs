@@ -10,7 +10,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
     {
         private readonly Entity _entity;
 
-        private ReactiveVariable<bool> _castInProcess;
+        private readonly ReactiveVariable<bool> _castInProcess;
 
         private IDisposable _disposable;
 
@@ -34,14 +34,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
         {
             base.Exit();
 
-            Debug.Log("EXIT_DISPOSE");
-
             _disposable?.Dispose();
         }
 
         public void Dispose()
         {
-            Debug.Log("DISPOSE");
             _disposable?.Dispose();
         }
 
@@ -53,14 +50,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Com
 
         public void Update(float deltaTime)
         {
-            //if (_entity.AbilityCastInProcess.Value)
-            //{
-            //    _castStarted = true;
-            //    _entity.ShouldCastAbility.Value = false;
-            //}
-
-            //if (_entity.AbilityCastInProcess.Value == false)
-            //    _entity.IsDead.Value = true;
         }
     }
 }

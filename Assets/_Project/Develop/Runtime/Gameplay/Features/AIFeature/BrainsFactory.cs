@@ -23,6 +23,65 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
             _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
         }
 
+        public StateMachineBrain CreateRangeEnemyBrain(Entity entity, ITargetSelector targetSelector)
+        {
+            FindTargetState findTargetState = new(targetSelector, _entitiesLifeContext, entity);
+            MoveToTargetState moveToTargetState = new(entity);
+            AttackState attackState = new(entity);
+
+            AIStateMachine movementState = new();
+
+            ICompositeCondition findTargetToMoveToTarget = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.CurrentTarget.Value != null));
+
+            ICompositeCondition moveToTargetToFindTarget = new CompositeCondition(LogicOperation.Or)
+               .Add(new FuncCondition(() => entity.CurrentTarget.Value == null))
+               .Add(new FuncCondition(() => entity.CurrentTarget.Value.IsDead.Value));
+
+            movementState.AddState(findTargetState);
+            movementState.AddState(moveToTargetState);
+
+            movementState.AddTransition(findTargetState, moveToTargetState, findTargetToMoveToTarget);
+            movementState.AddTransition(moveToTargetState, findTargetState, moveToTargetToFindTarget);
+
+            AIStateMachine combatState = new();
+
+            combatState.AddState(attackState);
+
+            AIStateMachine behaviour = new();
+
+            ICompositeCondition movementToCombat = new CompositeCondition()
+               .Add(new FuncCondition(() =>
+               {
+                   if (entity.CurrentTarget.Value != null)
+                   {
+                       Vector3 targetPosition = entity.CurrentTarget.Value.Transfrom.position;
+                       targetPosition.y = 0;
+
+                       float threshold = entity.AttackRange.Value;
+
+                       float sqrDistance = (entity.Transfrom.position - targetPosition).sqrMagnitude;
+                       float sqrThreshold = threshold * threshold;
+
+                       if (sqrDistance <= sqrThreshold)
+                           return true;
+                   }
+
+                   return false;
+               }));
+
+            behaviour.AddState(movementState);
+            behaviour.AddState(combatState);
+
+            behaviour.AddTransition(movementState, combatState, movementToCombat);
+
+            StateMachineBrain brain = new(behaviour);
+
+            _brainsContext.SetFor(entity, brain);
+
+            return brain;
+        }
+
         public StateMachineBrain CreateBaseEnemyBrain(Entity entity, ITargetSelector targetSelector)
         {
             FindTargetState findTargetState = new(targetSelector, _entitiesLifeContext, entity);

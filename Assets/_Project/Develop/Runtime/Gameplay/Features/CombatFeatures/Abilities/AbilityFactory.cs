@@ -36,9 +36,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             {
                 case FireballAbilityConfig fireballAbilityConfig:
                     entity = CreateCommon(owner)
+                        .AddAbilityCastPerSecond(new(fireballAbilityConfig.CastData.CastPerSecond))
                         .AddAbilityCastInitialTime(new ReactiveVariable<float>(fireballAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastModifiedTime(new ReactiveVariable<float>(fireballAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastCurrentTime(new ReactiveVariable<float>(fireballAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(fireballAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilityCastSpawnEffectDelayModified(new ReactiveVariable<float>(fireballAbilityConfig.CastData.EffectSpawnDelay))
                         .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(fireballAbilityConfig.AbilityData.AbilitySlot))
                         .AddAbility(new ReactiveVariable<AbilityType>(fireballAbilityConfig.AbilityData.AbilityType))
                         .AddSystem(new AbilityCastProcessSystem())
@@ -52,10 +55,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                                 arcaneMineAbilityConfig.ActivationCost)));
 
                     entity = CreateCommon(owner)
-
+                        .AddAbilityCastPerSecond(new(arcaneMineAbilityConfig.CastData.CastPerSecond))
                         .AddAbilityCastInitialTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastModifiedTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastCurrentTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilityCastSpawnEffectDelayModified(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.EffectSpawnDelay))
                         .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(arcaneMineAbilityConfig.AbilityData.AbilitySlot))
                         .AddAbility(new ReactiveVariable<AbilityType>(arcaneMineAbilityConfig.AbilityData.AbilityType))
                         .AddCanUseArcaneMine(canSpawnArcaneMine)
@@ -73,10 +78,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .Add(new FuncCondition(() => entity.ShouldSpawnEffect.Value));
 
                     entity
+                        .AddAbilityCastPerSecond(new(explosionAbilityConfig.CastData.CastPerSecond))
                         .AddCanSpawnExplosion(shouldExplosion)
                         .AddAbilityCastInitialTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastModifiedTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastCurrentTime(new ReactiveVariable<float>(explosionAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastSpawnEffectDelay(new ReactiveVariable<float>(explosionAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilityCastSpawnEffectDelayModified(new ReactiveVariable<float>(explosionAbilityConfig.CastData.EffectSpawnDelay))
                         .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(explosionAbilityConfig.AbilityData.AbilitySlot))
                         .AddAbility(new ReactiveVariable<AbilityType>(explosionAbilityConfig.AbilityData.AbilityType))
                         .AddTransfrom(owner.Transfrom)

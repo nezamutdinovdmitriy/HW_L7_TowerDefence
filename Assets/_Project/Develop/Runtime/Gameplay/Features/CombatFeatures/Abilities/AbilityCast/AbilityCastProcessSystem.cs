@@ -11,9 +11,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private ReactiveVariable<bool> _shouldStartProcess;
         private ReactiveVariable<bool> _shouldSpawnEffect;
 
-        private ReactiveVariable<float> _processCastInitialTime;
+        private ReactiveVariable<float> _abilityCastModifiedTime;
         private ReactiveVariable<float> _processCastCurrentTime;
-        private ReactiveVariable<float> _abilityCastSpawnEffectDelay;
+        private ReactiveVariable<float> _abilityCastSpawnEffectDelayModified;
 
         private Entity _owner;
         private bool _effectSpawned;
@@ -25,9 +25,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _shouldStartProcess = entity.ShouldStartProcess;
             _shouldSpawnEffect = entity.ShouldSpawnEffect;
 
-            _processCastInitialTime = entity.AbilityCastInitialTime;
+            _abilityCastModifiedTime = entity.AbilityCastModifiedTime;
             _processCastCurrentTime = entity.AbilityCastCurrentTime;
-            _abilityCastSpawnEffectDelay = entity.AbilityCastSpawnEffectDelay;
+            _abilityCastSpawnEffectDelayModified = entity.AbilityCastSpawnEffectDelayModified;
 
             _owner = entity.Hierarchy.Value.Parent;
 
@@ -50,7 +50,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _processCastCurrentTime.Value -= deltaTime;
 
             if (_effectSpawned == false
-                && _processCastCurrentTime.Value <= _abilityCastSpawnEffectDelay.Value)
+                && _processCastCurrentTime.Value <= _abilityCastSpawnEffectDelayModified.Value)
                 RequestSpawnEffect();
 
             if (_processCastCurrentTime.Value <= 0)
@@ -60,7 +60,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private void OnStartProcessChanged(bool arg1, bool shouldStartProcess)
         {
             if (shouldStartProcess == true)
-                _processCastCurrentTime.Value = _processCastInitialTime.Value;
+                _processCastCurrentTime.Value = _abilityCastModifiedTime.Value;
         }
 
         private void FinishCastProcess()

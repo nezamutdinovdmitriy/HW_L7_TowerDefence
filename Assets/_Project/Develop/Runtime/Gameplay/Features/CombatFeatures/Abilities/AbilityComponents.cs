@@ -6,7 +6,17 @@ using Assets._Project.Develop.Runtime.Utilities.Reactive;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
 {
+    public sealed class AbilityCastPerSecond : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
     public sealed class AbilityCastInitialTime : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
+    public sealed class AbilityCastModifiedTime : IEntityComponent
     {
         public ReactiveVariable<float> Value;
     }
@@ -17,6 +27,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     }
 
     public sealed class AbilityCastSpawnEffectDelay : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
+    public sealed class AbilityCastSpawnEffectDelayModified : IEntityComponent
     {
         public ReactiveVariable<float> Value;
     }

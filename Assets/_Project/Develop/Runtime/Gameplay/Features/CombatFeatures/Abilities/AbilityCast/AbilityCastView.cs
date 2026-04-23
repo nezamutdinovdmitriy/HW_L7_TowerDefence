@@ -9,14 +9,18 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     [RequireComponent(typeof(Animator))]
     public class AbilityCastView : MonoEntityView
     {
+        private const string MultiplierParameterName = "CastingAnimationSpeedMultiplier";
+        private int _multiplierParameterHash = Animator.StringToHash(MultiplierParameterName);
+
         [SerializeField] private Animator _animator;
-        private int _animatorKeyHash; 
+        private int _animatorKeyHash;
 
         private AbilityToAnimatorKeyMapping _mapping;
 
         private ReactiveVariable<Entity> _currentCastingAbility;
         private Entity _previousAbility;
 
+        private ReactiveVariable<float> _attackPerSecond => _currentCastingAbility.Value.AbilityCastPerSecond;
 
         private IDisposable _disposable;
 
@@ -43,9 +47,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 _previousAbility = _currentCastingAbility.Value;
 
                 _animatorKeyHash = Animator.StringToHash(key);
+
+                UpdateMultiplier();
             }
 
             _animator.SetBool(_animatorKeyHash, value);
+        }
+
+        private void UpdateMultiplier()
+        {
+            float totalBaseTime = _currentCastingAbility.Value.AbilityCastInitialTime.Value;
+
+            float targetTotalTime = 1f / _attackPerSecond.Value;
+
+            float totalTimeRatio = targetTotalTime / totalBaseTime;
+
+            _currentCastingAbility.Value.AbilityCastModifiedTime.Value = 
+                _currentCastingAbility.Value.AbilityCastInitialTime.Value * totalTimeRatio;
+            
+            _currentCastingAbility.Value.AbilityCastSpawnEffectDelayModified.Value = 
+                _currentCastingAbility.Value.AbilityCastSpawnEffectDelay.Value * totalTimeRatio;
+
+            _animator.SetFloat(
+                _multiplierParameterHash,
+                _currentCastingAbility.Value.AbilityCastInitialTime.Value / _currentCastingAbility.Value.AbilityCastModifiedTime.Value);
         }
     }
 }

@@ -41,6 +41,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.ProjectileConfig.PrefabPath, owner.ShootPoint.rotation);
 
             Vector3 direction = (owner.InputAimPoint.Value - owner.ShootPoint.position).normalized;
+            //Vector3 direction = (owner.RotationDirection.Value - owner.ShootPoint.position).normalized;
 
             entity
                 .AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
@@ -56,7 +57,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddIsTouchDeathMask()
                 .AddTeam(new ReactiveVariable<TeamsFeature.TeamType>(owner.Team.Value))
                 .AddIsTouchAnotherTeam()
-                .AddContactsDetectingMask(UnityLayersAPI.LayerMaskEnvironment)
+                .AddContactsDetectingMask(UnityLayersAPI.LayerMaskEnvironment | UnityLayersAPI.LayerMaskCharacters)
                 .AddDeathMask(UnityLayersAPI.LayerMaskEnvironment)
                 .AddExplosionRequested()
                 .AddShouldForceDeath();

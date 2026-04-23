@@ -61,6 +61,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 case RangeCreepConfig rangeCreepConfig:
                     entity = CreateRangeCreep(rangeCreepConfig, position);
 
+                    _brainsFactory.CreateRangeEnemyBrain(entity, new MainHeroTargetSelector(_mainHeroHolderService));
+                    _entitiesLifeContext.Add(entity);
                     break;
 
                 default:
@@ -72,7 +74,81 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
         private Entity CreateRangeCreep(RangeCreepConfig config, Vector3 position)
         {
             Entity entity = new();
-            
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PathToPrefab);
+
+            entity
+                .AddInputMovementDirection()
+                .AddMovementDirection()
+                .AddMovementSpeed(new ReactiveVariable<float>(config.MovementSpeed))
+                .AddIsMoving()
+                .AddRotationDirection()
+                .AddTargetRotation()
+                .AddRotationSpeed(new ReactiveVariable<float>(config.RotationSpeed))
+                .AddMaxHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddCurrentHealth(new ReactiveVariable<float>(config.MaxHealth))
+                .AddIsDead()
+                .AddTakeDamageRequest()
+                .AddTakeDamageEvent()
+                .AddTeam(new ReactiveVariable<TeamType>(config.Team))
+                .AddCurrentTarget()
+                .AddShouldForceDeath()
+                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                .AddAbilityCastInProcess()
+                .AddCurrentCastingAbility()
+                .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>())
+                .AddShouldCastAbility()
+                .AddAttackRange(new(config.AttackRange))
+                .AddInputAimPoint();
+
+            ICompositeCondition canMove = new CompositeCondition()
+               .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
+            ICompositeCondition canRotateToMousePosition = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
+            ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
+                .Add(new FuncCondition(() => entity.CurrentHealth.Value <= 0))
+                .Add(new FuncCondition(() => entity.ShouldForceDeath.Value));
+
+            ICompositeCondition mustSelfRelease = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
+            ICompositeCondition canApplyDamage = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
+            ICompositeCondition canUseAbilities = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                .Add(new FuncCondition(() => entity.ShouldCastAbility.Value));
+
+            entity
+                .AddCanMove(canMove)
+                .AddCanRotate(canRotateToMousePosition)
+                .AddMustDie(mustDie)
+                .AddMustSelfRelease(mustSelfRelease)
+                .AddCanApplyDamage(canApplyDamage)
+                .AddCanCastAbility(canUseAbilities);
+
+            entity
+                .AddSystem(new MovementDirectionResolveSystem())
+                .AddSystem(new TransformMovementAppliedSystem())
+                .AddSystem(new MovementRotationDirectionUpdateSystem())
+                .AddSystem(new LookRotationSystem())
+                .AddSystem(new TransformRotationAppliedSystem())
+                .AddSystem(new AbilityCastStartSystem(_container.Resolve<WalletService>()))
+                .AddSystem(new ApplyDamageSystem())
+                .AddSystem(new DeathSystem())
+                .AddSystem(new DisableCollidersOnDeathSystem())
+                .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
+
+            Dictionary<AbilitySlotType, AbilityConfig> abilities = config.GetAbilities();
+
+            foreach (AbilitySlotType key in abilities.Keys)
+            {
+                Entity ability = _abilityFactory.Create(abilities[key], entity);
+
+                entity.AbilityStorage.Add(key, ability);
+            }
 
             return entity;
         }

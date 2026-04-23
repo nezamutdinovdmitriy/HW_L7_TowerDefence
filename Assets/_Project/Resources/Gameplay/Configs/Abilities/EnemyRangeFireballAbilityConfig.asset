@@ -16,10 +16,11 @@ MonoBehaviour:
     <AbilityType>k__BackingField: 0
     <AbilitySlot>k__BackingField: 0
   <CastData>k__BackingField:
-    <InitialTime>k__BackingField: 1.33
-    <EffectSpawnDelay>k__BackingField: 0.85
+    <InitialTime>k__BackingField: 0.83
+    <EffectSpawnDelay>k__BackingField: 0.36
+    <CastPerSecond>k__BackingField: 1
   <AbilityParameterKey>k__BackingField: 
-  <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: b597fa94753d3c84cb841b65f30ace68,
+  <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: 87b85be91d798e14e95674de70b52036,
     type: 2}
   <ExplosionConfig>k__BackingField: {fileID: 11400000, guid: 5294329e054aa2245bcc3e2f02daac74,
     type: 2}

@@ -463,7 +463,9 @@ GameObject:
   - component: {fileID: 576349135879402722}
   - component: {fileID: 8150896495796334923}
   - component: {fileID: 6947950448436209005}
-  m_Layer: 0
+  - component: {fileID: -1276782373254774857}
+  - component: {fileID: 5715845961228585961}
+  m_Layer: 6
   m_Name: EnemyRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -540,6 +542,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _point: {fileID: 6883916629230947186}
+--- !u!114 &-1276782373254774857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5067338620795139487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46bc03e4417160f4d900b6d767cf81a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colliders:
+  - {fileID: 5715845961228585961}
+--- !u!136 &5715845961228585961
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5067338620795139487}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.92
+  m_Height: 2.6
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.32, z: 0}
 --- !u!1 &5929840742996942716
 GameObject:
   m_ObjectHideFlags: 0
