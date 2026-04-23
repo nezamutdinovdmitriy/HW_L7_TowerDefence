@@ -20,7 +20,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private ReactiveVariable<Entity> _currentCastingAbility;
 
         private ICompositeCondition _canCastAbility;
-        private ReactiveVariable<bool> _shouldCastAbility;
 
         public AbilityCastStartSystem(WalletService wallet) => _wallet = wallet;
 
