@@ -222,8 +222,9 @@ GameObject:
   - component: {fileID: 7249309127991369798}
   - component: {fileID: 4353663053283413969}
   - component: {fileID: 4852983678244402380}
+  - component: {fileID: 510330906938181190}
   m_Layer: 5
-  m_Name: AbilitySelectButton
+  m_Name: AbilitySelectButtonView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -332,3 +333,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &510330906938181190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8900656709772721725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7007efb42a2b1c41a412537db09078f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 4852983678244402380}
+  _abilityName: {fileID: 1577384942888717707}
+  _selectable: {fileID: 1235521307552519627}
