@@ -49,7 +49,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public Entity CreateToxicPuddle(Entity owner, ToxicPuddleAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, entity.InputAimPoint.Value, config.PrefabPath);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.InputAimPoint.Value, config.PrefabPath);
 
             entity
                 .AddIsDead()
@@ -58,9 +58,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddContactsEntitiesBuffer(new(64))
                 .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
                 .AddIsTouchAnotherTeam()
-                .AddToxicPuddleDamagePerTick(new(config.DamagePerTick))
-                .AddToxicPuddleCooldownTick(new(config.CooldownTick))
-                .AddToxicPuddleRadius(new(config.Radius));
+                .AddDamageTick(new(config.DamagePerTick))
+                .AddCooldownTick(new(config.CooldownTick))
+                .AddToxicPuddleRadius(new(config.Radius))
+                .AddAreaContactDetectingRadius(new(config.Radius))
+                .AddContactsEntityTimers(new());
 
             ICompositeCondition mustDieCindition = new CompositeCondition()
                 .Add(new FuncCondition(() =>
@@ -76,8 +78,23 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             ICompositeCondition mustSelfReleaseCondition = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
 
+            ICompositeCondition canStartDetectingCondition = new CompositeCondition()
+                .Add(new FuncCondition(() => true));
+
             entity
-                .AddMustDie(mustDieCindition);
+                .AddMustDie(mustDieCindition)
+                .AddCanStartDetecting(canStartDetectingCondition)
+                .AddMustSelfRelease(mustSelfReleaseCondition);
+
+            entity
+                .AddSystem(new AreaContactDetectingSystem())
+                .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
+                .AddSystem(new ContactDurationSystem())
+                .AddSystem(new PeriodicDamageSystem())
+                .AddSystem(new DeathSystem())
+                .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
+
+            _entitiesLifeContext.Add(entity);
 
             return entity;
         }

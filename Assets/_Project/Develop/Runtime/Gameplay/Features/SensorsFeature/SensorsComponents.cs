@@ -2,6 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
@@ -24,6 +25,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature
     public class ContactsDetectingMask : IEntityComponent
     {
         public LayerMask Value;
+    }
+
+    public class ContactsEntityTimers : IEntityComponent
+    {
+        public Dictionary<Entity, float> Value;
     }
 
     public class IsTouchDeathMask : IEntityComponent

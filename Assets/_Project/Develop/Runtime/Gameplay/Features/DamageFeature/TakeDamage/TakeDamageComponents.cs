@@ -6,4 +6,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDa
     {
         public ReactiveVariable<float> Value;
     }
+
+    public class CooldownTick : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
+    public class DamageTick : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
 }

@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: ToxicPuddleAbilityConfig
   m_EditorClassIdentifier: 
   <AbilityData>k__BackingField:
-    <AbilityType>k__BackingField: 0
+    <AbilityType>k__BackingField: 3
     <AbilitySlot>k__BackingField: 0
   <CastData>k__BackingField:
-    <InitialTime>k__BackingField: 0
-    <EffectSpawnDelay>k__BackingField: 0
-    <CastPerSecond>k__BackingField: 0
-  <PrefabPath>k__BackingField: 
-  <DamagePerTick>k__BackingField: 0
-  <CooldownTick>k__BackingField: 0
-  <Radius>k__BackingField: 0
+    <InitialTime>k__BackingField: 1
+    <EffectSpawnDelay>k__BackingField: 0.5
+    <CastPerSecond>k__BackingField: 1
+  <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/ToxicPuddle
+  <DamagePerTick>k__BackingField: 200
+  <CooldownTick>k__BackingField: 0.3
+  <Radius>k__BackingField: 5
   <CostCurrency>k__BackingField: 0
   <ActivationCost>k__BackingField: 0

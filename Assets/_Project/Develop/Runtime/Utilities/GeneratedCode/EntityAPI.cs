@@ -102,6 +102,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.ContactsDetectingMask() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.ContactsEntityTimers ContactsEntityTimersC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.ContactsEntityTimers>();
+
+		public System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity, System.Single> ContactsEntityTimers => ContactsEntityTimersC.Value;
+
+		public bool TryGetContactsEntityTimers(out System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity, System.Single> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.ContactsEntityTimers component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity, System.Single>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddContactsEntityTimers()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.ContactsEntityTimers() { Value = new System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity, System.Single>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddContactsEntityTimers(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity, System.Single> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.ContactsEntityTimers() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.IsTouchDeathMask IsTouchDeathMaskC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature.IsTouchDeathMask>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsTouchDeathMask => IsTouchDeathMaskC.Value;
@@ -717,6 +741,54 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.ContactDamage() {Value = value}); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.CooldownTick CooldownTickC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.CooldownTick>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> CooldownTick => CooldownTickC.Value;
+
+		public bool TryGetCooldownTick(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.CooldownTick component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCooldownTick()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.CooldownTick() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCooldownTick(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.CooldownTick() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.DamageTick DamageTickC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.DamageTick>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> DamageTick => DamageTickC.Value;
+
+		public bool TryGetDamageTick(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.DamageTick component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddDamageTick()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.DamageTick() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddDamageTick(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage.DamageTick() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage.TakeDamageRequest TakeDamageRequestC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage.TakeDamageRequest>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveEvent<System.Single> TakeDamageRequest => TakeDamageRequestC.Value;
@@ -1328,54 +1400,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCurrentCastingAbility(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
 		{
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CurrentCastingAbility() {Value = value}); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleDamagePerTick ToxicPuddleDamagePerTickC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleDamagePerTick>();
-
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> ToxicPuddleDamagePerTick => ToxicPuddleDamagePerTickC.Value;
-
-		public bool TryGetToxicPuddleDamagePerTick(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
-		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleDamagePerTick component);
-			if(result)
-				value = component.Value;
-			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
-			return result;
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddToxicPuddleDamagePerTick()
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleDamagePerTick() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddToxicPuddleDamagePerTick(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleDamagePerTick() {Value = value}); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleCooldownTick ToxicPuddleCooldownTickC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleCooldownTick>();
-
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> ToxicPuddleCooldownTick => ToxicPuddleCooldownTickC.Value;
-
-		public bool TryGetToxicPuddleCooldownTick(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
-		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleCooldownTick component);
-			if(result)
-				value = component.Value;
-			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
-			return result;
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddToxicPuddleCooldownTick()
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleCooldownTick() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
-		}
-
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddToxicPuddleCooldownTick(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
-		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleCooldownTick() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleRadius ToxicPuddleRadiusC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle.ToxicPuddleRadius>();

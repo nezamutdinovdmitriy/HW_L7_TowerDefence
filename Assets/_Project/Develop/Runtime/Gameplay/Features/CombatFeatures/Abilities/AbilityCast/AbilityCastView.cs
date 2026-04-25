@@ -10,7 +10,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     public class AbilityCastView : MonoEntityView
     {
         private const string MultiplierParameterName = "CastingAnimationSpeedMultiplier";
-        private int _multiplierParameterHash = Animator.StringToHash(MultiplierParameterName);
+        private readonly int _multiplierParameterHash = Animator.StringToHash(MultiplierParameterName);
 
         [SerializeField] private Animator _animator;
         private int _animatorKeyHash;
@@ -20,7 +20,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private ReactiveVariable<Entity> _currentCastingAbility;
         private Entity _previousAbility;
 
-        private ReactiveVariable<float> _attackPerSecond => _currentCastingAbility.Value.AbilityCastPerSecond;
+        private ReactiveVariable<float> AttackPerSecond => _currentCastingAbility.Value.AbilityCastPerSecond;
 
         private IDisposable _disposable;
 
@@ -58,7 +58,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         {
             float totalBaseTime = _currentCastingAbility.Value.AbilityCastInitialTime.Value;
 
-            float targetTotalTime = 1f / _attackPerSecond.Value;
+            float targetTotalTime = 1f / AttackPerSecond.Value;
 
             float totalTimeRatio = targetTotalTime / totalBaseTime;
 
