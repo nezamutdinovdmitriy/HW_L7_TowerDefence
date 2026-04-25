@@ -1,11 +1,9 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
-using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast
 {
@@ -42,14 +40,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             if (_canCastAbility.Evaluate() == false)
                 return;
 
+            if (_abilityStorage[_abilitySlotCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
+                if (TrySpendAbilityCost() == false)
+                    return;
+
             UpdateCurrentCastingAbility();
 
             _abilityCastInProcess.Value = true;
 
             _abilityStorage[_abilitySlotCurrent.Value].ShouldStartProcess.Value = true;
-
-            if (_abilityStorage[_abilitySlotCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
-                SpendAbilityCost();
         }
 
         private void UpdateCurrentCastingAbility()
@@ -58,11 +57,21 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _currentCastingAbility.Value = currentCastingAbility;
         }
 
-        private void SpendAbilityCost()
+        private bool TrySpendAbilityCost()
         {
-            _wallet.Spend(
+            if(_wallet.Enough(
                 _abilityStorage[_abilitySlotCurrent.Value].CurrencyCost,
-                _abilityStorage[_abilitySlotCurrent.Value].AbilityCost);
+                _abilityStorage[_abilitySlotCurrent.Value].AbilityCost) == false)
+            {
+                return false;
+            }
+            else
+            {
+                _wallet.Spend(
+                    _abilityStorage[_abilitySlotCurrent.Value].CurrencyCost,
+                    _abilityStorage[_abilitySlotCurrent.Value].AbilityCost);
+                return true;
+            }
         }
     }
 }

@@ -19,3 +19,7 @@ MonoBehaviour:
     ProcessCastKey: IsCastingArcaneMine
   - AbilityType: 2
     ProcessCastKey: IsCastingExplosion
+  - AbilityType: 3
+    ProcessCastKey: IsCastingToxicPuddle
+  - AbilityType: 4
+    ProcessCastKey: IsCastingRuneTotem

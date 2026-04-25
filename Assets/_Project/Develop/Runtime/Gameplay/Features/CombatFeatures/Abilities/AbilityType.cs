@@ -5,5 +5,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         Fireball,
         ArcaneMine,
         Explosion,
+        ToxicPuddle,
+        RuneTotem
     }
 }

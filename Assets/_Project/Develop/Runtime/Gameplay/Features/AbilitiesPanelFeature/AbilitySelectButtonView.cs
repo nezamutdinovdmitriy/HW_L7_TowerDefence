@@ -8,7 +8,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
 {
     public class AbilitySelectButtonView : MonoBehaviour, IView
     {
-        private event Action Clicked;
+        public event Action Clicked;
 
         [SerializeField] private Button _button;
 

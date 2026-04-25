@@ -9,6 +9,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
@@ -33,6 +34,52 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _monoEntitiesFactory = container.Resolve<MonoEntitiesFactory>();
             _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
             _collidersRegistryService = container.Resolve<CollidersRegistryService>();
+        }
+
+        public Entity CreateRuneTotem(Entity owner, RuneTotemAbilityConfig config)
+        {
+            Entity entity = new();
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, entity.InputAimPoint.Value, config.PrefabPath);
+
+            // сконфигурировать тотем так, чтобы он выступал сам как сущность, которая будет дергать другие абилки
+
+            return entity;
+        }
+
+        public Entity CreateToxicPuddle(Entity owner, ToxicPuddleAbilityConfig config)
+        {
+            Entity entity = new();
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, entity.InputAimPoint.Value, config.PrefabPath);
+
+            entity
+                .AddIsDead()
+                .AddTeam(new(owner.Team.Value))
+                .AddContactsCollidersBuffer(new(64))
+                .AddContactsEntitiesBuffer(new(64))
+                .AddContactsDetectingMask(UnityLayersAPI.LayerMaskCharacters)
+                .AddIsTouchAnotherTeam()
+                .AddToxicPuddleDamagePerTick(new(config.DamagePerTick))
+                .AddToxicPuddleCooldownTick(new(config.CooldownTick))
+                .AddToxicPuddleRadius(new(config.Radius));
+
+            ICompositeCondition mustDieCindition = new CompositeCondition()
+                .Add(new FuncCondition(() =>
+                {
+                    StageProvider stageProvider = _container.Resolve<StageProvider>();
+
+                    if (stageProvider.CurrentStageResult.Value == StageResult.Completed)
+                        return true;
+
+                    return false;
+                }));
+
+            ICompositeCondition mustSelfReleaseCondition = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
+            entity
+                .AddMustDie(mustDieCindition);
+
+            return entity;
         }
 
         public Entity CreateFireBall(Entity owner, FireballAbilityConfig config)
@@ -97,7 +144,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSystem(this, config.ExplosionConfig))
+                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -145,7 +192,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSystem(this, config.ExplosionConfig))
+                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 

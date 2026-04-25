@@ -2,6 +2,8 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.Explosion;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.RuneTotem;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.ToxicPuddle;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
@@ -15,7 +17,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     public class AbilityFactory
     {
         private readonly EntitiesLifeContext _lifeContext;
-        private readonly AbilityEffectsFactory _combatEntityFactory;
+        private readonly AbilityEffectsFactory _abilityEffectsFactory;
         private readonly WalletService _wallet;
 
         public AbilityFactory(
@@ -24,7 +26,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             WalletService wallet)
         {
             _lifeContext = lifeContext;
-            _combatEntityFactory = combatEntityFactory;
+            _abilityEffectsFactory = combatEntityFactory;
             _wallet = wallet;
         }
 
@@ -45,13 +47,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddAbilitySlot(new ReactiveVariable<AbilitySlotType>(fireballAbilityConfig.AbilityData.AbilitySlot))
                         .AddAbility(new ReactiveVariable<AbilityType>(fireballAbilityConfig.AbilityData.AbilityType))
                         .AddSystem(new AbilityCastProcessSystem())
-                        .AddSystem(new ProjectileSpawnSystem(_combatEntityFactory, fireballAbilityConfig));
+                        .AddSystem(new ProjectileSpawnSystem(_abilityEffectsFactory, fireballAbilityConfig));
                     break;
 
                 case ArcaneMineAbilityConfig arcaneMineAbilityConfig:
                     ICompositeCondition canSpawnArcaneMine = new CompositeCondition()
                             .Add(new FuncCondition(() => _wallet.Enough(
-                                arcaneMineAbilityConfig.CostCurrency, 
+                                arcaneMineAbilityConfig.CostCurrency,
                                 arcaneMineAbilityConfig.ActivationCost)));
 
                     entity = CreateCommon(owner)
@@ -68,7 +70,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddAbilityCost(arcaneMineAbilityConfig.ActivationCost)
                         .AddShouldSpendCost()
                         .AddSystem(new AbilityCastProcessSystem())
-                        .AddSystem(new ArcaneMineSpawnSystem(_combatEntityFactory, arcaneMineAbilityConfig));
+                        .AddSystem(new ArcaneMineSpawnSystem(_abilityEffectsFactory, arcaneMineAbilityConfig));
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
@@ -91,8 +93,40 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddExplosionDamage(new(explosionAbilityConfig.ExplosionConfig.ExplosionDamage))
                         .AddExplosionRadius(new(explosionAbilityConfig.ExplosionConfig.ExplosionRadius))
                         .AddSystem(new AbilityCastProcessSystem())
-                        .AddSystem(new ExplosionSystem(_combatEntityFactory, explosionAbilityConfig.ExplosionConfig))
+                        .AddSystem(new ExplosionSpawnSystem(_abilityEffectsFactory, explosionAbilityConfig.ExplosionConfig))
                         .AddSystem(new ExplosionConsumeSystem());
+                    break;
+
+                case ToxicPuddleAbilityConfig toxicPuddleAbilityConfig:
+                    entity = CreateCommon(owner);
+
+                    entity
+                        .AddAbilityCastPerSecond(new(toxicPuddleAbilityConfig.CastData.CastPerSecond))
+                        .AddAbilityCastInitialTime(new(toxicPuddleAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastModifiedTime(new(toxicPuddleAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastCurrentTime(new(toxicPuddleAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastSpawnEffectDelay(new(toxicPuddleAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilityCastSpawnEffectDelayModified(new(toxicPuddleAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilitySlot(new(toxicPuddleAbilityConfig.AbilityData.AbilitySlot))
+                        .AddAbility(new(toxicPuddleAbilityConfig.AbilityData.AbilityType))
+                        .AddSystem(new AbilityCastProcessSystem())
+                        .AddSystem(new ToxicPuddleSpawnSystem(_abilityEffectsFactory, toxicPuddleAbilityConfig));
+                    break;
+
+                case RuneTotemAbilityConfig runeTotemAbilityConfig:
+                    entity = CreateCommon(owner);
+
+                    entity
+                        .AddAbilityCastPerSecond(new(runeTotemAbilityConfig.CastData.CastPerSecond))
+                        .AddAbilityCastInitialTime(new(runeTotemAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastModifiedTime(new(runeTotemAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastCurrentTime(new(runeTotemAbilityConfig.CastData.InitialTime))
+                        .AddAbilityCastSpawnEffectDelay(new(runeTotemAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilityCastSpawnEffectDelayModified(new(runeTotemAbilityConfig.CastData.EffectSpawnDelay))
+                        .AddAbilitySlot(new(runeTotemAbilityConfig.AbilityData.AbilitySlot))
+                        .AddAbility(new(runeTotemAbilityConfig.AbilityData.AbilityType))
+                        .AddSystem(new AbilityCastProcessSystem())
+                        .AddSystem(new RuneTotemSpawnSystem(_abilityEffectsFactory, runeTotemAbilityConfig));
                     break;
 
                 default:
