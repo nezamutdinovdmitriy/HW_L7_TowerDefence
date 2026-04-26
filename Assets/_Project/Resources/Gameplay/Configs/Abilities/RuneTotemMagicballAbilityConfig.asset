@@ -9,18 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77bf7866516d72e4e837d4cc631ee96c, type: 3}
-  m_Name: RuneTotemAbilityConfig
+  m_Script: {fileID: 11500000, guid: 0d97d7dfbf28cda48975748f767551d1, type: 3}
+  m_Name: RuneTotemMagicballAbilityConfig
   m_EditorClassIdentifier: 
   <AbilityData>k__BackingField:
     <AbilityType>k__BackingField: 0
     <AbilitySlot>k__BackingField: 0
   <CastData>k__BackingField:
-    <InitialTime>k__BackingField: 1
-    <EffectSpawnDelay>k__BackingField: 0.5
+    <InitialTime>k__BackingField: 0.83
+    <EffectSpawnDelay>k__BackingField: 0.36
     <CastPerSecond>k__BackingField: 1
-  <BaseConfig>k__BackingField: {fileID: 11400000, guid: 0c40b7105877f0245b78cd7c9c0550f2,
+  <AbilityParameterKey>k__BackingField: 
+  <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: 410a6f51b97180a4b873739738085abc,
     type: 2}
-  <CostCurrency>k__BackingField: 0
-  <ActivationCost>k__BackingField: 0
-  <AttackRange>k__BackingField: 15
+  <ExplosionConfig>k__BackingField: {fileID: 11400000, guid: 5294329e054aa2245bcc3e2f02daac74,
+    type: 2}

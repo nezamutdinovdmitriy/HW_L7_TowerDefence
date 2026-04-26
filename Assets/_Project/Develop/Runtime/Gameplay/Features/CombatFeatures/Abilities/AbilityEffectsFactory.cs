@@ -2,18 +2,24 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Common;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
+using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDamage;
 using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MovementFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.SensorsFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Pooling;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
@@ -23,9 +29,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private readonly DIContainer _container;
 
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
-
         private readonly EntitiesLifeContext _entitiesLifeContext;
-
         private readonly CollidersRegistryService _collidersRegistryService;
 
         public AbilityEffectsFactory(DIContainer container)
@@ -39,9 +43,58 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public Entity CreateRuneTotem(Entity owner, RuneTotemAbilityConfig config)
         {
             Entity entity = new();
-            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, entity.InputAimPoint.Value, config.PrefabPath);
+            MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.InputAimPoint.Value, config.BaseConfig.PathToPrefab);
 
-            // сконфигурировать тотем так, чтобы он выступал сам как сущность, которая будет дергать другие абилки
+            entity
+                .AddRotationDirection()
+                .AddTargetRotation()
+                .AddRotationSpeed(new ReactiveVariable<float>(config.BaseConfig.RotationSpeed))
+                .AddInputAimPoint()
+                .AddIsDead()
+                .AddTeam(new(owner.Team.Value))
+                .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
+                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddShouldForceDeath()
+                .AddAbilityCastInProcess()
+                .AddCurrentCastingAbility()
+                .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>());
+
+            ICompositeCondition mustDie = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.ShouldForceDeath.Value));
+
+            ICompositeCondition mustSelfRelease = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value));
+
+            ICompositeCondition canUseAbilities = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false));
+
+            entity
+                .AddMustDie(mustDie)
+                .AddMustSelfRelease(mustSelfRelease)
+                //.AddCanRotate(canRotateToMousePosition)
+                .AddCanCastAbility(canUseAbilities);
+
+            entity
+                .AddSystem(new LookRotationSystem())
+                .AddSystem(new TransformRotationAppliedSystem())
+                .AddSystem(new AbilityCastStartSystem(_container.Resolve<WalletService>()))
+                .AddSystem(new DeathSystem())
+                .AddSystem(new DisableCollidersOnDeathSystem())
+                .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
+
+            // написать мозг для абилки
+            //_container.Resolve<BrainsFactory>()
+
+            _entitiesLifeContext.Add(entity);
+
+            Dictionary<AbilitySlotType, AbilityConfig> abilities = config.BaseConfig.GetAbilities();
+
+            foreach (AbilitySlotType key in abilities.Keys)
+            {
+                Entity ability = _container.Resolve<AbilityFactory>().Create(abilities[key], entity);
+
+                entity.AbilityStorage.Add(key, ability);
+            }
 
             return entity;
         }

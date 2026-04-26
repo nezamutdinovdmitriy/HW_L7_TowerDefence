@@ -2,6 +2,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast
@@ -11,23 +12,28 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     {
         private const string MultiplierParameterName = "CastingAnimationSpeedMultiplier";
         private readonly int _multiplierParameterHash = Animator.StringToHash(MultiplierParameterName);
+        
+        private readonly Dictionary<AbilityType, int> _abilityToHashPairs = new();
 
         [SerializeField] private Animator _animator;
-        private int _animatorKeyHash;
-
-        private AbilityToAnimatorKeyMapping _mapping;
 
         private ReactiveVariable<Entity> _currentCastingAbility;
         private Entity _previousAbility;
 
-        private ReactiveVariable<float> AttackPerSecond => _currentCastingAbility.Value.AbilityCastPerSecond;
-
         private IDisposable _disposable;
+
+        private ReactiveVariable<float> AttackPerSecond => _currentCastingAbility.Value.AbilityCastPerSecond;
 
         protected override void OnEntityInitialized(Entity entity)
         {
-            _mapping = entity.AbilityCastKeyMapping;
+            AbilityToAnimatorKeyMapping mapping = entity.AbilityCastKeyMapping;
+
             _currentCastingAbility = entity.CurrentCastingAbility;
+
+            foreach (KeyValuePair<AbilityType, string> ability in mapping.AbilityToKeys)
+                _abilityToHashPairs.Add(
+                    ability.Key,
+                    Animator.StringToHash(ability.Value));
 
             _disposable = entity.AbilityCastInProcess.Subscribe(OnCastInProcessChanged);
         }
@@ -43,34 +49,37 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         {
             if (_currentCastingAbility.Value != _previousAbility)
             {
-                _mapping.TryGetCastProcessKey(_currentCastingAbility.Value.Ability.Value, out string key);
                 _previousAbility = _currentCastingAbility.Value;
-
-                _animatorKeyHash = Animator.StringToHash(key);
 
                 UpdateMultiplier();
             }
 
-            _animator.SetBool(_animatorKeyHash, value);
+            int animationHash = _abilityToHashPairs[_currentCastingAbility.Value.Ability.Value];
+
+            _animator.SetBool(animationHash, value);
         }
 
         private void UpdateMultiplier()
         {
-            float totalBaseTime = _currentCastingAbility.Value.AbilityCastInitialTime.Value;
+            float initialTime = _currentCastingAbility.Value.AbilityCastInitialTime.Value;
+            float spawnEffectDelay = _currentCastingAbility.Value.AbilityCastSpawnEffectDelay.Value;
+
+            float totalBaseTime = initialTime;
 
             float targetTotalTime = 1f / AttackPerSecond.Value;
 
             float totalTimeRatio = targetTotalTime / totalBaseTime;
 
-            _currentCastingAbility.Value.AbilityCastModifiedTime.Value = 
-                _currentCastingAbility.Value.AbilityCastInitialTime.Value * totalTimeRatio;
-            
-            _currentCastingAbility.Value.AbilityCastSpawnEffectDelayModified.Value = 
-                _currentCastingAbility.Value.AbilityCastSpawnEffectDelay.Value * totalTimeRatio;
+
+            _currentCastingAbility.Value.AbilityCastModifiedTime.Value =
+                initialTime * totalTimeRatio;
+
+            _currentCastingAbility.Value.AbilityCastSpawnEffectDelayModified.Value =
+                spawnEffectDelay * totalTimeRatio;
 
             _animator.SetFloat(
                 _multiplierParameterHash,
-                _currentCastingAbility.Value.AbilityCastInitialTime.Value / _currentCastingAbility.Value.AbilityCastModifiedTime.Value);
+                initialTime / _currentCastingAbility.Value.AbilityCastModifiedTime.Value);
         }
     }
 }

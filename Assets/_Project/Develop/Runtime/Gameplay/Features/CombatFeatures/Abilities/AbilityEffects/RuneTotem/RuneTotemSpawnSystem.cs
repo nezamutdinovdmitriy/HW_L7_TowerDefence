@@ -2,7 +2,6 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Systems;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.RuneTotem
 {
@@ -35,7 +34,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             if (_shouldSpawnEffect.Value == false)
                 return;
 
-            // метод создания эффекта абилки
+            _effectsFactory.CreateRuneTotem(_owner, _config);
 
             _shouldSpawnEffect.Value = false;
         }

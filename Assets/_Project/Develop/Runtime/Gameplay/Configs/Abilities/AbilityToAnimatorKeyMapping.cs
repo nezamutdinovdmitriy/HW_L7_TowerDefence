@@ -12,6 +12,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities
 
         [SerializeField] private List<AbilityAnimatorPair> _abilityAnimatorPairs;
 
+        public IReadOnlyDictionary<AbilityType, string> AbilityToKeys => _abilityToKeys;
+
         private void OnEnable() => InitializeAbilityDictionary();
 
         public bool TryGetCastProcessKey(AbilityType abilityType, out string animatorKey)
