@@ -16,4 +16,4 @@ MonoBehaviour:
   - AbilityType: 0
     Config: {fileID: 11400000, guid: 280536beedfe2a941b20b5cf442857e7, type: 2}
   <PathToPrefab>k__BackingField: Gameplay/Entities/Combat/Abilities/RuneTotem
-  <RotationSpeed>k__BackingField: 800
+  <RotationSpeed>k__BackingField: 999

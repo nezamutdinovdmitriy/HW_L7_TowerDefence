@@ -1,0 +1,65 @@
+using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.ApplyDamage;
+using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget
+{
+    public class NearestDamageableTargetSelector : ITargetSelector
+    {
+        private readonly Entity _source;
+        private readonly Transform _sourceTransform;
+
+        public NearestDamageableTargetSelector(Entity entity)
+        {
+            _source = entity;
+            _sourceTransform = entity.Transfrom;
+        }
+
+        public Entity SelectTargetFrom(IEnumerable<Entity> targets)
+        {
+            IEnumerable<Entity> selectedTargets = targets.Where(target =>
+            {
+                bool result = target.HasComponent<TakeDamageRequest>();
+
+                if (target.TryGetCanApplyDamage(out ICompositeCondition canApplyDamage))
+                    result = result && canApplyDamage.Evaluate();
+
+                if (_source.TryGetTeam(out ReactiveVariable<TeamType> sourceTeam)
+                && target.TryGetTeam(out ReactiveVariable<TeamType> targetTeam))
+                    result = result && sourceTeam.Value != targetTeam.Value;
+
+                result = result && (target != _source);
+
+                return result;
+            });
+
+            if (selectedTargets.Any() == false)
+                return null;
+
+            Entity closestTarget = selectedTargets.First();
+
+            float minDistance = GetDistanceTo(closestTarget);
+
+            foreach (Entity target in selectedTargets)
+            {
+                float distance = GetDistanceTo(target);
+
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestTarget = target;
+                }
+            }
+
+            return closestTarget;
+        }
+
+        private float GetDistanceTo(Entity target)
+            => (_sourceTransform.position - target.Transfrom.position).magnitude;
+    }
+}

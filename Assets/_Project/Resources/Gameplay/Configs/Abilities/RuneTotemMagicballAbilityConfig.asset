@@ -18,7 +18,7 @@ MonoBehaviour:
   <CastData>k__BackingField:
     <InitialTime>k__BackingField: 0.83
     <EffectSpawnDelay>k__BackingField: 0.36
-    <CastPerSecond>k__BackingField: 1
+    <CastPerSecond>k__BackingField: 2
   <AbilityParameterKey>k__BackingField: 
   <ProjectileConfig>k__BackingField: {fileID: 11400000, guid: 410a6f51b97180a4b873739738085abc,
     type: 2}

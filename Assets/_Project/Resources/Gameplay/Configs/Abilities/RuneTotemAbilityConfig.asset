@@ -23,4 +23,4 @@ MonoBehaviour:
     type: 2}
   <CostCurrency>k__BackingField: 0
   <ActivationCost>k__BackingField: 0
-  <AttackRange>k__BackingField: 15
+  <AttackRange>k__BackingField: 25

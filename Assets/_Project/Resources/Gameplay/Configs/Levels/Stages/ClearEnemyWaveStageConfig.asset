@@ -16,3 +16,6 @@ MonoBehaviour:
   - <EntityConfig>k__BackingField: {fileID: 11400000, guid: 0978a42205c2f8d4c9c16f880d9a7ab3,
       type: 2}
     <Count>k__BackingField: 3
+  - <EntityConfig>k__BackingField: {fileID: 11400000, guid: 1bb2f9a6884858b43b1e17061af34927,
+      type: 2}
+    <Count>k__BackingField: 3

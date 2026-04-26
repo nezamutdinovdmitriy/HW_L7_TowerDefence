@@ -465,6 +465,7 @@ GameObject:
   - component: {fileID: 6947950448436209005}
   - component: {fileID: -1276782373254774857}
   - component: {fileID: 5715845961228585961}
+  - component: {fileID: 567269041339996008}
   m_Layer: 6
   m_Name: EnemyRange
   m_TagString: Untagged
@@ -579,6 +580,19 @@ CapsuleCollider:
   m_Height: 2.6
   m_Direction: 1
   m_Center: {x: 0, y: 1.32, z: 0}
+--- !u!114 &567269041339996008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5067338620795139487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba99fdafed489d4b8c50473d0374345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collider: {fileID: 5715845961228585961}
 --- !u!1 &5929840742996942716
 GameObject:
   m_ObjectHideFlags: 0

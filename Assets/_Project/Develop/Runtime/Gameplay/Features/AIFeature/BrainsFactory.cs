@@ -5,6 +5,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Movemen
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
@@ -21,6 +22,54 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature
 
             _brainsContext = container.Resolve<AIBrainsContext>();
             _entitiesLifeContext = container.Resolve<EntitiesLifeContext>();
+        }
+
+        public StateMachineBrain CreateRuneTotemBrain(Entity entity, ITargetSelector targetSelector)
+        {
+            RotateToTargetState rotateToTargetState = new(entity);
+
+            AttackState attackState = new(entity);
+
+            ICondition canCastAbility = entity.CanCastAbility;
+            Transform transform = entity.Transfrom;
+            ReactiveVariable<Entity> currentTarget = entity.CurrentTarget;
+
+            ICompositeCondition fromRotateToAttackCondition = new CompositeCondition()
+                .Add(canCastAbility)
+                .Add(new FuncCondition(() =>
+                {
+                    Entity target = currentTarget.Value;
+
+                    if (target == null)
+                        return false;
+
+                    float angleToTarget = Quaternion.Angle(transform.rotation, Quaternion.LookRotation(target.Transfrom.position - transform.position));
+                    return angleToTarget < 3f;
+                }));
+
+            ReactiveVariable<bool> inCastProcess = entity.AbilityCastInProcess;
+
+            ICondition fromAttackToRotateStateCondition = new FuncCondition(() => inCastProcess.Value == false);
+
+            AIStateMachine combatState = new();
+
+            combatState.AddState(rotateToTargetState);
+            combatState.AddState(attackState);
+
+            combatState.AddTransition(rotateToTargetState, attackState, fromRotateToAttackCondition);
+            combatState.AddTransition(attackState, rotateToTargetState, fromAttackToRotateStateCondition);
+
+            FindTargetState findTargetState = new(targetSelector, _entitiesLifeContext, entity);
+
+            AIParallelState parallelState = new(findTargetState, combatState);
+            
+            AIStateMachine rootStateMachine = new();
+            rootStateMachine.AddState(parallelState);
+
+            StateMachineBrain brain = new(rootStateMachine);
+            _brainsContext.SetFor(entity, brain);
+
+            return brain;
         }
 
         public StateMachineBrain CreateRangeEnemyBrain(Entity entity, ITargetSelector targetSelector)

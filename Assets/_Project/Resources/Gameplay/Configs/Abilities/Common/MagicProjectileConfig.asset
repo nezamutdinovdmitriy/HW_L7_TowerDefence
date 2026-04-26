@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: MagicProjectileConfig
   m_EditorClassIdentifier: 
   <PrefabPath>k__BackingField: Gameplay/Entities/Combat/Abilities/Magicball
-  <ProjectileSpeed>k__BackingField: 15
+  <ProjectileSpeed>k__BackingField: 45
   <ProjectileRotationSpeed>k__BackingField: 900

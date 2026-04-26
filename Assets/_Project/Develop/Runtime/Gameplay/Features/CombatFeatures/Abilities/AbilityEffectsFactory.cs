@@ -3,6 +3,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Configs.Common;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Mono;
 using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.FindTarget;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCast;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityEffects.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
@@ -46,6 +47,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.InputAimPoint.Value, config.BaseConfig.PathToPrefab);
 
             entity
+                .AddCurrentTarget()
                 .AddRotationDirection()
                 .AddTargetRotation()
                 .AddRotationSpeed(new ReactiveVariable<float>(config.BaseConfig.RotationSpeed))
@@ -57,7 +59,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddShouldForceDeath()
                 .AddAbilityCastInProcess()
                 .AddCurrentCastingAbility()
-                .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>());
+                .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>())
+                .AddShouldCastAbility()
+                .AddAttackRange(new(config.AttackRange));
 
             ICompositeCondition mustDie = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.ShouldForceDeath.Value));
@@ -66,12 +70,26 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .Add(new FuncCondition(() => entity.IsDead.Value));
 
             ICompositeCondition canUseAbilities = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.IsDead.Value == false))
+                .Add(new FuncCondition(() => entity.AbilityCastInProcess.Value == false))
+                .Add(new FuncCondition(() =>
+                {
+                    if (entity.CurrentTarget.Value == null)
+                        return false;
+                    
+                    if((entity.CurrentTarget.Value.Transfrom.position - entity.Transfrom.position).magnitude >= entity.AttackRange.Value)
+                        return false;
+
+                    return true;
+                }));
+            
+            ICompositeCondition canRotateCondition = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
             entity
                 .AddMustDie(mustDie)
                 .AddMustSelfRelease(mustSelfRelease)
-                //.AddCanRotate(canRotateToMousePosition)
+                .AddCanRotate(canRotateCondition)
                 .AddCanCastAbility(canUseAbilities);
 
             entity
@@ -81,9 +99,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
-
-            // написать мозг для абилки
-            //_container.Resolve<BrainsFactory>()
 
             _entitiesLifeContext.Add(entity);
 
@@ -95,6 +110,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
                 entity.AbilityStorage.Add(key, ability);
             }
+
+            _container.Resolve<BrainsFactory>().CreateRuneTotemBrain(entity, new NearestDamageableTargetSelector(entity));
 
             return entity;
         }

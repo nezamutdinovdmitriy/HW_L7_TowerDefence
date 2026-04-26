@@ -16,6 +16,6 @@ MonoBehaviour:
   - AbilityType: 0
     Config: {fileID: 11400000, guid: 6a75ca237bb8f0d47a3c9ef148bc3df3, type: 2}
   - AbilityType: 1
-    Config: {fileID: 11400000, guid: 4134fc799d8f3d948855db544c082476, type: 2}
+    Config: {fileID: 11400000, guid: 6a75ca237bb8f0d47a3c9ef148bc3df3, type: 2}
   <PathToPrefab>k__BackingField: Gameplay/Entities/Characters/Tower
   <RotationSpeed>k__BackingField: 800
