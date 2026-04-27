@@ -12,7 +12,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
         private readonly List<Entity> _enities = new();
         private readonly List<Entity> _removeRequests = new();
 
-        public IReadOnlyList<Entity> Enities => _enities;
+        public IReadOnlyList<Entity> Entities => _enities;
 
         public void Add(Entity entity)
         {

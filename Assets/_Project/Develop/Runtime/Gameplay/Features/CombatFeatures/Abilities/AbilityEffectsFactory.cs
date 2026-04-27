@@ -55,7 +55,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddIsDead()
                 .AddTeam(new(owner.Team.Value))
                 .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
-                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddAbilitiesEquipped(new Dictionary<AbilitySlotType, Entity>())
                 .AddShouldForceDeath()
                 .AddAbilityCastInProcess()
                 .AddCurrentCastingAbility()
@@ -108,7 +108,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             {
                 Entity ability = _container.Resolve<AbilityFactory>().Create(abilities[key], entity);
 
-                entity.AbilityStorage.Add(key, ability);
+                entity.AbilitiesEquipped.Add(key, ability);
             }
 
             _container.Resolve<BrainsFactory>().CreateRuneTotemBrain(entity, new NearestDamageableTargetSelector(entity));
@@ -132,6 +132,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddCooldownTick(new(config.CooldownTick))
                 .AddToxicPuddleRadius(new(config.Radius))
                 .AddAreaContactDetectingRadius(new(config.Radius))
+                .AddShouldForceDeath()
                 .AddContactsEntityTimers(new());
 
             //ICompositeCondition mustDieCindition = new CompositeCondition()
@@ -145,6 +146,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             //        return false;
             //    }));
 
+            ICompositeCondition mustDieCindition = new CompositeCondition()
+                .Add(new FuncCondition(() => entity.ShouldForceDeath.Value));
+
             ICompositeCondition mustSelfReleaseCondition = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
 
@@ -152,7 +156,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .Add(new FuncCondition(() => true));
 
             entity
-                //.AddMustDie(mustDieCindition)
+                .AddMustDie(mustDieCindition)
                 .AddCanStartDetecting(canStartDetectingCondition)
                 .AddMustSelfRelease(mustSelfReleaseCondition);
 
@@ -161,7 +165,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new ContactDurationSystem())
                 .AddSystem(new PeriodicDamageSystem())
-                //.AddSystem(new DeathSystem())
+                .AddSystem(new DeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);

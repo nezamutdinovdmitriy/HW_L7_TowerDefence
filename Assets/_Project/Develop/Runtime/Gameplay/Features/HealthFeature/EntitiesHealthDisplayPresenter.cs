@@ -36,7 +36,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.HealthFeature
             _lifeContext.Added += OnEntityAdded;
             _lifeContext.Removed += OnEntityRemoved;
 
-            foreach (Entity entity in _lifeContext.Enities)
+            foreach (Entity entity in _lifeContext.Entities)
                 OnEntityAdded(entity);
         }
 

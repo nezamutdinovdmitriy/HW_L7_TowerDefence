@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature
 {
@@ -17,6 +18,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature
             get
             {
                 if (IsEnabled == false)
+                    return false;
+
+                if (EventSystem.current != null 
+                    && EventSystem.current.IsPointerOverGameObject())
                     return false;
 
                 return Input.GetKeyDown(ShootKey);

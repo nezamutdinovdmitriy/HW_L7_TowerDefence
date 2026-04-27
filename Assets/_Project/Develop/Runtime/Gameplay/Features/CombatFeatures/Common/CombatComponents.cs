@@ -23,9 +23,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Commo
         public ReactiveVariable<Vector3> Value;
     }
 
-    public sealed class AbilityStorage : IEntityComponent
+    public sealed class AbilitiesEquipped : IEntityComponent
     {
         public Dictionary<AbilitySlotType, Entity> Value;
+    }
+
+    public sealed class AbilitiesStorage : IEntityComponent
+    {
+        public Dictionary<AbilitySlotType, List<Entity>> Value;
     }
 
     public sealed class AbilitySlotCurrent : IEntityComponent

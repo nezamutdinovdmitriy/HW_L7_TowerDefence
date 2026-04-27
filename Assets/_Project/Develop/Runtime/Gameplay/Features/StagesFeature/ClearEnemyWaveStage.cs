@@ -1,5 +1,6 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Stages;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;

@@ -92,7 +92,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddTeam(new ReactiveVariable<TeamType>(config.Team))
                 .AddCurrentTarget()
                 .AddShouldForceDeath()
-                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddAbilitiesEquipped(new Dictionary<AbilitySlotType, Entity>())
                 .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
                 .AddAbilityCastInProcess()
                 .AddCurrentCastingAbility()
@@ -147,7 +147,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             {
                 Entity ability = _abilityFactory.Create(abilities[key], entity);
 
-                entity.AbilityStorage.Add(key, ability);
+                entity.AbilitiesEquipped.Add(key, ability);
             }
 
             return entity;
@@ -174,7 +174,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
                 .AddTeam(new ReactiveVariable<TeamType>(config.Team))
                 .AddCurrentTarget()
                 .AddShouldForceDeath()
-                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddAbilitiesEquipped(new Dictionary<AbilitySlotType, Entity>())
                 .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
                 .AddAbilityCastInProcess()
                 .AddCurrentCastingAbility()
@@ -227,7 +227,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.EnemiesFeature
             {
                 Entity ability = _abilityFactory.Create(abilities[key], entity);
 
-                entity.AbilityStorage.Add(key, ability);
+                entity.AbilitiesEquipped.Add(key, ability);
             }
 
             return entity;

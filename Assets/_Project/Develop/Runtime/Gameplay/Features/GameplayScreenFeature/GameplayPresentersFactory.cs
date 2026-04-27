@@ -31,17 +31,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
 
         public AbilityPanelPresenter CreateAbilityPanelPresenter(AbilityPaneltView view)
             => new(
-                _container.Resolve<ConfigsProvider>().GetConfig<LevelsListConfig>().GetConfigBy(_gameplayInputArgs.LevelNumber),
+                _container.Resolve<MainHeroHolderService>(),
                 view,
                 _container.Resolve<ViewsFactory>(),
                 this);
 
-        public AbilitySelectButtonPresenter CreateAbilitySelectButtonPresenter(AbilitySelectButtonView view, AbilityConfig abilityConfig)
+        public AbilitySelectButtonPresenter CreateAbilitySelectButtonPresenter(AbilitySelectButtonView view, Entity ability)
             => new(
-                view, 
-                abilityConfig, 
+                view,
                 _container.Resolve<MainHeroHolderService>(), 
-                _container.Resolve<AbilityFactory>());
+                ability);
 
         public EntityHealthPresenter CreateEntityHealthPresenter(Entity entity, BarWithText view)
             => new(view, entity);

@@ -11,6 +11,7 @@ using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
+using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
@@ -90,7 +91,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
         public StageProcessState CreateStageProcessState()
             => new(
                 _container.Resolve<StageProvider>(),
-                _container.Resolve<MainHeroHolderService>()
+                _container.Resolve<MainHeroHolderService>(),
+                _container.Resolve<EntitiesLifeContext>()
                 );
 
         public WinState CreateWinState(int victoryReward)

@@ -19,7 +19,7 @@ MonoBehaviour:
   _towerMaxHealth: 999
   _towerSpawnPosition: {x: 0, y: 0, z: 0}
   _victoryReward: 250
-  _preparationDuration: 60
+  _preparationDuration: 10
   _availableAbilities:
   - {fileID: 11400000, guid: d532edd4d8bc2fa49943b8f5d742f485, type: 2}
   - {fileID: 11400000, guid: 4134fc799d8f3d948855db544c082476, type: 2}

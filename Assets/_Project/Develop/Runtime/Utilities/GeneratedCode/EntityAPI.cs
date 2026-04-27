@@ -923,13 +923,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.TargetAimPoint() {Value = value}); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage AbilityStorageC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage>();
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesEquipped AbilitiesEquippedC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesEquipped>();
 
-		public System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> AbilityStorage => AbilityStorageC.Value;
+		public System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> AbilitiesEquipped => AbilitiesEquippedC.Value;
 
-		public bool TryGetAbilityStorage(out System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		public bool TryGetAbilitiesEquipped(out System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
 		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage component);
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesEquipped component);
 			if(result)
 				value = component.Value;
 			else
@@ -937,14 +937,38 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return result;
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStorage()
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilitiesEquipped()
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage() { Value = new System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>() }); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesEquipped() { Value = new System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>() }); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityStorage(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilitiesEquipped(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilityStorage() {Value = value}); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesEquipped() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesStorage AbilitiesStorageC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesStorage>();
+
+		public System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>> AbilitiesStorage => AbilitiesStorageC.Value;
+
+		public bool TryGetAbilitiesStorage(out System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesStorage component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilitiesStorage()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesStorage() { Value = new System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilitiesStorage(System.Collections.Generic.Dictionary<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilitySlotType, System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitiesStorage() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitySlotCurrent AbilitySlotCurrentC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Common.AbilitySlotCurrent>();

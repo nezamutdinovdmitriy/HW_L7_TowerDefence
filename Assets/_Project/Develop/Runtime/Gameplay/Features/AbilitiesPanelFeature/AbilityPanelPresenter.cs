@@ -1,44 +1,57 @@
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
+using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.UI.Core;
-using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
+using System;
 using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeature
 {
     public class AbilityPanelPresenter : IPresenter
     {
-        private readonly LevelConfig _levelConfig;
+        private readonly MainHeroHolderService _mainHeroHolderService;
         private readonly AbilityPaneltView _abilityPanelView;
         private readonly GameplayPresentersFactory _gameplayPresentersFactory;
         private readonly ViewsFactory _viewsFactory;
 
         private List<AbilitySelectButtonPresenter> _childPresenters = new();
 
+        private IDisposable _disposable;
+
         public AbilityPanelPresenter(
-            LevelConfig levelConfig,
+            MainHeroHolderService mainHeroHolderService,
             AbilityPaneltView abilityPanelView,
             ViewsFactory viewsFactory,
             GameplayPresentersFactory gameplayPresentersFactory)
         {
-            _levelConfig = levelConfig;
+            _mainHeroHolderService = mainHeroHolderService;
             _abilityPanelView = abilityPanelView;
             _viewsFactory = viewsFactory;
             _gameplayPresentersFactory = gameplayPresentersFactory;
         }
 
-        public void Initialize()
+        public void Initialize() => _disposable = _mainHeroHolderService.HeroRegistered.Subscribe(CreatePresenters);
+
+        private void CreatePresenters(Entity entity)
         {
-            foreach (AbilityConfig abilityConfig in _levelConfig.AvailableAbilities)
+            foreach (var kvp in entity.AbilitiesStorage)
             {
-                AbilitySelectButtonView buttonView = _viewsFactory.Create<AbilitySelectButtonView>(ViewIDs.AbilitySelectButtonView);
-                _abilityPanelView.Add(buttonView);
+                var slot = kvp.Key;
+                var abilities = kvp.Value;
 
-                AbilitySelectButtonPresenter buttonPresenter = _gameplayPresentersFactory.CreateAbilitySelectButtonPresenter(buttonView, abilityConfig);
-                buttonPresenter.Initialize();
+                if (abilities == null)
+                    return;
 
-                _childPresenters.Add(buttonPresenter);
+                foreach (var ability in abilities)
+                {
+                    AbilitySelectButtonView buttonView = _viewsFactory.Create<AbilitySelectButtonView>(ViewIDs.AbilitySelectButtonView);
+                    _abilityPanelView.Add(buttonView);
+
+                    AbilitySelectButtonPresenter buttonPresenter = _gameplayPresentersFactory.CreateAbilitySelectButtonPresenter(buttonView, ability);
+                    buttonPresenter.Initialize();
+
+                    _childPresenters.Add(buttonPresenter);
+                }
             }
         }
 
@@ -52,6 +65,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
             }
 
             _childPresenters.Clear();
+            _disposable?.Dispose();
         }
     }
 }

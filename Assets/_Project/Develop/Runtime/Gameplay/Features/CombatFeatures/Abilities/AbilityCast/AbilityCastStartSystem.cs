@@ -11,7 +11,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
     {
         private readonly WalletService _wallet;
 
-        private Dictionary<AbilitySlotType, Entity> _abilityStorage;
+        private Dictionary<AbilitySlotType, Entity> _abilitiesEquipped;
         private ReactiveVariable<AbilitySlotType> _abilitySlotCurrent;
 
         private ReactiveVariable<bool> _abilityCastInProcess;
@@ -24,7 +24,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         public void OnInitialize(Entity entity)
         {
-            _abilityStorage = entity.AbilityStorage;
+            _abilitiesEquipped = entity.AbilitiesEquipped;
             _abilitySlotCurrent = entity.AbilitySlotCurrent;
 
             _currentCastingAbility = entity.CurrentCastingAbility;
@@ -40,7 +40,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             if (_canCastAbility.Evaluate() == false)
                 return;
 
-            if (_abilityStorage[_abilitySlotCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
+            if (_abilitiesEquipped[_abilitySlotCurrent.Value].TryGetShouldSpendCost(out ReactiveVariable<bool> value))
                 if (TrySpendAbilityCost() == false)
                     return;
 
@@ -48,28 +48,28 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
             _abilityCastInProcess.Value = true;
 
-            _abilityStorage[_abilitySlotCurrent.Value].ShouldStartProcess.Value = true;
+            _abilitiesEquipped[_abilitySlotCurrent.Value].ShouldStartProcess.Value = true;
         }
 
         private void UpdateCurrentCastingAbility()
         {
-            _abilityStorage.TryGetValue(_abilitySlotCurrent.Value, out Entity currentCastingAbility);
+            _abilitiesEquipped.TryGetValue(_abilitySlotCurrent.Value, out Entity currentCastingAbility);
             _currentCastingAbility.Value = currentCastingAbility;
         }
 
         private bool TrySpendAbilityCost()
         {
             if(_wallet.Enough(
-                _abilityStorage[_abilitySlotCurrent.Value].CurrencyCost,
-                _abilityStorage[_abilitySlotCurrent.Value].AbilityCost) == false)
+                _abilitiesEquipped[_abilitySlotCurrent.Value].CurrencyCost,
+                _abilitiesEquipped[_abilitySlotCurrent.Value].AbilityCost) == false)
             {
                 return false;
             }
             else
             {
                 _wallet.Spend(
-                    _abilityStorage[_abilitySlotCurrent.Value].CurrencyCost,
-                    _abilityStorage[_abilitySlotCurrent.Value].AbilityCost);
+                    _abilitiesEquipped[_abilitySlotCurrent.Value].CurrencyCost,
+                    _abilitiesEquipped[_abilitySlotCurrent.Value].AbilityCost);
                 return true;
             }
         }

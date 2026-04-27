@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _abilities:
   - AbilityType: 0
-    Config: {fileID: 11400000, guid: d532edd4d8bc2fa49943b8f5d742f485, type: 2}
+    Config: {fileID: 11400000, guid: f74920f750564474ead400da00926823, type: 2}
   - AbilityType: 1
     Config: {fileID: 11400000, guid: 6a75ca237bb8f0d47a3c9ef148bc3df3, type: 2}
   <PathToPrefab>k__BackingField: Gameplay/Entities/Characters/Tower

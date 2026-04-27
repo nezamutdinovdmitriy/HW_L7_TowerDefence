@@ -10,21 +10,19 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
 {
     public class AbilitySelectButtonPresenter : IPresenter
     {
-        public event Action<AbilitySelectButtonPresenter> Selected;
+        //public event Action<AbilitySelectButtonPresenter> Selected;
 
         private readonly MainHeroHolderService _mainHeroHolderService;
-        private readonly AbilityFactory _abilityFactory;
+        private readonly Entity _ability;
 
         public AbilitySelectButtonPresenter(
             AbilitySelectButtonView view,
-            AbilityConfig abilityConfig,
             MainHeroHolderService mainHeroHolderService,
-            AbilityFactory abilityFactory)
+            Entity ability)
         {
             View = view;
-            AbilityConfig = abilityConfig;
             _mainHeroHolderService = mainHeroHolderService;
-            _abilityFactory = abilityFactory;
+            _ability = ability;
         }
 
         public Entity MainHero => _mainHeroHolderService.MainHero;
@@ -34,7 +32,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
 
         public void Initialize()
         {
-            View.SetAbilityName(AbilityConfig.AbilityData.AbilityType.ToString());
+            View.SetAbilityName(_ability.Ability.Value.ToString());
 
             View.Clicked += OnViewClicked;
         }
@@ -43,10 +41,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
 
         private void OnViewClicked()
         {
-            Debug.Log(AbilityConfig.AbilityData.AbilityType.ToString());
-            MainHero.AbilityStorage[AbilitySlotType.Utility] = _abilityFactory.Create(AbilityConfig, MainHero);
-
-            Debug.Log("Актуальная абилка в слоте: " + MainHero.AbilityStorage[AbilitySlotType.Utility].Ability.Value);
+            MainHero.AbilitiesEquipped[AbilitySlotType.Utility] = _ability;
         }
     }
 }

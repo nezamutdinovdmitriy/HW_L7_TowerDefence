@@ -23,7 +23,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Fin
 
         public void Update(float deltaTime)
         {
-            _currentTarget.Value = _targetSelector.SelectTargetFrom(_entitiesLifeContext.Enities);
+            _currentTarget.Value = _targetSelector.SelectTargetFrom(_entitiesLifeContext.Entities);
         }
     }
 }

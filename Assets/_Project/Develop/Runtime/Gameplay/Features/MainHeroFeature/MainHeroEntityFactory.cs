@@ -16,6 +16,7 @@ using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.Converters;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
+using System;
 using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
@@ -46,21 +47,26 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             Entity entity = new();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, levelConfig.TowerSpawnPosition, towerConfig.PathToPrefab);
 
+            var abilitiesStorage = new Dictionary<AbilitySlotType, List<Entity>>();
+            foreach (AbilitySlotType slot in Enum.GetValues(typeof(AbilitySlotType)))
+                abilitiesStorage[slot] = new List<Entity>();
+
             entity
                 .AddIsMainHero()
-                .AddMaxHealth(new ReactiveVariable<float>(levelConfig.TowerMaxHealth))
-                .AddCurrentHealth(new ReactiveVariable<float>(levelConfig.TowerMaxHealth))
+                .AddMaxHealth(new(levelConfig.TowerMaxHealth))
+                .AddCurrentHealth(new(levelConfig.TowerMaxHealth))
                 .AddRotationDirection()
                 .AddTargetRotation()
-                .AddRotationSpeed(new ReactiveVariable<float>(towerConfig.RotationSpeed))
+                .AddRotationSpeed(new(towerConfig.RotationSpeed))
                 .AddInputAimPoint()
                 .AddIsDead()
                 .AddInDeathProcess()
                 .AddTakeDamageRequest()
                 .AddTakeDamageEvent()
-                .AddTeam(new ReactiveVariable<TeamType>(TeamType.MainHero))
-                .AddAbilitySlotCurrent(new ReactiveVariable<AbilitySlotType>(AbilitySlotType.Main))
-                .AddAbilityStorage(new Dictionary<AbilitySlotType, Entity>())
+                .AddTeam(new(TeamType.MainHero))
+                .AddAbilitySlotCurrent(new(AbilitySlotType.Main))
+                .AddAbilitiesEquipped(new())
+                .AddAbilitiesStorage(abilitiesStorage)
                 .AddAbilityCastInProcess()
                 .AddCurrentCastingAbility()
                 .AddAbilityCastKeyMapping(_container.Resolve<ConfigsProvider>().GetConfig<AbilityToAnimatorKeyMapping>());
@@ -100,6 +106,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
+            foreach (AbilityConfig abilityConfig in levelConfig.AvailableAbilities)
+            {
+                Entity ability = _abilityFactory.Create(abilityConfig, entity);
+
+                AbilitySlotType slot = ability.AbilitySlot.Value;
+
+                entity.AbilitiesStorage[slot].Add(ability);
+            }
+
             _entitiesLifeContext.Add(entity);
 
             Dictionary<AbilitySlotType, AbilityConfig> abilities = towerConfig.GetAbilities();
@@ -108,7 +123,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             {
                 Entity ability = _abilityFactory.Create(abilities[key], entity);
 
-                entity.AbilityStorage.Add(key, ability);
+                entity.AbilitiesEquipped.Add(key, ability);
             }
 
             return entity;
