@@ -134,16 +134,16 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddAreaContactDetectingRadius(new(config.Radius))
                 .AddContactsEntityTimers(new());
 
-            ICompositeCondition mustDieCindition = new CompositeCondition()
-                .Add(new FuncCondition(() =>
-                {
-                    StageProvider stageProvider = _container.Resolve<StageProvider>();
+            //ICompositeCondition mustDieCindition = new CompositeCondition()
+            //    .Add(new FuncCondition(() =>
+            //    {
+            //        StageProvider stageProvider = _container.Resolve<StageProvider>();
 
-                    if (stageProvider.CurrentStageResult.Value == StageResult.Completed)
-                        return true;
+            //        if (stageProvider.CurrentStageResult.Value == StageResult.Completed)
+            //            return true;
 
-                    return false;
-                }));
+            //        return false;
+            //    }));
 
             ICompositeCondition mustSelfReleaseCondition = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
@@ -152,7 +152,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .Add(new FuncCondition(() => true));
 
             entity
-                .AddMustDie(mustDieCindition)
+                //.AddMustDie(mustDieCindition)
                 .AddCanStartDetecting(canStartDetectingCondition)
                 .AddMustSelfRelease(mustSelfReleaseCondition);
 
@@ -161,7 +161,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new ContactDurationSystem())
                 .AddSystem(new PeriodicDamageSystem())
-                .AddSystem(new DeathSystem())
+                //.AddSystem(new DeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
             _entitiesLifeContext.Add(entity);

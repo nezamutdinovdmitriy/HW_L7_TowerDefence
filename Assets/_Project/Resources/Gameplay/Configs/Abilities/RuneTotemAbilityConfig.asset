@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: RuneTotemAbilityConfig
   m_EditorClassIdentifier: 
   <AbilityData>k__BackingField:
-    <AbilityType>k__BackingField: 0
-    <AbilitySlot>k__BackingField: 0
+    <AbilityType>k__BackingField: 4
+    <AbilitySlot>k__BackingField: 1
   <CastData>k__BackingField:
     <InitialTime>k__BackingField: 1
     <EffectSpawnDelay>k__BackingField: 0.5

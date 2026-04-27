@@ -21,7 +21,9 @@ namespace Assets._Project.Develop.Runtime.UI.Core
             {ViewIDs.SimpleHealthBar, "UI/Gameplay/HealthBars/SimpleHealthBar" },
             {ViewIDs.TowerHealthBar, "UI/Gameplay/HealthBars/TowerHealthBar" },
             {ViewIDs.UpgradeCardView, "UI/UpgradeFeature/UpgradeCardView" },
-            {ViewIDs.UpgradesPopupView, "UI/UpgradeFeature/UpgradesPopupView" }
+            {ViewIDs.UpgradesPopupView, "UI/UpgradeFeature/UpgradesPopupView" },
+            {ViewIDs.AbilitySelectButtonView, "UI/Gameplay/AbilitiesPanel/AbilitySelectButtonView" },
+            {ViewIDs.AbilityPanelView, "UI/Gameplay/AbilitiesPanel/AbilityPanelView" }
         };
 
         public ViewsFactory(ResourcesAssetsLoader resourcesAssetsLoader)

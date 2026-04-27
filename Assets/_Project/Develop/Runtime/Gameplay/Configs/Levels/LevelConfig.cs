@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Stages;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,10 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Levels
         [SerializeField] private Vector3 _towerSpawnPosition;
         [SerializeField] private int _victoryReward;
         [SerializeField] private float _preparationDuration;
-        
+
+        [SerializeField] private List<AbilityConfig> _availableAbilities;
+
+        public IReadOnlyList<AbilityConfig> AvailableAbilities => _availableAbilities;
         public IReadOnlyList<StageConfig> StageConfigs => _stageConfigs;
         public float TowerMaxHealth => _towerMaxHealth;
         public int VictoryReward => _victoryReward;

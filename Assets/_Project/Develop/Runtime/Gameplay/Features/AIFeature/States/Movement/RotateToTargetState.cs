@@ -27,7 +27,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AIFeature.States.Mov
             {
                 _entity.InputAimPoint.Value = _entity.CurrentTarget.Value.Transfrom.position;
                 _rotationDirection.Value = (_currentTarget.Value.Transfrom.position - _transform.position).normalized;
-                Debug.Log($"RotateToTargetState | +++");
             }
         }
     }

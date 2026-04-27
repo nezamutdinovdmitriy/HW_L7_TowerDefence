@@ -1,5 +1,10 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Features.HealthFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States;
 using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
@@ -7,6 +12,7 @@ using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.UI;
 using Assets._Project.Develop.Runtime.UI.CommonViews;
 using Assets._Project.Develop.Runtime.UI.Core;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
 using Assets._Project.Develop.Runtime.Utilities.SceneManagment;
 
@@ -22,6 +28,20 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
             _container = container;
             _gameplayInputArgs = gameplayInputArgs;
         }
+
+        public AbilityPanelPresenter CreateAbilityPanelPresenter(AbilityPaneltView view)
+            => new(
+                _container.Resolve<ConfigsProvider>().GetConfig<LevelsListConfig>().GetConfigBy(_gameplayInputArgs.LevelNumber),
+                view,
+                _container.Resolve<ViewsFactory>(),
+                this);
+
+        public AbilitySelectButtonPresenter CreateAbilitySelectButtonPresenter(AbilitySelectButtonView view, AbilityConfig abilityConfig)
+            => new(
+                view, 
+                abilityConfig, 
+                _container.Resolve<MainHeroHolderService>(), 
+                _container.Resolve<AbilityFactory>());
 
         public EntityHealthPresenter CreateEntityHealthPresenter(Entity entity, BarWithText view)
             => new(view, entity);

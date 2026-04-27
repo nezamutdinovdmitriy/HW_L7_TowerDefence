@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <AbilityData>k__BackingField:
     <AbilityType>k__BackingField: 3
-    <AbilitySlot>k__BackingField: 0
+    <AbilitySlot>k__BackingField: 1
   <CastData>k__BackingField:
     <InitialTime>k__BackingField: 1
     <EffectSpawnDelay>k__BackingField: 0.5

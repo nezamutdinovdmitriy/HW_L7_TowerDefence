@@ -16,7 +16,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 62cb62078eb5cd04788db6edcab15ad0, type: 2}
   - {fileID: 11400000, guid: 62cb62078eb5cd04788db6edcab15ad0, type: 2}
   - {fileID: 11400000, guid: 62cb62078eb5cd04788db6edcab15ad0, type: 2}
-  _towerMaxHealth: 100
+  _towerMaxHealth: 999
   _towerSpawnPosition: {x: 0, y: 0, z: 0}
   _victoryReward: 250
-  _preparationDuration: 3
+  _preparationDuration: 60
+  _availableAbilities:
+  - {fileID: 11400000, guid: d532edd4d8bc2fa49943b8f5d742f485, type: 2}
+  - {fileID: 11400000, guid: 4134fc799d8f3d948855db544c082476, type: 2}
+  - {fileID: 11400000, guid: 6a75ca237bb8f0d47a3c9ef148bc3df3, type: 2}
