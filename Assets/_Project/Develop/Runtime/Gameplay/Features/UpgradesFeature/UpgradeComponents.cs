@@ -1,4 +1,6 @@
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
+using Assets._Project.Develop.Runtime.Utilities.Reactive;
 using System.Collections.Generic;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
@@ -18,5 +20,25 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
 
     public class FireballDamageMultiplierUpgradeTag : IEntityComponent
     {
+    }
+
+    public class CanApplyEffect : IEntityComponent
+    {
+        public ICompositeCondition Value;
+    }
+
+    public class CanFinalizeEffect : IEntityComponent
+    {
+        public ICompositeCondition Value;
+    }
+
+    public class IsEffectApplied : IEntityComponent
+    {
+        public ReactiveVariable<bool> Value;
+    }
+
+    public class HealPercent : IEntityComponent
+    {
+        public ReactiveVariable<int> Value;
     }
 }

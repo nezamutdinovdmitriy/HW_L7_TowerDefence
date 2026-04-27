@@ -13,18 +13,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
         private readonly StageProvider _stageProvider;
         private readonly MainHeroHolderService _mainHeroHolderService;
         private readonly EntitiesLifeContext _entitiesLifeContext;
-        private readonly GameplayScreenPresenter _gameplayScreenPresenter;
 
         public StageProcessState(
             StageProvider stageProvider,
             MainHeroHolderService mainHeroHolderService,
-            EntitiesLifeContext entitiesLifeContext,
-            GameplayScreenPresenter gameplayScreenPresenter)
+            EntitiesLifeContext entitiesLifeContext)
         {
             _stageProvider = stageProvider;
             _mainHeroHolderService = mainHeroHolderService;
             _entitiesLifeContext = entitiesLifeContext;
-            _gameplayScreenPresenter = gameplayScreenPresenter;
         }
 
         public override void Enter()
@@ -33,9 +30,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 
             _stageProvider.SwitchToNextStage();
             _stageProvider.StartCurrent();
-
-            _gameplayScreenPresenter.ScreenView.AbilityPanelView.Hide();
-            _gameplayScreenPresenter.ScreenView.AbilityPanelView.gameObject.SetActive(false);
 
             _mainHeroHolderService.MainHero.AbilitySlotCurrent.Value = AbilitySlotType.Main;
         }
@@ -54,9 +48,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
             }
 
             _stageProvider.CleanupCurrent();
-
-            _gameplayScreenPresenter.ScreenView.AbilityPanelView.gameObject.SetActive(true);
-            _gameplayScreenPresenter.ScreenView.AbilityPanelView.Show();
         }
     }
 }

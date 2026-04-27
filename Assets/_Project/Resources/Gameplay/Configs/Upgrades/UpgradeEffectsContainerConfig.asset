@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8579bec98c8ac694c9ac7a45f8411818, type: 3}
   m_Name: UpgradeEffectsContainerConfig
   m_EditorClassIdentifier: 
-  <ContainerEffects>k__BackingField:
+  _containerEffects:
   - {fileID: 11400000, guid: 7252afc3bef04d34fafa0f689e4bff7d, type: 2}
   - {fileID: 11400000, guid: 612ca74f5e93d1c4f8d976fab71a66c0, type: 2}
   - {fileID: 11400000, guid: 2414ecdc17207244694484744578320c, type: 2}

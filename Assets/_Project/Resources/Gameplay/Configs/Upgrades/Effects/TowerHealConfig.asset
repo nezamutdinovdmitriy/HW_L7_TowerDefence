@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7b24ffae7cf5d4080741ad2a11c5c9, type: 3}
   m_Name: TowerHealConfig
   m_EditorClassIdentifier: 
-  <HealPercent>k__BackingField: 0
+  <UpgradeType>k__BackingField: 0
+  <HealPercent>k__BackingField: 25

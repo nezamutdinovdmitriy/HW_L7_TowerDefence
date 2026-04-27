@@ -1,7 +1,10 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
+using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.TowerHealOnWaveStart;
 using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
+using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using System;
 
@@ -12,6 +15,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
         private readonly DIContainer _container;
         private readonly EntitiesLifeContext _lifeContext;
         private readonly UpgradeEffectsContainerConfig _configs;
+        private readonly StageProvider _stageProvider;
 
         public UpgradesFactory(
             DIContainer container,
@@ -20,6 +24,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
             _container = container;
             _lifeContext = lifeContext;
             _configs = _container.Resolve<ConfigsProvider>().GetConfig<UpgradeEffectsContainerConfig>();
+            _stageProvider = _container.Resolve<StageProvider>();
         }
 
         public Entity Create(Entity owner, UpgradeType upgradeType)
@@ -31,24 +36,51 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
             {
                 case TowerHealConfig towerHealConfig:
                     upgrade
-                        .AddTowerHealOnWaveStartUpgradeTag();
+                        .AddTowerHealOnWaveStartUpgradeTag()
+                        .AddIsEffectApplied()
+                        .AddHealPercent(new(towerHealConfig.HealPercent));
+
+                    ICompositeCondition canApplyEffect = new CompositeCondition()
+                        .Add(new FuncCondition(() =>
+                        {
+                            if (_stageProvider.CurrentStageResult.Value != StageResult.Uncompleted)
+                                return false;
+
+                            if (_stageProvider.CurrentStageNumber.Value <= 1)
+                                return false;
+
+                            return true;
+                        }));
+
+                    ICompositeCondition canFinalizeEffect = new CompositeCondition()
+                        .Add(new FuncCondition(() =>
+                        {
+                            return upgrade.IsEffectApplied.Value
+                            && _stageProvider.CurrentStageResult.Value == StageResult.Completed;
+                        }));
+
+                    upgrade
+                        .AddCanApplyEffect(canApplyEffect)
+                        .AddCanFinalizeEffect(canFinalizeEffect)
+                        .AddSystem(new TowerHealApplySystem())
+                        .AddSystem(new EffectFinalizeSystem());
 
                     break;
 
-                case FireballDamageMultiplierConfig towerHealConfig:
+                case FireballDamageMultiplierConfig fireballDamageMultiplierConfig:
                     upgrade
                         .AddTowerHealOnWaveStartUpgradeTag();
 
                     break;
 
-                case DamageFirstTargetsConfig towerHealConfig:
+                case DamageFirstTargetsConfig damageFirstTargetsConfig:
                     upgrade
                         .AddTowerHealOnWaveStartUpgradeTag();
 
                     break;
 
                 default:
-                    throw new Exception($"Unsupported upgrade type {upgradeType}");
+                    throw new Exception($"Unsupported upgrade {config}");
             }
 
             _lifeContext.Add(upgrade);

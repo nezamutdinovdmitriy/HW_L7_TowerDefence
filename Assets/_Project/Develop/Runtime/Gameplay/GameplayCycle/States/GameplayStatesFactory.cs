@@ -86,15 +86,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
         public PreparationState CreatePreparationState(TimerService timer)
             => new(
                 timer,
-                _container.Resolve<MainHeroHolderService>()
-                );
+                _container.Resolve<MainHeroHolderService>(),
+                _container.Resolve<GameplayScreenPresenter>());
 
         public StageProcessState CreateStageProcessState()
             => new(
                 _container.Resolve<StageProvider>(),
                 _container.Resolve<MainHeroHolderService>(),
-                _container.Resolve<EntitiesLifeContext>(),
-                _container.Resolve<GameplayScreenPresenter>());
+                _container.Resolve<EntitiesLifeContext>());
 
         public WinState CreateWinState(int victoryReward)
             => new(

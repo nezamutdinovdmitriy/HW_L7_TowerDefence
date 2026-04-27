@@ -47,6 +47,92 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.FireballDamageMultiplierUpgradeTag() ); 
 		}
 
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.CanApplyEffect CanApplyEffectC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.CanApplyEffect>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanApplyEffect => CanApplyEffectC.Value;
+
+		public bool TryGetCanApplyEffect(out Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.CanApplyEffect component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanApplyEffect(Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.CanApplyEffect() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.CanFinalizeEffect CanFinalizeEffectC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.CanFinalizeEffect>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition CanFinalizeEffect => CanFinalizeEffectC.Value;
+
+		public bool TryGetCanFinalizeEffect(out Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.CanFinalizeEffect component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddCanFinalizeEffect(Assets._Project.Develop.Runtime.Utilities.Conditions.ICompositeCondition value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.CanFinalizeEffect() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.IsEffectApplied IsEffectAppliedC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.IsEffectApplied>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> IsEffectApplied => IsEffectAppliedC.Value;
+
+		public bool TryGetIsEffectApplied(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.IsEffectApplied component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsEffectApplied()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.IsEffectApplied() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddIsEffectApplied(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Boolean> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.IsEffectApplied() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent HealPercentC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> HealPercent => HealPercentC.Value;
+
+		public bool TryGetHealPercent(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddHealPercent()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddHealPercent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent() {Value = value}); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature.Team TeamC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature.Team>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature.TeamType> Team => TeamC.Value;
