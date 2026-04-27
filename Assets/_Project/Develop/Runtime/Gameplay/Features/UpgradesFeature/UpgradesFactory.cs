@@ -1,7 +1,8 @@
+using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
-using UnityEngine;
+using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using System;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
@@ -10,6 +11,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
     {
         private readonly DIContainer _container;
         private readonly EntitiesLifeContext _lifeContext;
+        private readonly UpgradeEffectsContainerConfig _configs;
 
         public UpgradesFactory(
             DIContainer container,
@@ -17,43 +19,36 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
         {
             _container = container;
             _lifeContext = lifeContext;
+            _configs = _container.Resolve<ConfigsProvider>().GetConfig<UpgradeEffectsContainerConfig>();
         }
 
         public Entity Create(Entity owner, UpgradeType upgradeType)
         {
-            Entity upgrade;
+            Entity upgrade = CreateCommon(owner);
+            var config = _configs.GetConfigBy(upgradeType);
 
-            switch (upgradeType)
+            switch (config)
             {
-                case UpgradeType.TowerHealOnWaveStart:
-                    upgrade = CreateCommon(owner);
-
+                case TowerHealConfig towerHealConfig:
                     upgrade
                         .AddTowerHealOnWaveStartUpgradeTag();
-                    Debug.Log("Создал хил башни");
 
                     break;
 
-                case UpgradeType.DamageFirstEnemies:
-                    upgrade = CreateCommon(owner);
-
+                case FireballDamageMultiplierConfig towerHealConfig:
                     upgrade
                         .AddTowerHealOnWaveStartUpgradeTag();
-                    Debug.Log("Создал нанесение урона врагам");
 
                     break;
 
-                case UpgradeType.FireballDamageMultiplier:
-                    upgrade = CreateCommon(owner);
-
+                case DamageFirstTargetsConfig towerHealConfig:
                     upgrade
                         .AddTowerHealOnWaveStartUpgradeTag();
-                    Debug.Log("Создал увеличенный урон файрболом");
 
                     break;
 
                 default:
-                    throw new InvalidOperationException();
+                    throw new Exception($"Unsupported upgrade type {upgradeType}");
             }
 
             _lifeContext.Add(upgrade);

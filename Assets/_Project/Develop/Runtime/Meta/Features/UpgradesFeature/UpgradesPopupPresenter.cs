@@ -1,10 +1,9 @@
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
+using Assets._Project.Develop.Runtime.Meta.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.CoroutinesManagment;
-using System;
 using System.Collections.Generic;
-using static Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades.UpgradesViewConfig;
+using static Assets._Project.Develop.Runtime.Meta.Configs.Upgrades.UpgradesViewConfig;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {

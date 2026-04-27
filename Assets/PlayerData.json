@@ -1,11 +1,10 @@
 {
   "WalletData": {
-    "Gold": 4850,
+    "Gold": 450,
     "Gem": 50
   },
   "Upgrades": [
     0,
-    2,
-    1
+    2
   ]
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades
+namespace Assets._Project.Develop.Runtime.Meta.Configs.Upgrades
 {
     [CreateAssetMenu(
     menuName = "Configs/Meta/Upgrades/NewUpgradesConfig",

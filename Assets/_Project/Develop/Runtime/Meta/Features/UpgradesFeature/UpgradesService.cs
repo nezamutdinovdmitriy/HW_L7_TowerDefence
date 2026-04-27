@@ -1,10 +1,10 @@
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
+using Assets._Project.Develop.Runtime.Meta.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
 using Assets._Project.Develop.Runtime.Utilities.DataManagment;
 using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using System.Collections.Generic;
-using static Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades.UpgradesConfig;
+using static Assets._Project.Develop.Runtime.Meta.Configs.Upgrades.UpgradesConfig;
 
 namespace Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature
 {

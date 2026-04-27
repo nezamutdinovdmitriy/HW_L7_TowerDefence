@@ -1,12 +1,8 @@
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Meta.Features.MainMenuFeature;
-using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.UI;
 using Assets._Project.Develop.Runtime.UI.Core;
 using Assets._Project.Develop.Runtime.Utilities.AssetsManagment;
-using Assets._Project.Develop.Runtime.Utilities.ConfigsManagment;
-using Assets._Project.Develop.Runtime.Utilities.DataManagment.DataProviders;
 using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Meta.Infrastructure

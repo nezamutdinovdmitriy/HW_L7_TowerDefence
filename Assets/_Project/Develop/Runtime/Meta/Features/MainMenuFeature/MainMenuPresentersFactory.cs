@@ -1,7 +1,5 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Levels;
-using Assets._Project.Develop.Runtime.Gameplay.Configs.Upgrades;
-using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States;
-using Assets._Project.Develop.Runtime.Gameplay.Infrastructure;
+using Assets._Project.Develop.Runtime.Meta.Configs.Upgrades;
 using Assets._Project.Develop.Runtime.Meta.Configs.Wallet;
 using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
