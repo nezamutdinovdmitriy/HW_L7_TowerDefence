@@ -8,6 +8,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.StagesFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle;
 using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
@@ -74,12 +75,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Infrastructure
             container.RegisterAsSingle(CreateGameplayPresentersFactory);
 
             container.RegisterAsSingle(CreateMonoEntitiesFactory).NonLazy();
+
+            container.RegisterAsSingle(CreateUpgradesFactory);
         }
 
         private static void RegisterPresenters(DIContainer container)
         {
             container.RegisterAsSingle(CreateGameplayScreenPresenter).NonLazy();
         }
+
+        private static UpgradesFactory CreateUpgradesFactory(DIContainer container)
+            => new(container, container.Resolve<EntitiesLifeContext>());
 
         private static GameplayPopupService CreateGameplayPopupService(DIContainer container)
         {

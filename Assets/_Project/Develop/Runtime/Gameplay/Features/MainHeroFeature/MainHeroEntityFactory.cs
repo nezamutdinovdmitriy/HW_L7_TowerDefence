@@ -10,6 +10,8 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.DeathFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.InputFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.RotationFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature;
+using Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature;
+using Assets._Project.Develop.Runtime.Meta.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.ProjectInfrastructure.DI;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
@@ -28,6 +30,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
         private readonly MonoEntitiesFactory _monoEntitiesFactory;
         private readonly AbilityFactory _abilityFactory;
         private readonly WalletService _walletService;
+        private readonly UpgradesService _upgradesService;
+        private readonly UpgradesFactory _upgradesFactory;
 
         private readonly IGameplayInputService _inputService;
 
@@ -40,6 +44,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
             _abilityFactory = _container.Resolve<AbilityFactory>();
             _inputService = _container.Resolve<IGameplayInputService>();
             _walletService = _container.Resolve<WalletService>();
+            _upgradesService = _container.Resolve<UpgradesService>();
+            _upgradesFactory = _container.Resolve<UpgradesFactory>();
         }
 
         public Entity CreateTower(BaseTowerConfig towerConfig, LevelConfig levelConfig)
@@ -53,6 +59,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
 
             entity
                 .AddIsMainHero()
+                .AddUpgrades(new())
                 .AddMaxHealth(new(levelConfig.TowerMaxHealth))
                 .AddCurrentHealth(new(levelConfig.TowerMaxHealth))
                 .AddRotationDirection()
@@ -105,6 +112,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature
                 .AddSystem(new DeathSystem())
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
+
+            foreach (UpgradeType upgradeType in _upgradesService.AvailableUpgrades)
+            {
+                Entity upgrade = _upgradesFactory.Create(entity, upgradeType);
+
+                entity.Upgrades.Add(upgrade);
+            }
 
             foreach (AbilityConfig abilityConfig in levelConfig.AvailableAbilities)
             {

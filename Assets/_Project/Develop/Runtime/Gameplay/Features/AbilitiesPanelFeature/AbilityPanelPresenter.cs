@@ -30,7 +30,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
             _gameplayPresentersFactory = gameplayPresentersFactory;
         }
 
-        public void Initialize() => _disposable = _mainHeroHolderService.HeroRegistered.Subscribe(CreatePresenters);
+        public void Initialize()
+            => _disposable = _mainHeroHolderService.HeroRegistered.Subscribe(CreatePresenters);
 
         private void CreatePresenters(Entity entity)
         {
@@ -40,7 +41,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
                 var abilities = kvp.Value;
 
                 if (abilities == null)
-                    return;
+                    continue;
 
                 foreach (var ability in abilities)
                 {
@@ -50,15 +51,21 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
                     AbilitySelectButtonPresenter buttonPresenter = _gameplayPresentersFactory.CreateAbilitySelectButtonPresenter(buttonView, ability);
                     buttonPresenter.Initialize();
 
+                    buttonPresenter.Selected += OnAbilitySelected;
+
                     _childPresenters.Add(buttonPresenter);
                 }
             }
+
+            _abilityPanelView.Show();
         }
 
         public void Dispose()
         {
             foreach (AbilitySelectButtonPresenter presenter in _childPresenters)
             {
+                presenter.Selected -= OnAbilitySelected;
+
                 _abilityPanelView.Remove(presenter.View);
                 _viewsFactory.Remove(presenter.View);
                 presenter.Dispose();
@@ -67,5 +74,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
             _childPresenters.Clear();
             _disposable?.Dispose();
         }
+
+        private void OnAbilitySelected(AbilitySelectButtonPresenter presenter)
+            => _abilityPanelView.Select(presenter.View);
     }
 }

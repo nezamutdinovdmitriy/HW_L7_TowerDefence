@@ -2,6 +2,51 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 {
 	public partial class Entity
 	{
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Upgrades UpgradesC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Upgrades>();
+
+		public System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> Upgrades => UpgradesC.Value;
+
+		public bool TryGetUpgrades(out System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Upgrades component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddUpgrades()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Upgrades() { Value = new System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddUpgrades(System.Collections.Generic.List<Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Upgrades() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.TowerHealOnWaveStartUpgradeTag TowerHealOnWaveStartUpgradeTagC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.TowerHealOnWaveStartUpgradeTag>();
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddTowerHealOnWaveStartUpgradeTag()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.TowerHealOnWaveStartUpgradeTag() ); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.DamageFirstEnemiesUpgradeTag DamageFirstEnemiesUpgradeTagC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.DamageFirstEnemiesUpgradeTag>();
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddDamageFirstEnemiesUpgradeTag()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.DamageFirstEnemiesUpgradeTag() ); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.FireballDamageMultiplierUpgradeTag FireballDamageMultiplierUpgradeTagC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.FireballDamageMultiplierUpgradeTag>();
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddFireballDamageMultiplierUpgradeTag()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.FireballDamageMultiplierUpgradeTag() ); 
+		}
+
 		public Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature.Team TeamC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature.Team>();
 
 		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature.TeamType> Team => TeamC.Value;

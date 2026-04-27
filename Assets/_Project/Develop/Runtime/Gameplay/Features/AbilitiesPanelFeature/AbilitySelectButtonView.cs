@@ -22,7 +22,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
 
         private void OnEnable()
         {
-            //transform.localScale = Vector3.zero;
+            transform.localScale = Vector3.zero;
 
             _button.onClick.AddListener(OnClicked);
         }
@@ -33,17 +33,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
         public void ShowSelectableGlow() => _selectable.gameObject.SetActive(true);
         public void HideSelectableGlow() => _selectable.gameObject.SetActive(false);
 
-        //public Tween Show() => TriggerScaleAnimation(Vector3.one, 0.25f);
-        //public Tween Hide() => TriggerScaleAnimation(Vector3.zero, 0.25f);
+        public Tween Show() => TriggerScaleAnimation(Vector3.one, 0.25f);
+        public Tween Hide() => TriggerScaleAnimation(Vector3.zero, 0.25f);
 
         private void OnClicked() => Clicked?.Invoke();
 
-        //private Tween TriggerScaleAnimation(Vector3 endValue, float duration)
-        //{
-        //    _currentAnimation?.Kill();
-        //    _currentAnimation = DOTween.Sequence();
+        private Tween TriggerScaleAnimation(Vector3 endValue, float duration)
+        {
+            _currentAnimation?.Kill();
+            _currentAnimation = DOTween.Sequence();
 
-        //    return transform.DOScale(endValue, duration).SetEase(Ease.OutBack).Play();
-        //}
+            return transform.DOScale(endValue, duration).SetEase(Ease.OutBack).Play();
+        }
     }
 }

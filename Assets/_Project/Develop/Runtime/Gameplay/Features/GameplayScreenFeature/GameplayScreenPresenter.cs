@@ -30,6 +30,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
             _projectPresentersFactory = projectPresentersFactory;
         }
 
+        public GameplayScreenView ScreenView => _screenView;
+
         public void Initialize()
         {
             CreateWalletPresenter();

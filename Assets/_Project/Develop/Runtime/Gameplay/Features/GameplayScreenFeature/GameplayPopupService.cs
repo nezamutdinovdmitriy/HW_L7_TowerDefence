@@ -1,3 +1,4 @@
+using Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeature;
 using Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States;
 using Assets._Project.Develop.Runtime.UI;
 using Assets._Project.Develop.Runtime.UI.Core;
@@ -14,7 +15,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
         public GameplayPopupService(
             ViewsFactory viewsFactory,
             ProjectPresentersFactory projectPresentersFactory,
-            UIRoot root, 
+            UIRoot root,
             GameplayPresentersFactory gameplayPresentersFactory)
             : base(viewsFactory, projectPresentersFactory)
         {

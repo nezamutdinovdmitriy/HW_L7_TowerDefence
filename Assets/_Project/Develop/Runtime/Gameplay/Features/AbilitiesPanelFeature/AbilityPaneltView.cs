@@ -11,5 +11,17 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
 
             abilitySelectButtonView.ShowSelectableGlow();
         }
+
+        public void Show()
+        {
+            foreach (AbilitySelectButtonView view in Elements)
+                view.Show();
+        }
+
+        public void Hide()
+        {
+            foreach (AbilitySelectButtonView view in Elements)
+                view.Hide();
+        }
     }
 }
