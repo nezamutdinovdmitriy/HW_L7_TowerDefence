@@ -14,7 +14,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
         private readonly GameplayPresentersFactory _gameplayPresentersFactory;
         private readonly ViewsFactory _viewsFactory;
 
-        private List<AbilitySelectButtonPresenter> _childPresenters = new();
+        private readonly List<AbilitySelectButtonPresenter> _childPresenters = new();
 
         private IDisposable _disposable;
 

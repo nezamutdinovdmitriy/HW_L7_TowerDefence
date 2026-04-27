@@ -8,15 +8,15 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 {
     public class ToxicPuddleSpawnSystem : IInitializableSystem, IUpdatableSystem
     {
-        private AbilityEffectsFactory _effectsFactory;
-        private ToxicPuddleAbilityConfig _config;
+        private readonly AbilityEffectsFactory _effectsFactory;
+        private readonly ToxicPuddleAbilityConfig _config;
 
         private ReactiveVariable<bool> _shouldSpawnEffect;
 
         private Entity _owner;
 
         public ToxicPuddleSpawnSystem(
-            AbilityEffectsFactory effectsFactory, 
+            AbilityEffectsFactory effectsFactory,
             ToxicPuddleAbilityConfig config)
         {
             _effectsFactory = effectsFactory;

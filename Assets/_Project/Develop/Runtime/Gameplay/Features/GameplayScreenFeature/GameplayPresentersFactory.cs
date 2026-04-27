@@ -20,8 +20,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeatur
 {
     public class GameplayPresentersFactory
     {
-        private DIContainer _container;
-        private GameplayInputArgs _gameplayInputArgs;
+        private readonly DIContainer _container;
+        private readonly GameplayInputArgs _gameplayInputArgs;
 
         public GameplayPresentersFactory(DIContainer container, GameplayInputArgs gameplayInputArgs)
         {

@@ -3,15 +3,11 @@ using Assets._Project.Develop.Runtime.Gameplay.EntitiesCore;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.UI.Core;
-using System;
-using UnityEngine;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeature
 {
     public class AbilitySelectButtonPresenter : IPresenter
     {
-        //public event Action<AbilitySelectButtonPresenter> Selected;
-
         private readonly MainHeroHolderService _mainHeroHolderService;
         private readonly Entity _ability;
 
@@ -28,7 +24,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
         public Entity MainHero => _mainHeroHolderService.MainHero;
 
         public AbilitySelectButtonView View { get; }
-        public AbilityConfig AbilityConfig { get; }
 
         public void Initialize()
         {
@@ -39,9 +34,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
 
         public void Dispose() => View.Clicked -= OnViewClicked;
 
-        private void OnViewClicked()
-        {
-            MainHero.AbilitiesEquipped[AbilitySlotType.Utility] = _ability;
-        }
+        private void OnViewClicked() => MainHero.AbilitiesEquipped[AbilitySlotType.Utility] = _ability;
     }
 }
