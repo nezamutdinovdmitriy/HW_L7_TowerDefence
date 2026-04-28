@@ -112,6 +112,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddAbilityCastSpawnEffectDelayModified(new(toxicPuddleAbilityConfig.CastData.EffectSpawnDelay))
                         .AddAbilitySlot(new(toxicPuddleAbilityConfig.AbilityData.AbilitySlot))
                         .AddAbility(new(toxicPuddleAbilityConfig.AbilityData.AbilityType))
+                        .AddCurrencyCost(toxicPuddleAbilityConfig.CostCurrency)
+                        .AddAbilityCost(toxicPuddleAbilityConfig.ActivationCost)
+                        .AddShouldSpendCost()
                         .AddSystem(new AbilityCastProcessSystem())
                         .AddSystem(new ToxicPuddleSpawnSystem(_abilityEffectsFactory, toxicPuddleAbilityConfig));
                     break;
@@ -128,6 +131,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddAbilityCastSpawnEffectDelayModified(new(runeTotemAbilityConfig.CastData.EffectSpawnDelay))
                         .AddAbilitySlot(new(runeTotemAbilityConfig.AbilityData.AbilitySlot))
                         .AddAbility(new(runeTotemAbilityConfig.AbilityData.AbilityType))
+                        .AddCurrencyCost(runeTotemAbilityConfig.CostCurrency)
+                        .AddAbilityCost(runeTotemAbilityConfig.ActivationCost)
+                        .AddShouldSpendCost()
                         .AddSystem(new AbilityCastProcessSystem())
                         .AddSystem(new RuneTotemSpawnSystem(_abilityEffectsFactory, runeTotemAbilityConfig));
                     break;

@@ -39,6 +39,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
             Debug.Log($"Win\nReward: {_victoryReward}");
 
             _walletService.Add(CurrencyType.Gold, _victoryReward);
+            _walletService.Add(CurrencyType.Gem, _victoryReward / 2);
 
             _coroutinesPerformer.StartPerform(_playerDataProvider.SaveAsync());
 

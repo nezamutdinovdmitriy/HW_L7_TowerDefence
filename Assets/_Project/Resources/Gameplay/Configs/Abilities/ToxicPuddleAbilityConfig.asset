@@ -24,4 +24,4 @@ MonoBehaviour:
   <CooldownTick>k__BackingField: 0.3
   <Radius>k__BackingField: 5
   <CostCurrency>k__BackingField: 0
-  <ActivationCost>k__BackingField: 0
+  <ActivationCost>k__BackingField: 50

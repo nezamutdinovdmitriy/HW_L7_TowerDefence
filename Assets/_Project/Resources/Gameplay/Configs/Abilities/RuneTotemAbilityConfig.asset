@@ -22,5 +22,5 @@ MonoBehaviour:
   <BaseConfig>k__BackingField: {fileID: 11400000, guid: 0c40b7105877f0245b78cd7c9c0550f2,
     type: 2}
   <CostCurrency>k__BackingField: 0
-  <ActivationCost>k__BackingField: 0
+  <ActivationCost>k__BackingField: 100
   <AttackRange>k__BackingField: 25

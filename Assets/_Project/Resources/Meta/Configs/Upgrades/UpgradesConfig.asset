@@ -14,14 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _upgrades:
   - <Type>k__BackingField: 0
-    <CostType>k__BackingField: 0
-    <Cost>k__BackingField: 50
-  - <Type>k__BackingField: 1
-    <CostType>k__BackingField: 0
-    <Cost>k__BackingField: 50
-  - <Type>k__BackingField: 2
     <CostType>k__BackingField: 1
     <Cost>k__BackingField: 50
-  - <Type>k__BackingField: 3
+  - <Type>k__BackingField: 1
+    <CostType>k__BackingField: 1
+    <Cost>k__BackingField: 50
+  - <Type>k__BackingField: 2
     <CostType>k__BackingField: 1
     <Cost>k__BackingField: 50

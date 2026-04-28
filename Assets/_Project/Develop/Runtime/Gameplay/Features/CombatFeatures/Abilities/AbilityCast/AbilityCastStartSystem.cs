@@ -21,7 +21,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         public AbilityCastStartSystem(WalletService wallet) => _wallet = wallet;
 
-
         public void OnInitialize(Entity entity)
         {
             _abilitiesEquipped = entity.AbilitiesEquipped;

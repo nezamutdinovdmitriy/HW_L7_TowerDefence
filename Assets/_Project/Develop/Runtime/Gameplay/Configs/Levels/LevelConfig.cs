@@ -1,5 +1,6 @@
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Abilities;
 using Assets._Project.Develop.Runtime.Gameplay.Configs.Stages;
+using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,5 +23,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Configs.Levels
         public int VictoryReward => _victoryReward;
         public Vector3 TowerSpawnPosition => _towerSpawnPosition;
         public float PreparationDuration => _preparationDuration;
+
     }
 }
