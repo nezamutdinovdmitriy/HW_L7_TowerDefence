@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DamageFirstTargetsConfig
   m_EditorClassIdentifier: 
   <UpgradeType>k__BackingField: 1
-  <EnemiesCount>k__BackingField: 0
-  <DamagePercent>k__BackingField: 0
+  <EnemiesCount>k__BackingField: 1
+  <DamagePercent>k__BackingField: 50

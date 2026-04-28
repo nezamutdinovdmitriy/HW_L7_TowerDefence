@@ -36,6 +36,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public ReactiveVariable<float> Value;
     }
 
+    public sealed class AbilityDamageMultiplier : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
+    }
+
     public sealed class CanCastAbility : IEntityComponent
     {
         public ICompositeCondition Value;

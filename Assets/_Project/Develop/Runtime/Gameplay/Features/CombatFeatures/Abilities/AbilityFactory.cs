@@ -7,6 +7,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.ArcaneMine;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Explosion;
 using Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.Fireball;
+using Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature;
 using Assets._Project.Develop.Runtime.Meta.Features.WalletFeature;
 using Assets._Project.Develop.Runtime.Utilities.Conditions;
 using Assets._Project.Develop.Runtime.Utilities.Reactive;
@@ -56,7 +57,9 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                                 arcaneMineAbilityConfig.CostCurrency,
                                 arcaneMineAbilityConfig.ActivationCost)));
 
-                    entity = CreateCommon(owner)
+                    entity = CreateCommon(owner);
+                    
+                    entity
                         .AddAbilityCastPerSecond(new(arcaneMineAbilityConfig.CastData.CastPerSecond))
                         .AddAbilityCastInitialTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.InitialTime))
                         .AddAbilityCastModifiedTime(new ReactiveVariable<float>(arcaneMineAbilityConfig.CastData.InitialTime))
@@ -70,7 +73,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddAbilityCost(arcaneMineAbilityConfig.ActivationCost)
                         .AddShouldSpendCost()
                         .AddSystem(new AbilityCastProcessSystem())
-                        .AddSystem(new ArcaneMineSpawnSystem(_abilityEffectsFactory, arcaneMineAbilityConfig));
+                        .AddSystem(new ArcaneMineSpawnSystem(_abilityEffectsFactory, entity, arcaneMineAbilityConfig));
                     break;
 
                 case ExplosionAbilityConfig explosionAbilityConfig:
@@ -93,7 +96,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                         .AddExplosionDamage(new(explosionAbilityConfig.ExplosionConfig.ExplosionDamage))
                         .AddExplosionRadius(new(explosionAbilityConfig.ExplosionConfig.ExplosionRadius))
                         .AddSystem(new AbilityCastProcessSystem())
-                        .AddSystem(new ExplosionSpawnSystem(_abilityEffectsFactory, explosionAbilityConfig.ExplosionConfig))
+                        .AddSystem(new ExplosionSpawnSystem(_abilityEffectsFactory, entity, explosionAbilityConfig.ExplosionConfig))
                         .AddSystem(new ExplosionConsumeSystem());
                     break;
 

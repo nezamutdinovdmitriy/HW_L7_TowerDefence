@@ -76,13 +76,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 {
                     if (entity.CurrentTarget.Value == null)
                         return false;
-                    
-                    if((entity.CurrentTarget.Value.Transfrom.position - entity.Transfrom.position).magnitude >= entity.AttackRange.Value)
+
+                    if ((entity.CurrentTarget.Value.Transfrom.position - entity.Transfrom.position).magnitude >= entity.AttackRange.Value)
                         return false;
 
                     return true;
                 }));
-            
+
             ICompositeCondition canRotateCondition = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value == false));
 
@@ -173,13 +173,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             return entity;
         }
 
-        public Entity CreateFireBall(Entity owner, FireballAbilityConfig config)
+        public Entity CreateFireBall(Entity owner, Entity sourceAbility, FireballAbilityConfig config)
         {
             Entity entity = new();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.ShootPoint.position, config.ProjectileConfig.PrefabPath, owner.ShootPoint.rotation);
 
             Vector3 direction = (owner.InputAimPoint.Value - owner.ShootPoint.position).normalized;
-            //Vector3 direction = (owner.RotationDirection.Value - owner.ShootPoint.position).normalized;
 
             entity
                 .AddInputMovementDirection(new ReactiveVariable<Vector3>(direction))
@@ -212,7 +211,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             ICompositeCondition mustDie = new CompositeCondition(LogicOperation.Or)
                 .Add(new FuncCondition(() => entity.IsTouchDeathMask.Value))
                 .Add(new FuncCondition(() => entity.IsTouchAnotherTeam.Value));
-            
+
             ICompositeCondition shouldExplosion = new CompositeCondition()
                 .Add(new FuncCondition(() => entity.IsDead.Value));
 
@@ -235,7 +234,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new DeathMaskTouchDetectorSystem())
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig))
+                .AddSystem(new ExplosionSpawnSystem(this, sourceAbility, config.ExplosionConfig))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -244,7 +243,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             return entity;
         }
 
-        public Entity CreateArcaneMine(Entity owner, ArcaneMineAbilityConfig config)
+        public Entity CreateArcaneMine(Entity owner, Entity sourceAbility, ArcaneMineAbilityConfig config)
         {
             Entity entity = new();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, owner.InputAimPoint.Value, config.PrefabPath);
@@ -283,7 +282,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddSystem(new BodyContactsEntitiesFilterSystem(_collidersRegistryService))
                 .AddSystem(new AnotherTeamTouchDetectorSystem())
                 .AddSystem(new DeathSystem())
-                .AddSystem(new ExplosionSpawnSystem(this, config.ExplosionConfig))
+                .AddSystem(new ExplosionSpawnSystem(this, sourceAbility, config.ExplosionConfig))
                 .AddSystem(new DisableCollidersOnDeathSystem())
                 .AddSystem(new SelfReleaseSystem(_entitiesLifeContext));
 
@@ -292,10 +291,18 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             return entity;
         }
 
-        public Entity CreateExplosion(Vector3 position, Entity owner, ExplosionConfig config)
+        public Entity CreateExplosion(Vector3 position, Entity owner, Entity sourceAbility, ExplosionConfig config)
         {
             Entity entity = new();
             MonoEntity monoEntity = _monoEntitiesFactory.Create(entity, position, config.PrefabPath);
+
+            float damage = config.ExplosionDamage;
+
+            if (sourceAbility.HasComponent<AbilityDamageMultiplier>())
+                damage *= sourceAbility.AbilityDamageMultiplier.Value;
+
+            Debug.Log($"Есть ли модификатор: {sourceAbility.HasComponent<AbilityDamageMultiplier>()}");
+            Debug.Log($"ДАМАГ = {damage}");
 
             entity
                 .AddIsDead()
@@ -309,7 +316,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
                 .AddAreaContactDetectingRadius(new ReactiveVariable<float>(config.ExplosionRadius))
                 .AddExplosionRadius(new ReactiveVariable<float>(config.ExplosionRadius))
                 .AddExplosionLifetime(new ReactiveVariable<float>(0.5f))
-                .AddContactDamage(new ReactiveVariable<float>(config.ExplosionDamage))
+                .AddContactDamage(new ReactiveVariable<float>(damage))
                 .AddShouldForceDeath();
 
             ICompositeCondition canStartDetecting = new CompositeCondition()

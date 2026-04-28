@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: FireballDamageMultiplierConfig
   m_EditorClassIdentifier: 
   <UpgradeType>k__BackingField: 2
-  <Multiplier>k__BackingField: 0
+  <Multiplier>k__BackingField: 1.5

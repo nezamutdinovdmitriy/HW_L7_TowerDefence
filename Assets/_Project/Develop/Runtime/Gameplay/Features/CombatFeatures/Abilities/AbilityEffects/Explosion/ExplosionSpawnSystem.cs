@@ -11,6 +11,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private readonly AbilityEffectsFactory _abilityEffectsFactory;
 
         private Entity _ability;
+        private Entity _sourceAbility;
         private readonly ExplosionConfig _config;
         private Transform _transform;
 
@@ -18,9 +19,11 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
 
         public ExplosionSpawnSystem(
             AbilityEffectsFactory abilityEffectsFactory,
+            Entity sourceAbility,
             ExplosionConfig config)
         {
             _abilityEffectsFactory = abilityEffectsFactory;
+            _sourceAbility = sourceAbility;
             _config = config;
         }
 
@@ -40,6 +43,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             SpawnEffect();
         }
 
-        private void SpawnEffect() => _abilityEffectsFactory.CreateExplosion(_transform.position, _ability, _config);
+        private void SpawnEffect() => _abilityEffectsFactory.CreateExplosion(_transform.position, _ability, _sourceAbility, _config);
     }
 }

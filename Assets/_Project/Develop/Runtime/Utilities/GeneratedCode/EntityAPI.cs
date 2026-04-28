@@ -109,28 +109,52 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.IsEffectApplied() {Value = value}); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent HealPercentC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent>();
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Percent PercentC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Percent>();
 
-		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> HealPercent => HealPercentC.Value;
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> Percent => PercentC.Value;
 
-		public bool TryGetHealPercent(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		public bool TryGetPercent(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
-			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent component);
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Percent component);
 			if(result)
 				value = component.Value;
 			else
-				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>);
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
 			return result;
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddHealPercent()
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddPercent()
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32>() }); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Percent() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
 		}
 
-		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddHealPercent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Int32> value)
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddPercent(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
-			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.HealPercent() {Value = value}); 
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Percent() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Multiplier MultiplierC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Multiplier>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> Multiplier => MultiplierC.Value;
+
+		public bool TryGetMultiplier(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Multiplier component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddMultiplier()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Multiplier() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddMultiplier(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Multiplier() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature.Team TeamC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.TeamsFeature.Team>();
@@ -1292,6 +1316,30 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
 		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityCastSpawnEffectDelayModified(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
 		{
 			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityCastSpawnEffectDelayModified() {Value = value}); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityDamageMultiplier AbilityDamageMultiplierC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityDamageMultiplier>();
+
+		public Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> AbilityDamageMultiplier => AbilityDamageMultiplierC.Value;
+
+		public bool TryGetAbilityDamageMultiplier(out Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			bool result = TryGetComponent(out Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityDamageMultiplier component);
+			if(result)
+				value = component.Value;
+			else
+				value = default(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>);
+			return result;
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityDamageMultiplier()
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityDamageMultiplier() { Value = new Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single>() }); 
+		}
+
+		public Assets._Project.Develop.Runtime.Gameplay.EntitiesCore.Entity AddAbilityDamageMultiplier(Assets._Project.Develop.Runtime.Utilities.Reactive.ReactiveVariable<System.Single> value)
+		{
+			return AddComponent(new Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.AbilityDamageMultiplier() {Value = value}); 
 		}
 
 		public Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CanCastAbility CanCastAbilityC => GetComponent<Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abilities.CanCastAbility>();

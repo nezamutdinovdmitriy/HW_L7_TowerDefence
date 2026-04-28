@@ -3,6 +3,7 @@ using Assets._Project.Develop.Runtime.Gameplay.Features.GameplayScreenFeature;
 using Assets._Project.Develop.Runtime.Gameplay.Features.MainHeroFeature;
 using Assets._Project.Develop.Runtime.Utilities.StateMachineCore;
 using Assets._Project.Develop.Runtime.Utilities.Timer;
+using DG.Tweening;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 {
@@ -13,8 +14,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
         private readonly GameplayScreenPresenter _gameplayScreenPresenter;
 
         public PreparationState(
-            TimerService timer, 
-            MainHeroHolderService mainHeroHolderService, 
+            TimerService timer,
+            MainHeroHolderService mainHeroHolderService,
             GameplayScreenPresenter gameplayScreenPresenter)
         {
             _timer = timer;
@@ -44,8 +45,14 @@ namespace Assets._Project.Develop.Runtime.Gameplay.GameplayCycle.States
 
             _timer.Dispose();
 
-            _gameplayScreenPresenter.ScreenView.AbilityPanelView.Hide();
-            _gameplayScreenPresenter.ScreenView.AbilityPanelView.gameObject.SetActive(false);
+            Tween tween = _gameplayScreenPresenter
+                .ScreenView
+                .AbilityPanelView
+                .Hide()
+                .OnComplete(() =>
+                {
+                    _gameplayScreenPresenter.ScreenView.AbilityPanelView.gameObject.SetActive(false);
+                });
         }
     }
 }

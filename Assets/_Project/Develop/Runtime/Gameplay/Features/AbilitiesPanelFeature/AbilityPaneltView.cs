@@ -1,4 +1,5 @@
 using Assets._Project.Develop.Runtime.UI.CommonViews;
+using DG.Tweening;
 
 namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeature
 {
@@ -12,16 +13,28 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
             abilitySelectButtonView.ShowSelectableGlow();
         }
 
-        public void Show()
+        public Tween Show()
         {
+            Sequence sequence = DOTween.Sequence();
+
             foreach (AbilitySelectButtonView view in Elements)
-                view.Show();
+                sequence.Join(view.Show());
+
+            sequence.Play();
+
+            return sequence;
         }
 
-        public void Hide()
+        public Tween Hide()
         {
+            Sequence sequence = DOTween.Sequence();
+
             foreach (AbilitySelectButtonView view in Elements)
-                view.Hide();
+                sequence.Join(view.Hide());
+
+            sequence.Play();
+
+            return sequence;
         }
     }
 }

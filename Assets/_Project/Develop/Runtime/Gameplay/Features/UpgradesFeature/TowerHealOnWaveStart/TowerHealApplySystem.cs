@@ -10,7 +10,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Towe
     {
         private ICompositeCondition _canApplyEffectCondition;
         private ReactiveVariable<bool> _isEffectApplied;
-        private ReactiveVariable<int> _healPercent;
+        private ReactiveVariable<float> _healPercent;
 
         private Entity _owner;
 
@@ -18,7 +18,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature.Towe
         {
             _canApplyEffectCondition = entity.CanApplyEffect;
             _isEffectApplied = entity.IsEffectApplied;
-            _healPercent = entity.HealPercent;
+            _healPercent = entity.Percent;
 
             _owner = entity.Hierarchy.Value.Parent;
         }

@@ -10,7 +10,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.EntitiesCore
         public event Action<Entity> Initialized;
         public event Action<Entity> Disposed;
 
-        private ReactiveVariable<EntityHierarchy> _hierarchy = new();
+        private readonly ReactiveVariable<EntityHierarchy> _hierarchy = new();
 
         private readonly Dictionary<Type, IEntityComponent> _components = new();
         private readonly List<IEntitySystem> _systems = new();

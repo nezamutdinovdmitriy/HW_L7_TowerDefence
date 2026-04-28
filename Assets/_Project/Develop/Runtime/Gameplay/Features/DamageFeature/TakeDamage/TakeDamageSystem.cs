@@ -12,8 +12,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.DamageFeature.TakeDa
         private Buffer<Entity> _contactsEntities;
         private ReactiveVariable<float> _damage;
 
-        private HashSet<Entity> _processedEntities = new();
-        private List<Entity> _removeBuffer = new();
+        private readonly HashSet<Entity> _processedEntities = new();
+        private readonly List<Entity> _removeBuffer = new();
 
         public void OnInitialize(Entity entity)
         {

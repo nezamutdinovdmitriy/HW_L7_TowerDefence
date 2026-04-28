@@ -15,6 +15,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private ReactiveVariable<bool> _shouldSpawnEffect;
 
         private Entity _owner;
+        private Entity _sourceAbility;
 
         public ProjectileSpawnSystem(AbilityEffectsFactory effectFactory, FireballAbilityConfig config)
         {
@@ -25,6 +26,8 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         public void OnInitialize(Entity entity)
         {
             _owner = entity.Hierarchy.Value.Parent;
+
+            _sourceAbility = entity;
 
             _shouldSpawnEffect = entity.ShouldSpawnEffect;
         }
@@ -39,6 +42,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _shouldSpawnEffect.Value = false;
         }
 
-        private void SpawnProjectile() => _effectFactory.CreateFireBall(_owner, _config);
+        private void SpawnProjectile() => _effectFactory.CreateFireBall(_owner, _sourceAbility, _config);
     }
 }

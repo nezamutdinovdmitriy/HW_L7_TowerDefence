@@ -12,16 +12,19 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
         private readonly ArcaneMineAbilityConfig _config;
 
         private Entity _owner;
+        private Entity _sourceAbility;
 
         private ReactiveVariable<bool> _shouldSpawnEffect;
         private ReactiveVariable<bool> _shouldSpendCost;
         private ICompositeCondition _canUse;
 
         public ArcaneMineSpawnSystem(
-            AbilityEffectsFactory combatEntityFactory, 
+            AbilityEffectsFactory combatEntityFactory,
+            Entity sourceAbility,
             ArcaneMineAbilityConfig config)
         {
             _combatEntityFactory = combatEntityFactory;
+            _sourceAbility = sourceAbility;
             _config = config;
         }
 
@@ -46,6 +49,6 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.CombatFeatures.Abili
             _shouldSpawnEffect.Value = false;
         }
 
-        private void SpawnEffect() => _combatEntityFactory.CreateArcaneMine(_owner, _config);
+        private void SpawnEffect() => _combatEntityFactory.CreateArcaneMine(_owner, _sourceAbility, _config);
     }
 }

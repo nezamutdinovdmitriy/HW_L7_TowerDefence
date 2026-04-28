@@ -18,7 +18,7 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
         [SerializeField] private TMP_Text _abilityName;
         [SerializeField] private Image _selectable;
 
-        private Sequence _currentAnimation;
+        private Tween _currentAnimation;
 
         private void OnEnable()
         {
@@ -41,9 +41,12 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.AbilitiesPanelFeatur
         private Tween TriggerScaleAnimation(Vector3 endValue, float duration)
         {
             _currentAnimation?.Kill();
-            _currentAnimation = DOTween.Sequence();
 
-            return transform.DOScale(endValue, duration).SetEase(Ease.OutBack).Play();
+            _currentAnimation = transform
+                .DOScale(endValue, duration)
+                .SetEase(Ease.OutBack);
+
+            return _currentAnimation;
         }
     }
 }

@@ -37,8 +37,13 @@ namespace Assets._Project.Develop.Runtime.Gameplay.Features.UpgradesFeature
         public ReactiveVariable<bool> Value;
     }
 
-    public class HealPercent : IEntityComponent
+    public class Percent : IEntityComponent
     {
-        public ReactiveVariable<int> Value;
+        public ReactiveVariable<float> Value;
+    }
+
+    public class Multiplier : IEntityComponent
+    {
+        public ReactiveVariable<float> Value;
     }
 }
